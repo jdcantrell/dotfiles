@@ -22,14 +22,15 @@
 	" }
 
 	" Setup Bundle Support {
-	set rtp+=~/.vim/vundle.git/
+	set rtp+=~/.vim/bundle/vundle/
 	call vundle#rc()
 	Bundle "Supertab"
-	Bundle "snipMate"
+	"Bundle "snipMate"
 	Bundle "ShowMarks"
 	Bundle "easytags.vim"
 	Bundle "taglist.vim"
 	Bundle "matchit.zip"
+	Bundle "molokai"
 	" }
 " } 
 	
@@ -48,20 +49,13 @@
 	set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
 	set virtualedit=onemore 	   	" allow for cursor beyond last character
 	set history=1000  				" Store a ton of history (default is 20)
-	"set spell 		 	        	" spell checking on
+	set nospell 					" spell checking off
 	
 	" Setting up the directories {
-		set backup 						" backups are nice ...
-		set backupdir=$HOME/.vimbackup//  " but not when they clog .
-		set directory=$HOME/.vimswap// 	" Same for swap files
-		set viewdir=$HOME/.vimviews// 	" same for view files
+		set nobackup 						" backups are nice ...
+		set noswapfile
+		set nowritebackup
 		
-		"" Creating directories if they don't exist
-		silent execute '!mkdir -p $HOME/.vimbackup'
-		silent execute '!mkdir -p $HOME/.vimswap'
-		silent execute '!mkdir -p $HOME/.vimviews'
-		au BufWinLeave * silent! mkview  "make vim save view (state) (folds, cursor, etc)
-		au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc)
 	" }
 " }
 
@@ -248,7 +242,7 @@
 	" GVIM- (here instead of .gvimrc)
 	if has('gui_running')
 		set guioptions-=T          	" remove the toolbar
-		"set guifont=DejavuSansMono:h11
+		set guifont=AndaleMono:h14
         "Remove all bells - this needs to be moved to .gvimrc
         set vb t_vb=
 		"set transparency=5          " Make the window slightly transparent
@@ -324,15 +318,6 @@ autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 
 "Disable matchparen plugin, since it slows things down when editing over the
 "network
-let loaded_matchparen = 1  
+"let loaded_matchparen = 1  
 
-"Disable arrow keys for now
-inoremap  <Up>     <NOP>
-inoremap  <Down>   <NOP>
-inoremap  <Left>   <NOP>
-inoremap  <Right>  <NOP>
-noremap   <Up>     <NOP>
-noremap   <Down>   <NOP>
-noremap   <Left>   <NOP>
-noremap   <Right>  <NOP>
 imap jj <Esc>
