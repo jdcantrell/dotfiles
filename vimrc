@@ -1,11 +1,7 @@
 " Modeline and Notes {
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
-" 	This is the personal .vimrc file of Steve Francia.
-" 	While much of it is beneficial for general use, I would
-" 	recommend picking out the parts you want and understand.
-"
-" 	You can find me at http://spf13.com
+" 	This is the personal .vimrc file of jd cantrell.
 " }
 
 " Environment {
@@ -21,16 +17,19 @@
 		endif
 	" }
 
+  set ffs=unix,dos
+	filetype off
 	" Setup Bundle Support {
 	set rtp+=~/.vim/bundle/vundle/
 	call vundle#rc()
-	Bundle "Supertab"
-	"Bundle "snipMate"
-	Bundle "ShowMarks"
-	Bundle "easytags.vim"
-	Bundle "taglist.vim"
-	Bundle "matchit.zip"
-	Bundle "molokai"
+	Bundle 'gmarik/vundle'
+	Bundle 'SuperTab-continued.'
+	"Bundle 'ShowMarks'
+	"Bundle 'easytags.vim'
+	"Bundle 'taglist.vim'
+	Bundle 'matchit.zip'
+	Bundle 'molokai'
+	Bundle 'minibufexpl.vim'
 	" }
 " } 
 	
@@ -39,20 +38,41 @@
 	filetype plugin indent on  	" Automatically detect file types.
 	syntax on 					" syntax highlighting
 	set mouse=a					" automatically enable mouse usage
-	"set autochdir 				" always switch to the current file directory.. 
-	" not every vim is compiled with this, use the following line instead
-	" If you use command-t plugin, it conflicts with this, comment it out.
-     "autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
+
 	scriptencoding utf-8
-	"set autowrite                  " automatically write a file when leaving a modified buffer
+
 	set shortmess+=filmnrxoOtT     	" abbrev. of messages (avoids 'hit enter')
 	set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
 	set virtualedit=onemore 	   	" allow for cursor beyond last character
 	set history=1000  				" Store a ton of history (default is 20)
 	set nospell 					" spell checking off
+
+  set mousehide
+  set cmdheight=1
+
+  set timeoutlen=500
+  set undolevels=1000
+  set visualbell
+  set noerrorbells
+
+  set synmaxcol=2048
+
+  set hidden
+  set lazyredraw
 	
+  "Disable matchparen plugin, since it slows things down when editing over the
+  "network
+  let loaded_matchparen = 1  
+
+  " Keep the color syntax honest
+  autocmd BufEnter * :syntax sync fromstart
+
+  "Highlight the status bar in terminals when going to/from insert mode
+  au InsertEnter * hi StatusLine cterm=bold ctermfg=15 ctermbg=4
+  au InsertLeave * hi StatusLine cterm=bold ctermfg=15 ctermbg=0
+
 	" Setting up the directories {
-		set nobackup 						" backups are nice ...
+		set nobackup 						" backups are nice not that nice...
 		set noswapfile
 		set nowritebackup
 		
@@ -98,14 +118,14 @@
 " Formatting {
 	set nowrap                     	" wrap long lines
 	set autoindent                 	" indent at the same level of the previous line
-	set shiftwidth=4               	" use indents of 4 spaces
-	set noexpandtab 	       		" tabs are tabs, not spaces
-	set tabstop=4 					" an indentation every four columns
+	set shiftwidth=2               	" use indents of 4 spaces
+	set tabstop=2 					" an indentation every four columns
+	set expandtab 	       		" tabs are tabs, not spaces
 	"set matchpairs+=<:>            	" match, to be used with % 
 	set pastetoggle=<F12>          	" pastetoggle (sane indentation on pastes)
 	"set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 	" Remove trailing whitespaces and ^M chars
-	autocmd FileType c,cpp,java,php,js,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+	"autocmd FileType c,cpp,java,php,js,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 " }
 
 " Key Mappings {
@@ -120,72 +140,51 @@
 	map <C-L> <C-W>l<C-W>_
 	map <C-H> <C-W>h<C-W>_
 	map <C-K> <C-W>k<C-W>_
+
 	" The following two lines conflict with moving to top and bottom of the
 	" screen
 	" If you prefer that functionality, comment them out.
 	map <S-H> gT          
 	map <S-L> gt
 
-	" Stupid shift key fixes
-	cmap W w 						
-	cmap WQ wq
-	cmap wQ wq
-	cmap Q q
-	cmap Tabe tabe
-
 	" Yank from the cursor to the end of the line, to be consistent with C and D.
 	nnoremap Y y$
 
-	" Shortcuts
-	" Change Working Directory to that of the current file
+  imap jj <Esc>
 
-	" visual shifting (does not exit Visual mode)
-	vnoremap < <gv
-	vnoremap > >gv 
+  " use left and right in normal mode to change buffers
+  noremap <Left> :bp<cr>
+  noremap <Right> :bn<cr>
 
-	" For when you forget to sudo.. Really Write the file.
-	cmap w!! w !sudo tee % >/dev/null
+  " Make it easy to update and source _vimrc
+  nmap <silent> ,ev :e $MYVIMRC<cr>
+  nmap <silent> ,sv :so $MYVIMRC<cr>
+  noremap ; :
+  noremap j gj
+  noremap k gk
+
+  " cut/paste to/from clipboard
+  map <C-V> "+gP
+  cmap <C-V> <C-R>+
+  vnoremap <C-C> "+y
+
+  cmap w!! w !sudo tee % >/dev/null
+
+  " expand path on %%
+  cabbr <expr> %% expand('%:p:h')
+
+
 " }
 
 " Plugins {
 
-	" VCSCommand {
-"		let b:VCSCommandMapPrefix=',v'
-"		let b:VCSCommandVCSType='git'
-	" } 
 	
 	" Supertab {
 		let g:SuperTabDefaultCompletionType = "context"
-		let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+		let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
+		let g:SuperTabCrMapping = 0
 	" }
 
-	" Misc { 
-		:map <C-F10> <Esc>:vsp<CR>:VTree<CR>
-		" map Control + F10 to Vtree
-
-		let g:checksyntax_auto = 0
-
-		"comment out line(s) in visual mode
-		vmap  o  :call NERDComment(1, 'toggle')<CR>
-		let g:NERDShutUp=1
-
-		let b:match_ignorecase = 1
-	" }
-
-	" ShowMarks {
-		let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		" Don't leave on by default, use :ShowMarksOn to enable
-		let g:showmarks_enable = 0
-		" For marks a-z
-		highlight ShowMarksHLl gui=bold guibg=LightBlue guifg=Blue
-		" For marks A-Z
-		highlight ShowMarksHLu gui=bold guibg=LightRed guifg=DarkRed
-		" For all other marks
-		highlight ShowMarksHLo gui=bold guibg=LightYellow guifg=DarkYellow
-		" For multiple marks on the same line.
-		highlight ShowMarksHLm gui=bold guibg=LightGreen guifg=DarkGreen
-	" }
-	
 	" OmniComplete {
 		"if has("autocmd") && exists("+omnifunc")
 			"autocmd Filetype *
@@ -218,24 +217,14 @@
 	" }
 	
 	" Ctags {
-		set tags=./tags;/,~/.vimtags
+		"set tags=./tags;/,~/.vimtags
 	" }
 
 	" EasyTags {
-		let g:easytags_cmd = '/usr/local/bin/ctags'
+		"let g:easytags_cmd = '/usr/local/bin/ctags'
 	" }
 
-	" AutoCloseTag {
-		" Make it so AutoCloseTag works for xml and xhtml files as well
-		au FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
-	" }
 
-	" SnipMate {
-		" Setting the author var
-		let g:snips_author = 'John Cantrell <jdcantrell@gmail.com>'
-		" Shortcut for reloading snippets, useful when developing
-		nnoremap ,smr <esc>:exec ReloadAllSnippets()<cr>
-	" }
 " }
 
 " GUI Settings {
@@ -243,81 +232,40 @@
 	if has('gui_running')
 		set guioptions-=T          	" remove the toolbar
 		set guifont=AndaleMono:h14
-        "Remove all bells - this needs to be moved to .gvimrc
-        set vb t_vb=
+    "Remove all bells - this needs to be moved to .gvimrc
+    set vb t_vb=
+
 		"set transparency=5          " Make the window slightly transparent
-        "minibuf options
-        let g:miniBufExplMapWindowNavVim = 1
-        let g:miniBufExplMapWindowNavArrows = 1
-        let g:miniBufExplMapCTabSwitchBufs = 1
-        let g:miniBufExplModSelTarget = 1
-        let g:miniBufExplorerMoreThanOne = 0
-        let g:miniBufExplUseSingleClick = 1
-        let g:miniBufExplMapWindowNavVim = 1
+
+    "minibuf options
+    let g:miniBufExplMapWindowNavVim = 1
+    let g:miniBufExplMapWindowNavArrows = 1
+    let g:miniBufExplMapCTabSwitchBufs = 1
+    let g:miniBufExplModSelTarget = 1
+    let g:miniBufExplorerMoreThanOne = 0
+    let g:miniBufExplUseSingleClick = 1
+    let g:miniBufExplMapWindowNavVim = 1
 	else
 		set term=builtin_ansi       " Make arrow and other keys work
 	endif
 " }
 
+" Diff Settings {
+  set diffexpr=
+  if &diff
+    let &lines=50
+    let &columns=200
+  endif
+" }
 
-set ffs=unix,dos
+" Python Settings {
+  autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,exc
+  autocmd BufRead *.py set tabstop=4
+  autocmd BufRead *.py set shiftwidth=4
+  autocmd BufRead *.py set smarttab
+  autocmd BufRead *.py set expandtab
+  autocmd BufRead *.py set softtabstop=4
+  autocmd BufRead *.py set autoindent
+  autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
+" }
 
-set diffexpr=
-if &diff
-	let &lines=50
-	let &columns=200
-endif
-
-set hidden
-set lazyredraw
-"Make it easy to update and source _vimrc
-nmap <silent> ,ev :e $MYVIMRC<cr>
-nmap <silent> ,sv :so $MYVIMRC<cr>
-noremap ; :
-noremap j gj
-noremap k gk
-
-cmap w!! w !sudo tee % >/dev/null
-
-set mousehide
-set ch=1
-
-set timeoutlen=500
-set undolevels=1000
-set visualbell
-set noerrorbells
-
-set synmaxcol=2048
-
-"expand path on %%
-cabbr <expr> %% expand('%:p:h')
-
-"Setup mini buffer exp
-map <c-w><c-t> :WMToggle<cr>
-
-"Highlight the status bar in terminals when going to/from insert mode
-au InsertEnter * hi StatusLine cterm=bold ctermfg=15 ctermbg=4
-au InsertLeave * hi StatusLine cterm=bold ctermfg=15 ctermbg=0
-
-autocmd BufEnter * :syntax sync fromstart
-
-"cut/paste to/from clipboard
-map <C-V> "+gP
-cmap <C-V> <C-R>+
-vnoremap <C-C> "+y
-
-"python specific settings
-autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,exc
-autocmd BufRead *.py set tabstop=4
-autocmd BufRead *.py set shiftwidth=4
-autocmd BufRead *.py set smarttab
-autocmd BufRead *.py set expandtab
-autocmd BufRead *.py set softtabstop=4
-autocmd BufRead *.py set autoindent
-autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
-
-"Disable matchparen plugin, since it slows things down when editing over the
-"network
-"let loaded_matchparen = 1  
-
-imap jj <Esc>
