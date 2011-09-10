@@ -24,17 +24,16 @@
 	call vundle#rc()
 	Bundle 'gmarik/vundle'
 	Bundle 'SuperTab-continued.'
-	"Bundle 'ShowMarks'
-	"Bundle 'easytags.vim'
-	"Bundle 'taglist.vim'
 	Bundle 'matchit.zip'
 	Bundle 'molokai'
 	Bundle 'minibufexpl.vim'
+  Bundle 'jshint.vim'
+  Bundle 'Better-Javascript-Indentation'
+  Bundle 'Command-T'
 	" }
 " } 
 	
 " General {
-	set background=dark         " Assume a dark background
 	filetype plugin indent on  	" Automatically detect file types.
 	syntax on 					" syntax highlighting
 	set mouse=a					" automatically enable mouse usage
@@ -79,8 +78,7 @@
 	" }
 " }
 
-" Vim UI {
-	color molokai     	       		" load a colorscheme
+" Vim UI { 
 	set tabpagemax=15 				" only show 15 tabs
 	set showmode                   	" display the current mode
 
@@ -269,3 +267,10 @@
   autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 " }
 
+	if has('gui_running')
+	  colorscheme molokai     	       		" load a colorscheme
+  else
+    set term=$TERM
+    set t_Co=256
+    colorscheme molokai
+  endif
