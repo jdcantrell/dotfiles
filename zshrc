@@ -44,6 +44,60 @@ function jump {
 alias j="jump -a"
 ###end-jump-bash_profile
 
+#svn alias
 function sd {
   svn diff "${@}" | colordiff
+}
+
+function sdv {
+  svn diff "${@}" | view -
+}
+
+function sdaily {
+  DATE1=${2-`date -v-1d "+%Y-%m-%d"`}
+  DATE2=${3-`date "+%Y-%m-%d"`}
+  USER=${1-jcantrell}
+  echo "svn log for $DATE1 to $DATE2 for $USER:"
+  svn log -r{$DATE1}:{$DATE2} | grep $USER -A 2 | sed -e '/^[-]*$/d' -e 's/ .* line$/ /' | sed -e '$!N;s/\n/- /' 
+}
+
+function stoday {
+  sdaily ${1-jcantrell} `date "+%Y-%m-%d"` `date -v+1d "+%Y-%m-%d"`
+}
+
+function dev-setup {
+  #update .htaccess
+  DIR=${1-${PWD##*/}}
+  USER=${2-jcantrell}
+  sed -i '' -e 's/^RewriteBase/#RewriteBase/' .htaccess
+  sed -i '' -e "s/^#RewriteBase \/~roger/RewriteBase \/~$USER/" .htaccess
+  sed -i '' -e "s/cobrand_merge/$DIR/" .htaccess
+  sed -i '' -e "s/roger/$USER/" .htaccess
+
+  #update local.conf
+  sed -i '' -e "s/\/\* BEGIN USER SETTINGS//" include/local.conf
+
+  #update site.conf
+  sed -i '' -e "s/base_path=%URI_PATH%/base_path=/" config/site.conf
+  sed -i '' -e "s/%TPL_PATH%/\/home\/$USER\/public_html\/$DIR\/cobrand\/sofia\/templates\//" config/site.conf
+  sed -i '' -e "s/%URI_PATH%/\/~$USER\/$DIR\//"  config/site.conf
+}
+
+function dev-clone {
+  BRANCH=${1}
+  DIR=${2}
+  USER=${3-jcantrell}
+  
+  #svn pull
+  svn co svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/$BRANCH $DIR
+
+  #update guardfile
+  sed -i '' -e '$d' Guardfile
+  echo "  watch( %r{^$DIR} ) { \`rsync -avm ~/Development/local/$DIR/ jcantrell@fedev.utah.trulia.com:/home/jcantrell/public_html/$DIR/ --exclude '.svn'\` }" >> Guardfile
+  echo "end" >> GuardFile
+
+  #dev-setup
+  cd $DIR
+  dev-setup $DIR
+  cd ..
 }
