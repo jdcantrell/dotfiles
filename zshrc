@@ -24,28 +24,22 @@ ZSH_THEME="robbyrussell"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(svn git)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 alias fedev='ssh jcantrell@fedev.utah.trulia.com'
 alias vim='~/Applications/MacVim.app/Contents/MacOS/Vim'
+alias http-serve='python -m SimpleHTTPServer 40001'
 export PATH="$HOME/.rbenv/bin:$PATH"
 export CLICOLOR=1
 eval "$(rbenv init - zsh)"
 
-
 ###begin-jump-bash_profile
-#
-# Installation:
-# jump >> ~/.bash_profile && source ~/.bash_profile
-#
-
 function jump {
   local newDir=$(JUMPPROFILE=1 command jump "$@");
   cd "$newDir";
 }
 alias j="jump -a"
-
 ###end-jump-bash_profile
