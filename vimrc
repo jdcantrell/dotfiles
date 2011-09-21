@@ -183,6 +183,10 @@
 		let g:SuperTabCrMapping = 0
 	" }
 
+  " Command-T {
+    let g:CommandTMaxHeight = 10
+  " }
+
 	" OmniComplete {
 		"if has("autocmd") && exists("+omnifunc")
 			"autocmd Filetype *
