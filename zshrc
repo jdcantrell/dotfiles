@@ -43,3 +43,7 @@ function jump {
 }
 alias j="jump -a"
 ###end-jump-bash_profile
+
+function sd {
+  svn diff "${@}" | colordiff
+}
