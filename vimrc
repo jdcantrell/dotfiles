@@ -267,6 +267,10 @@
   autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 " }
 
+" Markdown Settings {
+  autocmd BufRead *.markdown set textwidth=80
+" }
+
 	if has('gui_running')
 	  colorscheme molokai     	       		" load a colorscheme
   else
