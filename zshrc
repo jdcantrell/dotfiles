@@ -45,6 +45,9 @@ alias j="jump -a"
 ###end-jump-bash_profile
 
 #svn alias
+function s {
+  svn $1 svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/$2 $3
+}
 function sd {
   svn diff "${@}" | colordiff
 }
@@ -93,7 +96,7 @@ function dev-clone {
 
   #update guardfile
   sed -i '' -e '$d' Guardfile
-  echo "  watch( %r{^$DIR} ) { \`rsync -avm ~/Development/local/$DIR/ jcantrell@fedev.utah.trulia.com:/home/jcantrell/public_html/$DIR/ --exclude '.svn'\` }" >> Guardfile
+  echo "  watch( %r{^$DIR} ) { \`rsync -avm ./$DIR/ jcantrell@fedev.utah.trulia.com:/home/jcantrell/public_html/$DIR/ --exclude '.svn'\` }" >> Guardfile
   echo "end" >> GuardFile
 
   #dev-setup
