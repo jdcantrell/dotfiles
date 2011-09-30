@@ -1,0 +1,10 @@
+[user]
+	name = JD Cantrell
+	email = jdcantrell@gmail.com
+[alias]
+   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+[color]
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
