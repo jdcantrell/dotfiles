@@ -262,17 +262,13 @@
 
 " Python Settings {
   autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,exc
-  autocmd BufRead *.py set tabstop=4
-  autocmd BufRead *.py set shiftwidth=4
-  autocmd BufRead *.py set smarttab
-  autocmd BufRead *.py set expandtab
-  autocmd BufRead *.py set softtabstop=4
-  autocmd BufRead *.py set autoindent
   autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 " }
 
 " Markdown Settings {
   autocmd BufRead *.markdown set textwidth=80
+  autocmd BufRead *.md set textwidth=80
+  autocmd BufRead *.md set syntax=markdown
 " }
 
 	if has('gui_running')
