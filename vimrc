@@ -162,9 +162,9 @@
   noremap k gk
 
   " cut/paste to/from clipboard
-  map <C-V> "+gP
-  cmap <C-V> <C-R>+
-  vnoremap <C-C> "+y
+  map <D-V> "+gP
+  cmap <D-V> <C-R>+
+  vnoremap <D-C> "+y
 
   cmap w!! w !sudo tee % >/dev/null
 
@@ -273,6 +273,7 @@
 
 	if has('gui_running')
 	  colorscheme molokai     	       		" load a colorscheme
+    set transparency=15
   else
     set term=$TERM
     set t_Co=256
