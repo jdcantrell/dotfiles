@@ -30,6 +30,7 @@
   Bundle 'jshint.vim'
   Bundle 'Better-Javascript-Indentation'
   Bundle 'Command-T'
+  Bundle 'Syntastic'
 	" }
 " } 
 	
@@ -92,7 +93,7 @@
 	if has('statusline')
 		set laststatus=2           	" show statusline only if there are > 1 windows
 		" Use the commented line if fugitive isn't installed
-        set statusline=%<%t\ %h%m%r[%{&ff}]%=%-14.(%l,%c%V%)\ %P
+        set statusline=%<%t\ %h%m%r[%{&ff}]%{SyntasticStatuslineFlag()}%=%-14.(%l,%c%V%)\ %P
 	endif
 
 	set backspace=indent,eol,start 	" backspace for dummys
@@ -176,6 +177,9 @@
 
 " Plugins {
 
+  " Syntastic {
+    let g:synstastic_enable_signs = 1
+  " }
 	
 	" Supertab {
 		let g:SuperTabDefaultCompletionType = "context"
