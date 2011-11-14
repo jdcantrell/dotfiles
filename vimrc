@@ -57,7 +57,7 @@
   set synmaxcol=2048
 
   set hidden
-  set lazyredraw
+  "set lazyredraw
 	
   "Disable matchparen plugin, since it slows things down when editing over the
   "network
@@ -272,7 +272,6 @@
 
 	if has('gui_running')
 	  colorscheme molokai     	       		" load a colorscheme
-    set transparency=15
   else
     set term=$TERM
     set t_Co=256
