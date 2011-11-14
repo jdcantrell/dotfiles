@@ -5,10 +5,10 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="arrow"
+ZSH_THEME="jd"
 
 # Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
+CASE_SENSITIVE="true"
 
 # Comment this out to disable weekly auto-update checks
 DISABLE_AUTO_UPDATE="true"
@@ -35,7 +35,7 @@ compdef -d svn
 alias fedev='ssh jcantrell@fedev.utah.trulia.com'
 alias vim='~/Applications/MacVim.app/Contents/MacOS/Vim'
 alias http-serve='python -m SimpleHTTPServer 40001'
-export PATH="$HOME/.rbenv/bin:/usr/local/bin:$PATH"
+export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
 export NODE_PATH="/usr/local/lib/node_modules"
 export CLICOLOR=1
 eval "$(rbenv init - zsh)"
