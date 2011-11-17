@@ -30,6 +30,7 @@
   Bundle 'jshint.vim'
   Bundle 'Better-Javascript-Indentation'
   Bundle 'Command-T'
+  Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 	" }
 " } 
 	
@@ -182,6 +183,10 @@
 		let g:SuperTabCrMapping = 0
 	" }
 
+  " Sparkup {
+    let g:sparkupExecuteMapping = '<D-e>'
+  "
+
   " Command-T {
     let g:CommandTMaxHeight = 10
   " }
@@ -205,7 +210,7 @@
 		hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
 
 		" some convenient mappings 
-		inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
+		"inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
 		inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 		inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 		inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
@@ -232,7 +237,7 @@
 	" GVIM- (here instead of .gvimrc)
 	if has('gui_running')
 		set guioptions-=T          	" remove the toolbar
-		set guifont=AndaleMono:h14
+		set guifont=Menlo:h14
     "Remove all bells - this needs to be moved to .gvimrc
     set vb t_vb=
 
