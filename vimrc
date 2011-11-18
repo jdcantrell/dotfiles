@@ -149,7 +149,7 @@
 	" Yank from the cursor to the end of the line, to be consistent with C and D.
 	nnoremap Y y$
 
-  imap jj <Esc>
+  imap jk <Esc>
 
   " use left and right in normal mode to change buffers
   noremap <Left> :bp<cr>
@@ -158,6 +158,7 @@
   " Make it easy to update and source _vimrc
   nmap <silent> ,ev :e $MYVIMRC<cr>
   nmap <silent> ,sv :so $MYVIMRC<cr>
+  nmap ,dd :cd %:p:h<cr>
   noremap ; :
   noremap j gj
   noremap k gk
@@ -169,29 +170,31 @@
 
   cmap w!! w !sudo tee % >/dev/null
 
+  " change directory to current file (think 'use dir')
+
   " expand path on %%
   cabbr <expr> %% expand('%:p:h')
 
 
 " }
 
-" Plugins {
+" Plugins 
 
-	" Supertab {
+	" Supertab 
 		let g:SuperTabDefaultCompletionType = "context"
 		let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
 		let g:SuperTabCrMapping = 0
-	" }
+	" 
 
-  " Sparkup {
+  " Sparkup 
     let g:sparkupExecuteMapping = '<D-e>'
   "
 
-  " Command-T {
+  " Command-T 
     let g:CommandTMaxHeight = 10
-  " }
+  " 
 
-	" OmniComplete {
+	" OmniComplete 
 		"if has("autocmd") && exists("+omnifunc")
 			"autocmd Filetype *
 				"\if &omnifunc == "" |
@@ -220,23 +223,27 @@
 		" automatically open and close the popup menu / preview window
 		au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 		set completeopt=menu,preview,longest
-	" }
+	" 
 	
-	" Ctags {
+	" Ctags 
 		"set tags=./tags;/,~/.vimtags
-	" }
+	" 
 
-	" EasyTags {
+	" EasyTags 
 		"let g:easytags_cmd = '/usr/local/bin/ctags'
-	" }
+	" 
 
 
-" }
+" 
 
-" GUI Settings {
+" GUI Settings 
 	" GVIM- (here instead of .gvimrc)
 	if has('gui_running')
 		set guioptions-=T          	" remove the toolbar
+		set guioptions-=l          	" remove the toolbar
+		set guioptions-=L          	" remove the toolbar
+		set guioptions-=r          	" remove the toolbar
+		set guioptions-=R          	" remove the toolbar
 		set guifont=Menlo:h14
     "Remove all bells - this needs to be moved to .gvimrc
     set vb t_vb=
@@ -254,26 +261,26 @@
 	else
 		set term=builtin_ansi       " Make arrow and other keys work
 	endif
-" }
+" 
 
-" Diff Settings {
+" Diff Settings 
   set diffexpr=
   if &diff
     let &lines=50
     let &columns=200
   endif
-" }
+" 
 
-" Python Settings {
+" Python Settings 
   autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,exc
   autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
-" }
+" 
 
-" Markdown Settings {
+" Markdown Settings 
   autocmd BufRead *.markdown set textwidth=80
   autocmd BufRead *.md set textwidth=80
   autocmd BufRead *.md set syntax=markdown
-" }
+" 
 
 	if has('gui_running')
 	  colorscheme molokai     	       		" load a colorscheme
