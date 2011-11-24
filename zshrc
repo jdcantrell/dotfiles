@@ -109,7 +109,7 @@ function dev-clone {
 
   #update guardfile
   sed -i '' -e '$d' Guardfile
-  echo "  watch( %r{^$DIR} ) { \`rsync -avm ./$DIR/ jcantrell@fedev.utah.trulia.com:/home/jcantrell/public_html/$DIR/ --exclude '.svn'\` }" >> Guardfile
+  echo "  watch( %r{^$DIR} ) { sync_www('$DIR', '$DIR') }" >> Guardfile
   echo "end" >> GuardFile
 
   #dev-setup
