@@ -58,7 +58,7 @@
   set synmaxcol=2048
 
   set hidden
-  "set lazyredraw
+  set lazyredraw
 	
   "Disable matchparen plugin, since it slows things down when editing over the
   "network
@@ -80,8 +80,8 @@
 " }
 
 " Vim UI { 
-	set tabpagemax=15 				" only show 15 tabs
-	set showmode                   	" display the current mode
+	set tabpagemax=15 				    " only show 15 tabs
+	set showmode                  " display the current mode
 
 	if has('cmdline_info')
 		set ruler                  	" show the ruler
@@ -91,9 +91,8 @@
 	endif
 
 	if has('statusline')
-		set laststatus=2           	" show statusline only if there are > 1 windows
-		" Use the commented line if fugitive isn't installed
-        set statusline=%<%t\ %h%m%r[%{&ff}]%=%-14.(%l,%c%V%)\ %P
+		set laststatus=2
+    set statusline=%<%t\ %h%m%r[%{&ff}]%=%-14.(%l,%c%V%)\ %P
 	endif
 
 	set backspace=indent,eol,start 	" backspace for dummys
@@ -111,7 +110,6 @@
 	set scrolljump=5 				" lines to scroll when cursor leaves screen
 	set scrolloff=3 				" minimum lines to keep above and below cursor
 	set foldenable  				" auto fold code
-
 " }
 
 " Formatting {
@@ -120,7 +118,6 @@
 	set shiftwidth=2               	" use indents of 4 spaces
 	set tabstop=2 					" an indentation every four columns
 	set expandtab 	       		" tabs are tabs, not spaces
-	"set matchpairs+=<:>            	" match, to be used with % 
 	set pastetoggle=<F12>          	" pastetoggle (sane indentation on pastes)
 	"set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 	" Remove trailing whitespaces and ^M chars
@@ -272,14 +269,23 @@
 " 
 
 " Python Settings 
-  autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,exc
-  autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
+augroup ft_python
+  au!
+
+  au FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,exc
+  au FileType python setlocal normal m`:%s/\s\+$//e ``
+augroup end
 " 
 
 " Markdown Settings 
-  autocmd BufRead *.markdown set textwidth=80
-  autocmd BufRead *.md set textwidth=80
-  autocmd BufRead *.md set syntax=markdown
+augroup ft_markdown
+  au!
+
+  au BufNewFile,BufRead *.md setlocal filetype=markdown
+
+  au FileType markdown setlocal textwidth=80
+  "au FileType markdown setlocal syntax=markdown
+augroup end
 " 
 
 	if has('gui_running')
