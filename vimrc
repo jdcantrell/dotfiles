@@ -30,6 +30,7 @@
   Bundle 'jshint.vim'
   Bundle 'Better-Javascript-Indentation'
   Bundle 'Command-T'
+  Bundle 'tpope/vim-liquid'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 	" }
 " } 
@@ -273,7 +274,6 @@ augroup ft_python
   au!
 
   au FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,exc
-  au FileType python setlocal normal m`:%s/\s\+$//e ``
 augroup end
 " 
 
