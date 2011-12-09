@@ -120,7 +120,13 @@
 	set tabstop=2 					" an indentation every four columns
 	set expandtab 	       		" tabs are tabs, not spaces
 	set pastetoggle=<F12>          	" pastetoggle (sane indentation on pastes)
+
+  " disable textwrapping
+  set textwidth=72
+  "enable comment text wrapping and comment leading
+  set formatoptions=croq
 	"set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
+
 	" Remove trailing whitespaces and ^M chars
 	"autocmd FileType c,cpp,java,php,js,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 " }
@@ -236,6 +242,7 @@
 
 " GUI Settings 
 	" GVIM- (here instead of .gvimrc)
+  set background=dark
 	if has('gui_running')
 		set guioptions-=T          	" remove the toolbar
 		set guioptions-=l          	" remove the toolbar
@@ -282,9 +289,7 @@ augroup ft_markdown
   au!
 
   au BufNewFile,BufRead *.md setlocal filetype=markdown
-
-  au FileType markdown setlocal textwidth=80
-  "au FileType markdown setlocal syntax=markdown
+  au FileType markdown setlocal formatoptions+=t
 augroup end
 " 
 
