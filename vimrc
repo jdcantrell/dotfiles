@@ -26,7 +26,7 @@
 	Bundle 'SuperTab-continued.'
 	Bundle 'matchit.zip'
 	Bundle 'molokai'
-	Bundle 'minibufexpl.vim'
+  Bundle 'fholgado/minibufexpl.vim'
   Bundle 'jshint.vim'
   Bundle 'Better-Javascript-Indentation'
   Bundle 'Command-T'
