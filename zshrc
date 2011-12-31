@@ -1,52 +1,54 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+#load zshuery
+#git clone https://github.com/myfreeweb/zshuery.git
+source $HOME/.zshuery/zshuery.sh
+load_defaults
+load_aliases
+load_lol_aliases
+load_completion $HOME/.zshuery/completion
+load_correction
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="jd"
-
-# Set to this to use case-sensitive completion
-CASE_SENSITIVE="true"
-
-# Comment this out to disable weekly auto-update checks
-DISABLE_AUTO_UPDATE="true"
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want disable red dots displayed while waiting for completion
-# DISABLE_COMPLETION_WAITING_DOTS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
-
-# Disable svn completion, because it is retarded
+# disable svn completion
 compdef -d svn
 
-# Customize to your needs...
-alias fedev='ssh jcantrell@fedev.utah.trulia.com'
-alias vim='~/Applications/MacVim.app/Contents/MacOS/Vim'
-alias http-serve='python -m SimpleHTTPServer 40001'
-export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
-export NODE_PATH="/usr/local/lib/node_modules"
-export CLICOLOR=1
-eval "$(rbenv init - zsh)"
+#update editor
+if [[ $IS_MAC -eq 1 ]]; then
+    export EDITOR='mvim'
+else
+    export EDITOR='vim'
+fi
 
-###begin-jump-bash_profile
-function jump {
-  local newDir=$(JUMPPROFILE=1 command jump "$@");
-  cd "$newDir";
+function chpwd() {
+    update_terminal_cwd
 }
-alias j="jump -a"
-###end-jump-bash_profile
+
+#git stuff simplified from oh-my-zsh
+function git_prompt_info() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  echo "git:${ref#refs/heads/}$(git_dirty)"
+}
+
+# Checks if working tree is dirty
+function git_dirty() {
+  if [[ -n $(git status -s --ignore-submodules=dirty 2> /dev/null) ]]; then
+    #dirty
+    echo "%{$fg[red]%}✗"
+  else
+    #clean
+    echo ""
+  fi
+}
+
+# Checks if there are commits ahead from remote
+function git_prompt_ahead() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  if $(echo "$(git log origin/${ref#refs/heads/}..HEAD 2> /dev/null)" | grep '^commit' &> /dev/null); then
+    echo "%{$fg_bold[green]%}+"
+  fi
+}
+
+#set up prompt
+if [ $UID -eq 0 ]; then NCOLOR="red"; else NCOLOR="blue"; fi
+prompts '%{$fg[$NCOLOR]%}%c %{$fg_bold[blue]%}➤ %{$reset_color%}' '%{$fg[$NCOLOR]%}%p %{$fg[green]%}$(git_prompt_ahead)$(git_prompt_info)%{$reset_color%}'
 
 #virtualenv helpers
 function pyenv {
@@ -79,41 +81,4 @@ function sdaily {
 
 function stoday {
   sdaily ${1-jcantrell} `date "+%Y-%m-%d"` `date -v+1d "+%Y-%m-%d"`
-}
-
-function dev-setup {
-  #update .htaccess
-  DIR=${1-${PWD##*/}}
-  USER=${2-jcantrell}
-  sed -i '' -e 's/^RewriteBase/#RewriteBase/' .htaccess
-  sed -i '' -e "s/^#RewriteBase \/~roger/RewriteBase \/~$USER/" .htaccess
-  sed -i '' -e "s/cobrand_merge/$DIR/" .htaccess
-  sed -i '' -e "s/roger/$USER/" .htaccess
-
-  #update local.conf
-  sed -i '' -e "s/\/\* BEGIN USER SETTINGS//" include/local.conf
-
-  #update site.conf
-  sed -i '' -e "s/base_path=%URI_PATH%/base_path=/" config/site.conf
-  sed -i '' -e "s/%TPL_PATH%/\/home\/$USER\/public_html\/$DIR\/cobrand\/sofia\/templates\//" config/site.conf
-  sed -i '' -e "s/%URI_PATH%/\/~$USER\/$DIR\//"  config/site.conf
-}
-
-function dev-clone {
-  BRANCH=${1}
-  DIR=${2}
-  USER=${3-jcantrell}
-  
-  #svn pull
-  svn co svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/$BRANCH $DIR
-
-  #update guardfile
-  sed -i '' -e '$d' Guardfile
-  echo "  watch( %r{^$DIR} ) { sync_www('$DIR', '$DIR') }" >> Guardfile
-  echo "end" >> GuardFile
-
-  #dev-setup
-  cd $DIR
-  dev-setup $DIR
-  cd ..
 }
