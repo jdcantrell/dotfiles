@@ -11,7 +11,7 @@
 
 	" Windows Compatible {
 		" On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-		" across (heterogeneous) systems easier. 
+		" across (heterogeneous) systems easier.
 		if has('win32') || has('win64')
 		  set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 		endif
@@ -33,8 +33,8 @@
   Bundle 'tpope/vim-liquid'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 	" }
-" } 
-	
+" }
+
 " General {
 	filetype plugin indent on  	" Automatically detect file types.
 	syntax on 					" syntax highlighting
@@ -60,10 +60,10 @@
 
   set hidden
   set lazyredraw
-	
+
   "Disable matchparen plugin, since it slows things down when editing over the
   "network
-  let loaded_matchparen = 1  
+  let loaded_matchparen = 1
 
   " Keep the color syntax honest
   autocmd BufEnter * :syntax sync fromstart
@@ -76,11 +76,11 @@
 		set nobackup 						" backups are nice not that nice...
 		set noswapfile
 		set nowritebackup
-		
+
 	" }
 " }
 
-" Vim UI { 
+" Vim UI {
 	set tabpagemax=15 				    " only show 15 tabs
 	set showmode                  " display the current mode
 
@@ -102,7 +102,7 @@
 	set showmatch                  	" show matching brackets/parenthesis
 	set incsearch 					" find as you type search
 	set hlsearch 					" highlight search terms
-	set winminheight=0 				" windows can be 0 line high 
+	set winminheight=0 				" windows can be 0 line high
 	set ignorecase 					" case insensitive search
 	set smartcase 					" case sensitive when uc present
 	set wildmenu 					" show list instead of just completing
@@ -147,7 +147,7 @@
 	" The following two lines conflict with moving to top and bottom of the
 	" screen
 	" If you prefer that functionality, comment them out.
-	map <S-H> gT          
+	map <S-H> gT
 	map <S-L> gt
 
 	" Yank from the cursor to the end of the line, to be consistent with C and D.
@@ -167,6 +167,8 @@
   noremap j gj
   noremap k gk
 
+  " clear whitespace
+  nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
   " cut/paste to/from clipboard
   map <D-V> "+gP
   cmap <D-V> <C-R>+
@@ -182,23 +184,23 @@
 
 " }
 
-" Plugins 
+" Plugins
 
-	" Supertab 
+	" Supertab
 		let g:SuperTabDefaultCompletionType = "context"
 		let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
 		let g:SuperTabCrMapping = 0
-	" 
+	"
 
-  " Sparkup 
+  " Sparkup
     let g:sparkupExecuteMapping = '<D-e>'
   "
 
-  " Command-T 
+  " Command-T
     let g:CommandTMaxHeight = 10
-  " 
+  "
 
-	" OmniComplete 
+	" OmniComplete
 		"if has("autocmd") && exists("+omnifunc")
 			"autocmd Filetype *
 				"\if &omnifunc == "" |
@@ -216,7 +218,7 @@
 		hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
 		hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
 
-		" some convenient mappings 
+		" some convenient mappings
 		"inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
 		inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 		inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
@@ -227,20 +229,20 @@
 		" automatically open and close the popup menu / preview window
 		au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 		set completeopt=menu,preview,longest
-	" 
-	
-	" Ctags 
+	"
+
+	" Ctags
 		"set tags=./tags;/,~/.vimtags
-	" 
+	"
 
-	" EasyTags 
+	" EasyTags
 		"let g:easytags_cmd = '/usr/local/bin/ctags'
-	" 
+	"
 
 
-" 
+"
 
-" GUI Settings 
+" GUI Settings
 	" GVIM- (here instead of .gvimrc)
   set background=dark
 	if has('gui_running')
@@ -266,32 +268,32 @@
 	else
 		set term=builtin_ansi       " Make arrow and other keys work
 	endif
-" 
+"
 
-" Diff Settings 
+" Diff Settings
   set diffexpr=
   if &diff
     let &lines=50
     let &columns=200
   endif
-" 
+"
 
-" Python Settings 
+" Python Settings
 augroup ft_python
   au!
 
   au FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,exc
 augroup end
-" 
+"
 
-" Markdown Settings 
+" Markdown Settings
 augroup ft_markdown
   au!
 
   au BufNewFile,BufRead *.md setlocal filetype=markdown
   au FileType markdown setlocal formatoptions+=t
 augroup end
-" 
+"
 
 	if has('gui_running')
 	  colorscheme molokai     	       		" load a colorscheme
