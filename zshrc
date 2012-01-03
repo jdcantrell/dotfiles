@@ -10,6 +10,14 @@ load_correction
 # disable svn completion
 compdef -d svn
 
+#update paths
+export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
+export NODE_PATH="/usr/local/lib/node_modules"
+export CLICOLOR=1
+
+#rbenv
+eval "$(rbenv init - zsh)"
+
 #update editor
 if [[ $IS_MAC -eq 1 ]]; then
     export EDITOR='mvim'
@@ -20,6 +28,12 @@ fi
 function chpwd() {
     update_terminal_cwd
 }
+
+#aliases
+alias fedev='ssh jcantrell@fedev.utah.trulia.com'
+alias vim='~/Applications/MacVim.app/Contents/MacOS/Vim'
+alias http-serve='python -m SimpleHTTPServer 40001'
+alias ls="ls -G"
 
 #git stuff simplified from oh-my-zsh
 function git_prompt_info() {
