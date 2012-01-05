@@ -26,6 +26,7 @@
 	Bundle 'SuperTab-continued.'
 	Bundle 'matchit.zip'
 	Bundle 'molokai'
+	Bundle 'tango.vim'
   Bundle 'fholgado/minibufexpl.vim'
   Bundle 'jshint.vim'
   Bundle 'Better-Javascript-Indentation'
@@ -300,5 +301,5 @@ augroup end
   else
     set term=$TERM
     set t_Co=256
-    colorscheme molokai
+    colorscheme tango
   endif
