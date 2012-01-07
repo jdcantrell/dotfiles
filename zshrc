@@ -29,6 +29,9 @@ function chpwd() {
     update_terminal_cwd
 }
 
+# make tab completion not so worthless when using cd:
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+
 # make search up and down work, so partially type and hit up/down to find relevant stuff
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
