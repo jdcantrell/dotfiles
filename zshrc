@@ -38,6 +38,7 @@ bindkey '^[[B' down-line-or-search
 
 #aliases
 alias fedev='ssh jcantrell@fedev.utah.trulia.com'
+alias fedevdb='mysql -h fedevdb -u root -p'
 alias vim='~/Applications/MacVim.app/Contents/MacOS/Vim'
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias ls="ls -G"
@@ -84,6 +85,7 @@ function pyenv-new {
 function s {
   svn $1 svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/$2 $3
 }
+
 function sd {
   svn diff "${@}" | colordiff
 }
