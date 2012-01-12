@@ -295,6 +295,11 @@ augroup ft_markdown
   au FileType markdown setlocal formatoptions+=t
 augroup end
 "
+augroup ft_html
+  au!
+
+  au BufNewFile,BufRead *.tpl setlocal filetype=html
+augroup end
 
 	if has('gui_running')
 	  colorscheme molokai     	       		" load a colorscheme
