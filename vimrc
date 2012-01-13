@@ -33,6 +33,7 @@
   Bundle 'Command-T'
   Bundle 'tpope/vim-liquid'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
+  Bundle 'Lokaltog/vim-powerline'
 	" }
 " }
 
@@ -186,6 +187,10 @@
 " }
 
 " Plugins
+"
+" 
+  " Powerline
+  " let g:Powerline_symbols = "fancy"
 
 	" Supertab
 		let g:SuperTabDefaultCompletionType = "context"
