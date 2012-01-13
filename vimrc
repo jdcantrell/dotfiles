@@ -71,8 +71,9 @@
   autocmd BufEnter * :syntax sync fromstart
 
   "Highlight the status bar in terminals when going to/from insert mode
-  au InsertEnter * hi StatusLine cterm=bold ctermfg=15 ctermbg=4
-  au InsertLeave * hi StatusLine cterm=bold ctermfg=15 ctermbg=0
+  "Commented out while we're using powerline
+  "au InsertEnter * hi StatusLine cterm=bold ctermfg=15 ctermbg=4
+  "au InsertLeave * hi StatusLine cterm=bold ctermfg=15 ctermbg=0
 
 	" Setting up the directories {
 		set nobackup 						" backups are nice not that nice...
@@ -190,7 +191,10 @@
 "
 " 
   " Powerline
-  " let g:Powerline_symbols = "fancy"
+    if has('gui_running')
+      let g:Powerline_symbols = "fancy"
+    endif
+  "
 
 	" Supertab
 		let g:SuperTabDefaultCompletionType = "context"
@@ -257,7 +261,7 @@
 		set guioptions-=L          	" remove the toolbar
 		set guioptions-=r          	" remove the toolbar
 		set guioptions-=R          	" remove the toolbar
-		set guifont=Menlo:h14
+		set guifont=Menlo_for_Powerline:h14
     "Remove all bells - this needs to be moved to .gvimrc
     set vb t_vb=
 
