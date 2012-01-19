@@ -19,11 +19,7 @@ export CLICOLOR=1
 eval "$(rbenv init - zsh)"
 
 #update editor
-if [[ $IS_MAC -eq 1 ]]; then
-    export EDITOR='mvim'
-else
-    export EDITOR='vim'
-fi
+export EDITOR='vim'
 
 function chpwd() {
     update_terminal_cwd
@@ -74,14 +70,16 @@ prompts '%{$fg[$NCOLOR]%}%c %{$fg_bold[blue]%}➤ %{$reset_color%}' '%{$fg[$NCOL
 
 #virtualenv helpers
 function pyenv {
+  if [ ! -d ~/.env/$1/ ]; then
+    virtualenv ~/.env/$1 --no-site-packages
+  fi
   source ~/.env/$1/bin/activate
 }
 
-function pyenv-new {
-  virtualenv ~/.env/$1 $2 $3 $4
-}
-
 #svn alias
+FEBRANCH="svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/"
+export FEBRANCH
+
 function s {
   svn $1 svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/$2 $3
 }
