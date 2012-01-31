@@ -38,6 +38,7 @@ alias fedevdb='mysql -h fedevdb -u root -p'
 alias vim='~/Applications/MacVim.app/Contents/MacOS/Vim'
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias ls="ls -G"
+alias socks='ssh -D 9999'
 
 #git stuff simplified from oh-my-zsh
 function git_prompt_info() {
