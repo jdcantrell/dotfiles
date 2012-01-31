@@ -34,6 +34,7 @@
   Bundle 'tpope/vim-liquid'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
   Bundle 'Lokaltog/vim-powerline'
+  Bundle 'smarty-syntax'
 	" }
 " }
 
@@ -187,9 +188,7 @@
 
 " }
 
-" Plugins
-"
-" 
+" Plugins {
   " Powerline
     if has('gui_running')
       let g:Powerline_symbols = "fancy"
@@ -250,24 +249,24 @@
 	"
 
 
-"
+" }
 
-" GUI Settings
+" GUI Settings {
 	" GVIM- (here instead of .gvimrc)
   set background=dark
 	if has('gui_running')
+
 		set guioptions-=T          	" remove the toolbar
 		set guioptions-=l          	" remove the toolbar
 		set guioptions-=L          	" remove the toolbar
 		set guioptions-=r          	" remove the toolbar
 		set guioptions-=R          	" remove the toolbar
 		set guifont=Menlo_for_Powerline:h14
+
     "Remove all bells - this needs to be moved to .gvimrc
     set vb t_vb=
 
-		"set transparency=5          " Make the window slightly transparent
-
-    "minibuf options
+    "minibuf options for gui only
     let g:miniBufExplMapWindowNavVim = 1
     let g:miniBufExplMapWindowNavArrows = 1
     let g:miniBufExplMapCTabSwitchBufs = 1
@@ -278,42 +277,46 @@
 	else
 		set term=builtin_ansi       " Make arrow and other keys work
 	endif
-"
+" }
 
-" Diff Settings
+" Diff Settings {
   set diffexpr=
   if &diff
     let &lines=50
     let &columns=200
   endif
-"
+" }
 
-" Python Settings
+" Python Settings {
 augroup ft_python
   au!
 
   au FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,exc
 augroup end
-"
+" }
 
-" Markdown Settings
+" Markdown Settings {
 augroup ft_markdown
   au!
 
   au BufNewFile,BufRead *.md setlocal filetype=markdown
   au FileType markdown setlocal formatoptions+=t
 augroup end
-"
-augroup ft_html
+" }
+
+" Smarty Stuff {
+augroup ft_smarty
   au!
 
-  au BufNewFile,BufRead *.tpl setlocal filetype=html
+  au BufNewFile,BufRead *.tpl setlocal filetype=smarty
 augroup end
+" }
 
-	if has('gui_running')
-	  colorscheme molokai     	       		" load a colorscheme
-  else
-    set term=$TERM
-    set t_Co=256
-    colorscheme tango
-  endif
+"load colorschemes
+if has('gui_running')
+  colorscheme molokai
+else
+  set term=$TERM
+  set t_Co=256
+  colorscheme tango
+endif
