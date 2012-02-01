@@ -28,6 +28,9 @@ function chpwd() {
 # make tab completion not so worthless when using cd:
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
 
+#enable vim mode
+bindkey -v
+
 # make search up and down work, so partially type and hit up/down to find relevant stuff
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
@@ -68,6 +71,18 @@ function git_prompt_ahead() {
 #set up prompt
 if [ $UID -eq 0 ]; then NCOLOR="red"; else NCOLOR="blue"; fi
 prompts '%{$fg[$NCOLOR]%}%c %{$fg_bold[blue]%}➤ %{$reset_color%}' '%{$fg[$NCOLOR]%}%p %{$fg[green]%}$(git_prompt_ahead)$(git_prompt_info)%{$reset_color%}'
+
+#Let me know when I am in vi mode
+function zle-line-init zle-keymap-select {
+    if [[ ${KEYMAP} == "vicmd" ]]; then
+      RPROMPT="%{$bg_bold[green]%}%{$fg_bold[green]%} ~command~ %{$reset_color%}"
+    else
+      RPROMPT='%{$fg[$NCOLOR]%}%p %{$fg[green]%}$(git_prompt_ahead)$(git_prompt_info)%{$reset_color%}'
+    fi
+      zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
 
 #virtualenv helpers
 function pyenv {
