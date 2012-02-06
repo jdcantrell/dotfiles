@@ -119,3 +119,19 @@ function sdaily {
 function stoday {
   sdaily ${1-jcantrell} `date "+%Y-%m-%d"` `date -v+1d "+%Y-%m-%d"`
 }
+
+# Opens a new tab and starts guard in ~/FeDev and then returns to the
+# previous tab
+function watch-dev() {
+  osascript 2>/dev/null <<EOF
+    tell application "System Events"
+      tell process "Terminal" to keystroke "t" using command down
+    end
+    tell application "Terminal"
+      do script with command "cd ~/FeDev/;guard; $*" in window 1
+    end tell
+    tell application "System Events" 
+      tell process "Terminal" to keystroke "{" using {command down}
+    end 
+EOF
+}
