@@ -1,4 +1,4 @@
-" Modeline and Notes {
+"Modeline and Notes {
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
 " 	This is the personal .vimrc file of jd cantrell.
@@ -27,14 +27,14 @@
 	Bundle 'matchit.zip'
 	Bundle 'molokai'
 	Bundle 'tango.vim'
-  Bundle 'fholgado/minibufexpl.vim'
   Bundle 'jshint.vim'
-  Bundle 'Better-Javascript-Indentation'
   Bundle 'Command-T'
+  Bundle 'Better-Javascript-Indentation'
   Bundle 'tpope/vim-liquid'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
   Bundle 'Lokaltog/vim-powerline'
-  Bundle 'smarty-syntax'
+  Bundle 'LustyJuggler'
+  Bundle 'YankRing.vim'
 	" }
 " }
 
@@ -157,13 +157,14 @@
 	" Yank from the cursor to the end of the line, to be consistent with C and D.
 	nnoremap Y y$
 
-  imap jk <Esc>
+  imap jj <Esc>
 
   " use left and right in normal mode to change buffers
   noremap <Left> :bp<cr>
   noremap <Right> :bn<cr>
 
   " Make it easy to update and source _vimrc
+  nmap <silent> ,b :LustyJuggler<cr>
   nmap <silent> ,ev :e $MYVIMRC<cr>
   nmap <silent> ,sv :so $MYVIMRC<cr>
   nmap ,dd :cd %:p:h<cr>
@@ -189,6 +190,10 @@
 " }
 
 " Plugins {
+  " JSHint
+    let g:jshintprg="jshint"
+  "
+
   " Powerline
     if has('gui_running')
       let g:Powerline_symbols = "fancy"
@@ -305,10 +310,10 @@ augroup end
 " }
 
 " Smarty Stuff {
-augroup ft_smarty
+augroup ft_html
   au!
 
-  au BufNewFile,BufRead *.tpl setlocal filetype=smarty
+  au BufNewFile,BufRead *.tpl setlocal filetype=html
 augroup end
 " }
 
