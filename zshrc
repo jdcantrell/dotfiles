@@ -26,7 +26,7 @@ function chpwd() {
 }
 
 # make tab completion not so worthless when using cd:
-zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+zstyle ':completion:*:cd:*' tag-order local-directories named-directories
 
 #enable vim mode
 bindkey -v
@@ -34,6 +34,7 @@ bindkey -v
 # make search up and down work, so partially type and hit up/down to find relevant stuff
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
+bindkey '^R' history-incremental-search-backward
 
 #aliases
 alias fedev='ssh jcantrell@fedev.utah.trulia.com'
