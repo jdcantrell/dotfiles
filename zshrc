@@ -7,8 +7,16 @@ load_lol_aliases
 load_completion $HOME/.zshuery/completion
 load_correction
 
+    #group_propt="$fg[red]%R →$reset_color $fg[green]%r?$reset_color (Yes, No, Abort, Edit) "
+zstyle ':completion:*' format "Completing $fg[blue]%d"
+zstyle ':completion:*' group-name ''
+#zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+#zstyle ':completion:*' completer _complete _ignored _correct _approximate
+
 # disable svn completion
 compdef -d svn
+#disable user listing
+zstyle ':completion:*' users off
 
 #update paths
 export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
@@ -114,7 +122,7 @@ function sdaily {
   DATE2=${3-`date "+%Y-%m-%d"`}
   USER=${1-jcantrell}
   echo "svn log for $DATE1 to $DATE2 for $USER:"
-  svn log -r{$DATE1}:{$DATE2} | grep $USER -A 2 | sed -e '/^[-]*$/d' -e 's/ .* line$/ /' | sed -e '$!N;s/\n/- /' 
+  svn log -r{$DATE1}:{$DATE2} | grep $USER -A 2 | sed -e '/^[-]*$/d' -e 's/ .* line$/ /' | sed -e '$!N;s/\n/- /'
 }
 
 function stoday {
@@ -131,8 +139,10 @@ function watch-dev() {
     tell application "Terminal"
       do script with command "cd ~/FeDev/;guard; $*" in window 1
     end tell
-    tell application "System Events" 
+    tell application "System Events"
       tell process "Terminal" to keystroke "{" using {command down}
-    end 
+    end
 EOF
 }
+
+
