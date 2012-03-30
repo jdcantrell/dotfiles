@@ -102,16 +102,22 @@ function pyenv {
 }
 
 #svn alias
-FEBRANCH="svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/"
-export FEBRANCH
+surl="svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/"
+export surl
 
 function s {
   svn $1 svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/$2 $3
 }
 
 function sd {
-  svn diff "${@}" | colordiff
+  if [ -z "$1" ]
+  then
+    svn st | cut -c8- | sed -e '/local.conf/d' -e '/.htaccess/d' -e '/site.conf/d' | xargs svn diff | colordiff | less -R
+  else
+    svn diff "${@}" | colordiff
+  fi
 }
+alias ss="svn st"
 
 function sdv {
   svn diff "${@}" | view -
