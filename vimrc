@@ -18,23 +18,22 @@
 	" }
 
   set ffs=unix,dos
-	filetype off
-	" Setup Bundle Support {
-	set rtp+=~/.vim/bundle/vundle/
-	call vundle#rc()
-	Bundle 'gmarik/vundle'
-	Bundle 'SuperTab-continued.'
-	Bundle 'matchit.zip'
-	Bundle 'molokai'
-	Bundle 'tango.vim'
+  filetype off
+  " Setup Bundle Support {
+  set rtp+=~/.vim/bundle/vundle/
+  call vundle#rc()
+  Bundle 'gmarik/vundle'
+  Bundle 'matchit.zip'
+  Bundle 'molokai'
+  Bundle 'tango.vim'
   Bundle 'jshint.vim'
   Bundle 'Command-T'
   Bundle 'Better-Javascript-Indentation'
   Bundle 'tpope/vim-liquid'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
   Bundle 'Lokaltog/vim-powerline'
-  Bundle 'LustyJuggler'
   Bundle 'YankRing.vim'
+  Bundle 'ShowMarks'
 	" }
 " }
 
@@ -200,12 +199,6 @@
       let g:Powerline_stl_path_style = "filename"
     endif
   "
-
-	" Supertab
-		let g:SuperTabDefaultCompletionType = "context"
-		let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
-		let g:SuperTabCrMapping = 0
-	"
 
   " Sparkup
     let g:sparkupExecuteMapping = '<D-e>'
