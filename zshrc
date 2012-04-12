@@ -19,12 +19,13 @@ compdef -d svn
 zstyle ':completion:*' users off
 
 #update paths
-export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
-export NODE_PATH="/usr/local/lib/node_modules"
+#export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
+#export NODE_PATH="/usr/local/lib/node_modules"
 export CLICOLOR=1
 
 #rbenv
 eval "$(rbenv init - zsh)"
+source $HOME/.zprofile
 
 #update editor
 export EDITOR='vim'
@@ -48,6 +49,8 @@ bindkey '^R' history-incremental-search-backward
 alias fedev='ssh jcantrell@fedev.utah.trulia.com'
 alias fedevdb='mysql -h fedevdb -u root -p'
 alias vim='~/Applications/MacVim.app/Contents/MacOS/Vim'
+#open file in existing vim from command line
+alias vo="open \"mvim://open?url=file://$1\""
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias ls="ls -G"
 alias socks='ssh -D 9999'
@@ -107,6 +110,21 @@ export surl
 
 function s {
   svn $1 svn+ssh://svn/usr/local/svnrepos/TRULIA/FE/www/branches/$2 $3
+}
+
+function cdiff {
+ new_rev=`ls -1 $1.r* | tail -1`
+ mvimdiff "$1".mine $new_rev
+}
+
+#search common from other directories 
+function cack {
+ ack $@ ~/FeDev/common
+}
+function wack {
+ ack $@ ~/FeDev/common --color-match="bold magenta"
+ echo
+ ack $@ ./
 }
 
 function sd {
