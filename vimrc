@@ -30,10 +30,10 @@
   Bundle 'Command-T'
   Bundle 'Better-Javascript-Indentation'
   Bundle 'tpope/vim-liquid'
+  Bundle 'bcat/abbott.vim'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
   Bundle 'Lokaltog/vim-powerline'
   Bundle 'YankRing.vim'
-  Bundle 'ShowMarks'
 	" }
 " }
 
@@ -163,7 +163,6 @@
   noremap <Right> :bn<cr>
 
   " Make it easy to update and source _vimrc
-  nmap <silent> ,b :LustyJuggler<cr>
   nmap <silent> ,ev :e $MYVIMRC<cr>
   nmap <silent> ,sv :so $MYVIMRC<cr>
   nmap ,dd :cd %:p:h<cr>
