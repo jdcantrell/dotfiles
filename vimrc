@@ -24,16 +24,15 @@
   call vundle#rc()
   Bundle 'gmarik/vundle'
   Bundle 'matchit.zip'
-  Bundle 'molokai'
   Bundle 'tango.vim'
   Bundle 'jshint.vim'
   Bundle 'Command-T'
   Bundle 'Better-Javascript-Indentation'
   Bundle 'tpope/vim-liquid'
-  Bundle 'bcat/abbott.vim'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
   Bundle 'Lokaltog/vim-powerline'
   Bundle 'YankRing.vim'
+  Bundle 'altercation/vim-colors-solarized'
 	" }
 " }
 
@@ -184,12 +183,21 @@
   " expand path on %%
   cabbr <expr> %% expand('%:p:h')
 
+  " typos
+  command! W w
+  command -nargs=* -complete=file E e <args>
+
+  " easier quicklist movement
+  nmap <leader>n :cn<CR>
+  nmap <leader>N :cp<CR>
+
 
 " }
 
 " Plugins {
   " JSHint
     let g:jshintprg="jshint"
+    nmap <leader>h :JSHint<CR>
   "
 
   " Powerline
@@ -237,16 +245,6 @@
 		au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 		set completeopt=menu,preview,longest
 	"
-
-	" Ctags
-		"set tags=./tags;/,~/.vimtags
-	"
-
-	" EasyTags
-		"let g:easytags_cmd = '/usr/local/bin/ctags'
-	"
-
-
 " }
 
 " GUI Settings {
@@ -312,7 +310,7 @@ augroup end
 
 "load colorschemes
 if has('gui_running')
-  colorscheme molokai
+  colorscheme solarized
 else
   set term=$TERM
   set t_Co=256
