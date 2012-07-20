@@ -31,8 +31,10 @@
   Bundle 'tpope/vim-liquid'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
   Bundle 'Lokaltog/vim-powerline'
+  Bundle 'molokai'
+  Bundle 'pep8--Driessen'
+  Bundle 'sjl/gundo.vim'
   Bundle 'YankRing.vim'
-  Bundle 'altercation/vim-colors-solarized'
 	" }
 " }
 
@@ -43,6 +45,8 @@
 
 	scriptencoding utf-8
 
+  set relativenumber
+  set modelines=0
 	set shortmess+=filmnrxoOtT     	" abbrev. of messages (avoids 'hit enter')
 	set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
 	set virtualedit=onemore 	   	" allow for cursor beyond last character
@@ -64,7 +68,7 @@
 
   "Disable matchparen plugin, since it slows things down when editing over the
   "network
-  let loaded_matchparen = 1
+  "let loaded_matchparen = 1
 
   " Keep the color syntax honest
   autocmd BufEnter * :syntax sync fromstart
@@ -90,7 +94,6 @@
 		set ruler                  	" show the ruler
 		set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
 		set showcmd                	" show partial commands in status line and
-									" selected characters/lines in visual mode
 	endif
 
 	if has('statusline')
@@ -100,33 +103,35 @@
 
 	set backspace=indent,eol,start 	" backspace for dummys
 	set linespace=0 				" No extra spaces between rows
-	set nu 							" Line numbers on
-	set showmatch                  	" show matching brackets/parenthesis
+	set nu 							    " Line numbers on
+	set showmatch          	" show matching brackets/parenthesis
 	set incsearch 					" find as you type search
-	set hlsearch 					" highlight search terms
-	set winminheight=0 				" windows can be 0 line high
+	set hlsearch 					  " highlight search terms
+	set winminheight=0 			" windows can be 0 line high
 	set ignorecase 					" case insensitive search
 	set smartcase 					" case sensitive when uc present
-	set wildmenu 					" show list instead of just completing
+	set wildmenu 					  " show list instead of just completing
 	set wildmode=list:longest,full 	" comand <Tab> completion, list matches, then longest common part, then all.
-	set whichwrap=b,s,h,l,<,>,[,]	" backspace and cursor keys wrap to
+	set whichwrap=b,s,h,l,<,>,[,]	  " backspace and cursor keys wrap to
 	set scrolljump=5 				" lines to scroll when cursor leaves screen
 	set scrolloff=3 				" minimum lines to keep above and below cursor
 	set foldenable  				" auto fold code
 " }
 
 " Formatting {
-	set nowrap                     	" wrap long lines
-	set autoindent                 	" indent at the same level of the previous line
-	set shiftwidth=2               	" use indents of 4 spaces
+	set nowrap             	" done't wrap long lines
+	set autoindent         	" indent at the same level of the previous line
+	set shiftwidth=2       	" use indents of 4 spaces
 	set tabstop=2 					" an indentation every four columns
-	set expandtab 	       		" tabs are tabs, not spaces
-	set pastetoggle=<F12>          	" pastetoggle (sane indentation on pastes)
+	set expandtab 	       	" tabs are not tabs, they are spaces
+	set pastetoggle=<F12>  	" pastetoggle (sane indentation on pastes)
 
   " disable textwrapping
   set textwidth=72
+
   "enable comment text wrapping and comment leading
   set formatoptions=croq
+
 	"set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 
 	" Remove trailing whitespaces and ^M chars
@@ -164,7 +169,10 @@
   " Make it easy to update and source _vimrc
   nmap <silent> ,ev :e $MYVIMRC<cr>
   nmap <silent> ,sv :so $MYVIMRC<cr>
-  nmap ,dd :cd %:p:h<cr>
+
+  " change directory to current file (think 'use dir')
+  nmap <leader>dd :cd %:p:h<cr>
+
   noremap ; :
   noremap j gj
   noremap k gk
@@ -178,7 +186,6 @@
 
   cmap w!! w !sudo tee % >/dev/null
 
-  " change directory to current file (think 'use dir')
 
   " expand path on %%
   cabbr <expr> %% expand('%:p:h')
@@ -191,10 +198,16 @@
   nmap <leader>n :cn<CR>
   nmap <leader>N :cp<CR>
 
+  " ,W strip whitespace
+  nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+  " ,S sort css tags
+  nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
+
 
 " }
 
 " Plugins {
+
   " JSHint
     let g:jshintprg="jshint"
     nmap <leader>h :JSHint<CR>
@@ -216,13 +229,6 @@
   "
 
 	" OmniComplete
-		"if has("autocmd") && exists("+omnifunc")
-			"autocmd Filetype *
-				"\if &omnifunc == "" |
-				"\setlocal omnifunc=syntaxcomplete#Complete |
-				"\endif
-		"endif
-
 		" Popup menu hightLight Group
 		"highlight Pmenu 	ctermbg=13 	guibg=DarkBlue
 		highlight PmenuSel 	ctermbg=7 	guibg=DarkBlue 		guifg=LightBlue
@@ -234,7 +240,6 @@
 		hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
 
 		" some convenient mappings
-		"inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
 		inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 		inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 		inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
@@ -249,7 +254,7 @@
 
 " GUI Settings {
 	" GVIM- (here instead of .gvimrc)
-  set background=dark
+  set background=light
 	if has('gui_running')
 
 		set guioptions-=T          	" remove the toolbar
@@ -262,14 +267,6 @@
     "Remove all bells - this needs to be moved to .gvimrc
     set vb t_vb=
 
-    "minibuf options for gui only
-    let g:miniBufExplMapWindowNavVim = 1
-    let g:miniBufExplMapWindowNavArrows = 1
-    let g:miniBufExplMapCTabSwitchBufs = 1
-    let g:miniBufExplModSelTarget = 1
-    let g:miniBufExplorerMoreThanOne = 0
-    let g:miniBufExplUseSingleClick = 1
-    let g:miniBufExplMapWindowNavVim = 1
 	else
 		set term=builtin_ansi       " Make arrow and other keys work
 	endif
@@ -310,7 +307,7 @@ augroup end
 
 "load colorschemes
 if has('gui_running')
-  colorscheme solarized
+  colorscheme molokai
 else
   set term=$TERM
   set t_Co=256

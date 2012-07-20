@@ -19,8 +19,8 @@ compdef -d svn
 zstyle ':completion:*' users off
 
 #update paths
-#export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
-#export NODE_PATH="/usr/local/lib/node_modules"
+export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
+export NODE_PATH="/usr/local/lib/node_modules"
 export CLICOLOR=1
 
 #rbenv
@@ -113,18 +113,21 @@ function s {
 }
 
 function cdiff {
- new_rev=`ls -1 $1.r* | tail -1`
- mvimdiff "$1".mine $new_rev
+  new_rev=`ls -1 $1.r* | tail -1`
+  mvimdiff "$1".mine $new_rev
 }
 
 #search common from other directories 
+function js {
+  ack $@ --js --html
+}
 function cack {
- ack $@ ~/FeDev/common
+  ack $@ ~/FeDev/common
 }
 function wack {
- ack $@ ~/FeDev/common --color-match="bold magenta"
- echo
- ack $@ ./
+  ack $@ ~/FeDev/common --color-match="bold magenta"
+  echo
+  ack $@ ./
 }
 
 function sd {
