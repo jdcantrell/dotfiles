@@ -37,6 +37,7 @@
   " language helpers/enhancements
   Bundle 'Better-Javascript-Indentation'
   Bundle 'tpope/vim-liquid'
+  Bundle 'tpope/vim-markdown'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
   Bundle 'pep8--Driessen'
   Bundle 'jshint.vim'
@@ -232,7 +233,7 @@
     nnoremap <silent> <D-r> :CtrlPMRU<CR>
     nnoremap <silent> <D-y> :CtrlPBuffer<CR>
     let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
   "}"
 
