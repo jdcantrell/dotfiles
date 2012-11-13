@@ -19,7 +19,7 @@ compdef -d svn
 zstyle ':completion:*' users off
 
 #update paths
-export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
+export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 export NODE_PATH="/usr/local/lib/node_modules"
 export CLICOLOR=1
 
