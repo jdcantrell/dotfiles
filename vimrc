@@ -32,13 +32,13 @@
   " themes
   Bundle 'tango.vim'
   Bundle 'molokai'
-  Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+  Bundle 'jdcantrell/colour-schemes.git', {'rtp': 'vim-themes/'}
 
   " language helpers/enhancements
   Bundle 'Better-Javascript-Indentation'
   Bundle 'tpope/vim-liquid'
   Bundle 'tpope/vim-markdown'
-  Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
+  Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
   Bundle 'pep8--Driessen'
   Bundle 'jshint.vim'
 	" }
