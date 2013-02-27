@@ -32,15 +32,19 @@
   " themes
   Bundle 'tango.vim'
   Bundle 'molokai'
-  Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+  Bundle 'jdcantrell/colour-schemes', {'rtp': 'vim-themes/'}
 
   " language helpers/enhancements
   Bundle 'Better-Javascript-Indentation'
+  Bundle 'smarty-syntax'
   Bundle 'tpope/vim-liquid'
   Bundle 'tpope/vim-markdown'
   Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
   Bundle 'pep8--Driessen'
   Bundle 'jshint.vim'
+  Bundle 'Handlebars'
+  " Bundle 'Syntastic'
+  Bundle 'Tagbar'
 	" }
 " }
 
@@ -215,8 +219,8 @@
 " Plugins {
 
   " JSHint
-    let g:jshintprg="jshint"
-    nmap <leader>h :JSHint<CR>
+  let g:jshintprg="jshint"
+  nmap <leader>h :JSHint<CR>
   "
 
   " Powerline
@@ -227,11 +231,11 @@
   "
 
   " ctrlp {
-    let g:ctrlp_working_path_mode = 2
+    let g:ctrlp_working_path_mode = 'ra'
+    let g:ctrlp_by_filename = 1
 
     nnoremap <silent> <D-t> :CtrlP<CR>
-    nnoremap <silent> <D-r> :CtrlPMRU<CR>
-    nnoremap <silent> <D-y> :CtrlPBuffer<CR>
+    nnoremap <silent> <D-r> :CtrlPBuffer<CR>
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
@@ -338,6 +342,23 @@
 		" automatically open and close the popup menu / preview window
 		au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 		set completeopt=menu,preview,longest
+
+    function! RunPhpcs() 
+      let l:quote_token="'"
+      let l:filename=@% 
+      let l:phpcs_output=system('/usr/local/Cellar/php-code-sniffer/1.4.4/libexec/phpcs --report=emacs --standard=/Users/jcantrell/trulia_codesniff.xml '.l:filename) 
+      let l:phpcs_output=substitute(l:phpcs_output, '\\"', l:quote_token, 'g')
+      let l:phpcs_list=split(l:phpcs_output, "\n") 
+      unlet l:phpcs_list[0] 
+      cexpr l:phpcs_list 
+      cwindow 
+      copen
+    endfunction 
+
+    set errorformat=%f:%l:%c:\ %m
+    command! Phpcs execute RunPhpcs()
+    nmap <leader>p :Phpcs<CR><CR>
+
 	"
 " }
 
@@ -390,9 +411,11 @@ augroup end
 augroup ft_html
   au!
 
-  au BufNewFile,BufRead *.tpl setlocal filetype=html
+  au BufNewFile,BufRead *.tpl setlocal filetype=smarty
 augroup end
 " }
+
+au BufRead,BufNewFile *.handlebars,*.hbs set ft=handlebars
 
 "load colorschemes
 if has('gui_running')
