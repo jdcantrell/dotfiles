@@ -1,8 +1,11 @@
 [user]
 	name = JD Cantrell
-	email = jdcantrell@gmail.com
+	email = jcantrell@trulia.com
 [alias]
    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+   lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
+   lol = log --decorate --pretty=oneline --abbrev-commit
+   delete-merged = !git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d
 [color]
   branch = auto
   diff = auto
@@ -10,3 +13,4 @@
   status = auto
 [core]
 	autocrlf = input
+  excludesfile = "~/.gitignore"
