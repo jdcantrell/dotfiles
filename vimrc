@@ -39,7 +39,7 @@
   Bundle 'smarty-syntax'
   Bundle 'tpope/vim-liquid'
   Bundle 'tpope/vim-markdown'
-  Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
+  Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
   Bundle 'pep8--Driessen'
   Bundle 'jshint.vim'
   Bundle 'Handlebars'
