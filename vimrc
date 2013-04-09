@@ -25,7 +25,6 @@
   " vim plugins
   Bundle 'gmarik/vundle'
   Bundle 'matchit.zip'
-  Bundle 'Lokaltog/vim-powerline'
   Bundle 'neocomplcache'
   Bundle 'ctrlp.vim'
 
@@ -47,7 +46,8 @@
   Bundle 'Tagbar'
 	" }
 " }
-
+"
+"
 " General {
 	filetype plugin indent on  	" Automatically detect file types.
 	syntax on 					" syntax highlighting
@@ -108,7 +108,7 @@
 
 	if has('statusline')
 		set laststatus=2
-    set statusline=%<%t\ %h%m%r[%{&ff}]%=%-14.(%l,%c%V%)\ %P
+    set statusline=%<%t\ %h%m%r[%{&ff}]%=%-9.(%l,%c%)\ %P
 	endif
 
 	set backspace=indent,eol,start 	" backspace for dummys
@@ -176,6 +176,10 @@
   noremap <Left> :bp<cr>
   noremap <Right> :bn<cr>
 
+  " pageing
+  nnoremap <Space> <C-d>
+  nnoremap <S-Space> <C-u>
+
   " Make it easy to update and source _vimrc
   nmap <silent> ,ev :e $MYVIMRC<cr>
   nmap <silent> ,sv :so $MYVIMRC<cr>
@@ -225,7 +229,6 @@
 
   " Powerline
     if has('gui_running')
-      let g:Powerline_symbols = "fancy"
       let g:Powerline_stl_path_style = "filename"
     endif
   "
@@ -419,7 +422,22 @@ au BufRead,BufNewFile *.handlebars,*.hbs set ft=handlebars
 
 "load colorschemes
 if has('gui_running')
-  colorscheme molokai
+  colorscheme tomorrow
+
+  function! StatuslineColor(mode)
+    if a:mode == 'i'
+      hi statusline guibg=#fafafa guifg=#718c00 
+    elseif a:mode == 'r'
+      hi statusline guibg=#fafafa guifg=#f5871f 
+    else
+      hi statusline guibg=#fafafa guifg=#4271ae 
+    endif
+  endfunction
+
+  au InsertEnter * call StatuslineColor(v:insertmode)
+  au InsertLeave * call StatuslineColor("command")
+  call StatuslineColor('command')
+
 else
   set term=$TERM
   set t_Co=256
