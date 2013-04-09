@@ -31,6 +31,7 @@
   " themes
   Bundle 'tango.vim'
   Bundle 'molokai'
+  Bundle 'chriskempson/vim-tomorrow-theme'
   Bundle 'jdcantrell/colour-schemes', {'rtp': 'vim-themes/'}
 
   " language helpers/enhancements
@@ -108,7 +109,19 @@
 
 	if has('statusline')
 		set laststatus=2
-    set statusline=%<%t\ %h%m%r[%{&ff}]%=%-9.(%l,%c%)\ %P
+    set statusline  =%<%t
+    set statusline +=\ 
+    set statusline +=%h
+    set statusline +=%m
+    set statusline +=%r
+    set statusline +=%=
+    set statusline +=%{strlen(&ft)?&ft:'none'}
+    set statusline +=\ 
+    set statusline +=%{&ff}
+    set statusline +=\ 
+    set statusline +=%(%5l,%-3c%)
+    set statusline +=\ 
+    set statusline +=%3p%%\ 
 	endif
 
 	set backspace=indent,eol,start 	" backspace for dummys
