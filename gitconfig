@@ -1,6 +1,6 @@
 [user]
 	name = JD Cantrell
-	email = jcantrell@trulia.com
+	email = jdcantrell@gmail.com
 [alias]
    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
    lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges

@@ -19,7 +19,7 @@ compdef -d svn
 zstyle ':completion:*' users off
 
 #update paths
-export PATH="/usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="/usr/local/Cellar/smlnj/110.75/libexec/bin/:usr/local/share/python:$HOME/.rbenv/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 export NODE_PATH="/usr/local/lib/node_modules"
 export CLICOLOR=1
 
@@ -49,6 +49,7 @@ bindkey '^R' history-incremental-search-backward
 alias fedev='ssh jcantrell@fedev.utah.trulia.com'
 alias fedevdb='mysql -h fedevdb -u root -p'
 alias vim='~/Applications/MacVim.app/Contents/MacOS/Vim'
+alias subl='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl'
 #open file in existing vim from command line
 alias vo="open \"mvim://open?url=file://$1\""
 alias http-serve='python -m SimpleHTTPServer 40001'
