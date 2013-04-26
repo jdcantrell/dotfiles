@@ -4,11 +4,16 @@ export EDITOR='vim'
 
 #osx with brew
 if brew -v >/dev/null 2>&1; then
-  export PATH="$(brew --prefix josegonzalez/php/php54)/bin:/usr/local/share/npm/bin:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH"
+  export PATH="/bin:/usr/local/share/npm/bin:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH"
   export NODE_PATH="/usr/local/lib/node_modules"
+
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
   fi
+fi
+
+if [ -f ~/.bash.local ]; then
+  source ~/.bash.local
 fi
 
 #setup rbenv
@@ -17,8 +22,6 @@ if rbenv -v >/dev/null 2>&1; then
 fi
 
 #alias type things
-alias fedev='ssh jcantrell@fedev.utah.trulia.com'
-alias fedevdb='mysql -h fedevdb -u root -p'
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias socks='ssh -D 9999'
 
@@ -68,4 +71,5 @@ fi
 set_bash_prompt() {
   PS1="$REMOTE_HOST$(_git_ahead)$GIT_BRANCH$(_git_dirty)$(_git_info)$PROMPT_HI\W$PROMPT_LOW ➤ $PROMPT_DEFAULT"
 }
+
 PROMPT_COMMAND=set_bash_prompt
