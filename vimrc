@@ -17,6 +17,7 @@
 		endif
 	" }
 
+
   set ffs=unix,dos
   filetype off
   " Setup Bundle Support {
@@ -25,7 +26,6 @@
   " vim plugins
   Bundle 'gmarik/vundle'
   Bundle 'matchit.zip'
-  Bundle 'neocomplcache'
   Bundle 'ctrlp.vim'
 
   " themes
@@ -43,10 +43,9 @@
   Bundle 'pep8--Driessen'
   Bundle 'jshint.vim'
   Bundle 'Handlebars'
-  " Bundle 'Syntastic'
-  Bundle 'Tagbar'
 	" }
 " }
+" set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
 "
 "
 " General {
@@ -257,78 +256,6 @@
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
   "}"
 
-  " neocomplcache {
-    let g:neocomplcache_enable_at_startup = 1
-    "let g:neocomplcache_enable_camel_case_completion = 1
-    let g:neocomplcache_enable_smart_case = 1
-    let g:neocomplcache_enable_underbar_completion = 1
-    let g:neocomplcache_min_syntax_length = 4
-    let g:neocomplcache_enable_auto_delimiter = 1
-    let g:neocomplcache_max_list = 5
-    let g:neocomplcache_auto_completion_start_length = 3
-    let g:neocomplcache_force_overwrite_completefunc = 1
-    let g:neocomplcache_disable_auto_complete = 1
-    " let g:neocomplcache_snippets_dir='~/.vim/bundle/snipmate-snippets/snippets'
-
-    " AutoComplPop like behavior.
-    let g:neocomplcache_enable_auto_select = 0
-
-    " Show popup on tab
-    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>"
-    function! s:check_back_space()"{{{
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1] =~ '\s'
-    endfunction"}}
-
-    " Plugin key-mappings.
-    " Ctrl-k expands snippet & moves to next position
-    " <CR> chooses highlighted value
-    imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    inoremap <expr><C-g>   neocomplcache#undo_completion()
-    inoremap <expr><C-l>   neocomplcache#complete_common_string()
-    inoremap <expr><CR>    neocomplcache#complete_common_string()
-
-
-    " <CR>: close popup
-    " <s-CR>: close popup and save indent.
-    inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup()"\<CR>" : "\<CR>"
-    inoremap <expr><CR>  pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y>  neocomplcache#close_popup()
-
-    " Define keyword.
-    if !exists('g:neocomplcache_keyword_patterns')
-      let g:neocomplcache_keyword_patterns = {}
-    endif
-    let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-    " Enable omni completion.
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
-    " Enable heavy omni completion.
-    if !exists('g:neocomplcache_omni_patterns')
-        let g:neocomplcache_omni_patterns = {}
-    endif
-    let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-    let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-    let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-    let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
-    " For snippet_complete marker.
-    if has('conceal')
-        set conceallevel=2 concealcursor=i
-    endif
-
-  " }
-
   " Sparkup
     let g:sparkupExecuteMapping = '<D-e>'
   "
@@ -439,11 +366,11 @@ if has('gui_running')
 
   function! StatuslineColor(mode)
     if a:mode == 'i'
-      hi statusline guibg=#fafafa guifg=#718c00 
+      hi statusline guibg=#fafafa guifg=#718c00
     elseif a:mode == 'r'
-      hi statusline guibg=#fafafa guifg=#f5871f 
+      hi statusline guibg=#fafafa guifg=#f5871f
     else
-      hi statusline guibg=#fafafa guifg=#4271ae 
+      hi statusline guibg=#fafafa guifg=#4271ae
     endif
   endfunction
 
@@ -451,8 +378,11 @@ if has('gui_running')
   au InsertLeave * call StatuslineColor("command")
   call StatuslineColor('command')
 
+
 else
   set term=$TERM
   set t_Co=256
   colorscheme tango
 endif
+
+
