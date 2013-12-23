@@ -55,7 +55,6 @@
 
 	scriptencoding utf-8
 
-  set relativenumber
   set modelines=0
 	set shortmess+=filmnrxoOtT     	" abbrev. of messages (avoids 'hit enter')
 	set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
@@ -315,7 +314,8 @@
 		set guioptions-=L          	" remove the toolbar
 		set guioptions-=r          	" remove the toolbar
 		set guioptions-=R          	" remove the toolbar
-		set guifont=Menlo_for_Powerline:h14
+		set guioptions-=m          	" remove the toolbar
+		set guifont=Menlo:h14
 
     "Remove all bells - this needs to be moved to .gvimrc
     set vb t_vb=
@@ -362,7 +362,7 @@ au BufRead,BufNewFile *.handlebars,*.hbs set ft=handlebars
 
 "load colorschemes
 if has('gui_running')
-  colorscheme tomorrow
+  colorscheme molokai
 
   function! StatuslineColor(mode)
     if a:mode == 'i'

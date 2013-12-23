@@ -2,32 +2,19 @@
 export CLICOLOR=1
 export EDITOR='vim'
 
-#osx with brew
-if brew -v >/dev/null 2>&1; then
-  export PATH="/bin:/usr/local/share/npm/bin:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH"
-  export NODE_PATH="/usr/local/lib/node_modules"
-
-  if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
-  fi
-fi
-
 if [ -f ~/.bash.local ]; then
   source ~/.bash.local
 fi
 
-#setup rbenv
-if rbenv -v >/dev/null 2>&1; then
-  eval "$(rbenv init - )"
-fi
+#virtualenv
+export WORKON_HOME="~/.envs"
+source /usr/local/bin/virtualenvwrapper.sh
 
 #alias type things
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias socks='ssh -D 9999'
 
-
 # Prompty things
-
 GIT_BRANCH="\[\e[0;32m\]"; #prefix branch name with a color
 GIT_AHEAD="\[\e[1;32m\]±"; #symbol for when we have unpushed commits
 GIT_DIRTY="\[\e[1;33m\]"; #color for uncomitted changes

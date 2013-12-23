@@ -1,0 +1,10 @@
+# vim: set filetype=sh :
+
+#osx with brew
+export PATH="/usr/local/bin:$PATH"
+
+. $(brew --prefix)/etc/bash_completion
+
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init - )"
+
