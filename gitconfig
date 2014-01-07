@@ -8,11 +8,15 @@
    lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
 
    #daily util methods for creating new branches and pushing to remote
-   new = !sh -c 'git checkout -b $1 -t origin/FOX$2' -
+   new = !sh -c 'git checkout -b $1 -t origin/GOAT$2' -
    done = push origin $(git symbolic-ref HEAD --short)
 
    #find any branch that has been merged into master and delete it
    delete-merged = !git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d
+
+   #find remote branches that have been merged and delete those (assume
+   #you have a remote called `me`)
+   delete-merged-remote = !git branch -r --merged master | grep -v 'master$' | grep ' me' | sed -e 's/ me\\///' | xargs -n 1 git push me --delete 
 [color]
   branch = auto
   diff = auto
