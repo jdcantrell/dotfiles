@@ -1,21 +1,21 @@
 "Modeline and Notes {
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
-" 	This is the personal .vimrc file of jd cantrell.
+"   This is the personal .vimrc file of jd cantrell.
 " }
 
 " Environment {
-	" Basics {
-		set nocompatible 		" must be first line
-	" }
+  " Basics {
+    set nocompatible     " must be first line
+  " }
 
-	" Windows Compatible {
-		" On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-		" across (heterogeneous) systems easier.
-		if has('win32') || has('win64')
-		  set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-		endif
-	" }
+  " Windows Compatible {
+    " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
+    " across (heterogeneous) systems easier.
+    if has('win32') || has('win64')
+      set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+    endif
+  " }
 
 
   set ffs=unix,dos
@@ -43,24 +43,24 @@
   Bundle 'pep8--Driessen'
   Bundle 'jshint.vim'
   Bundle 'Handlebars'
-	" }
+  " }
 " }
 " set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
 "
 "
 " General {
-	filetype plugin indent on  	" Automatically detect file types.
-	syntax on 					" syntax highlighting
-	set mouse=a					" automatically enable mouse usage
+  filetype plugin indent on    " Automatically detect file types.
+  syntax on           " syntax highlighting
+  set mouse=a          " automatically enable mouse usage
 
-	scriptencoding utf-8
+  scriptencoding utf-8
 
   set modelines=0
-	set shortmess+=filmnrxoOtT     	" abbrev. of messages (avoids 'hit enter')
-	set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
-	set virtualedit=onemore 	   	" allow for cursor beyond last character
-	set history=1000  				" Store a ton of history (default is 20)
-	set nospell 					" spell checking off
+  set shortmess+=filmnrxoOtT       " abbrev. of messages (avoids 'hit enter')
+  set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
+  set virtualedit=onemore        " allow for cursor beyond last character
+  set history=1000          " Store a ton of history (default is 20)
+  set nospell           " spell checking off
 
   set mousehide
   set cmdheight=1
@@ -87,26 +87,26 @@
   "au InsertEnter * hi StatusLine cterm=bold ctermfg=15 ctermbg=4
   "au InsertLeave * hi StatusLine cterm=bold ctermfg=15 ctermbg=0
 
-	" Setting up the directories {
-		set nobackup 						" backups are nice not that nice...
-		set noswapfile
-		set nowritebackup
+  " Setting up the directories {
+    set nobackup             " backups are nice not that nice...
+    set noswapfile
+    set nowritebackup
 
-	" }
+  " }
 " }
 
 " Vim UI {
-	set tabpagemax=15 				    " only show 15 tabs
-	set showmode                  " display the current mode
+  set tabpagemax=15             " only show 15 tabs
+  set showmode                  " display the current mode
 
-	if has('cmdline_info')
-		set ruler                  	" show the ruler
-		set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
-		set showcmd                	" show partial commands in status line and
-	endif
+  if has('cmdline_info')
+    set ruler                    " show the ruler
+    set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
+    set showcmd                  " show partial commands in status line and
+  endif
 
-	if has('statusline')
-		set laststatus=2
+  if has('statusline')
+    set laststatus=2
     set statusline  =%<%t
     set statusline +=\ 
     set statusline +=%h
@@ -120,32 +120,35 @@
     set statusline +=%(%5l,%-3c%)
     set statusline +=\ 
     set statusline +=%3p%%\ 
-	endif
+  endif
 
-	set backspace=indent,eol,start 	" backspace for dummys
-	set linespace=0 				" No extra spaces between rows
-	set nu 							    " Line numbers on
-	set showmatch          	" show matching brackets/parenthesis
-	set incsearch 					" find as you type search
-	set hlsearch 					  " highlight search terms
-	set winminheight=0 			" windows can be 0 line high
-	set ignorecase 					" case insensitive search
-	set smartcase 					" case sensitive when uc present
-	set wildmenu 					  " show list instead of just completing
-	set wildmode=list:longest,full 	" comand <Tab> completion, list matches, then longest common part, then all.
-	set whichwrap=b,s,h,l,<,>,[,]	  " backspace and cursor keys wrap to
-	set scrolljump=5 				" lines to scroll when cursor leaves screen
-	set scrolloff=3 				" minimum lines to keep above and below cursor
-	set foldenable  				" auto fold code
+  set backspace=indent,eol,start   " backspace for dummys
+  set linespace=0         " No extra spaces between rows
+  set nu                   " Line numbers on
+  set showmatch            " show matching brackets/parenthesis
+  set incsearch           " find as you type search
+  set hlsearch             " highlight search terms
+  set winminheight=0       " windows can be 0 line high
+  set ignorecase           " case insensitive search
+  set smartcase           " case sensitive when uc present
+  set wildmenu             " show list instead of just completing
+  set wildmode=list:longest,full   " comand <Tab> completion, list matches, then longest common part, then all.
+  set whichwrap=b,s,h,l,<,>,[,]    " backspace and cursor keys wrap to
+  set scrolljump=5         " lines to scroll when cursor leaves screen
+  set scrolloff=3         " minimum lines to keep above and below cursor
+  set foldenable          " auto fold code
 " }
 
 " Formatting {
-	set nowrap             	" done't wrap long lines
-	set autoindent         	" indent at the same level of the previous line
-	set shiftwidth=2       	" use indents of 4 spaces
-	set tabstop=2 					" an indentation every four columns
-	set expandtab 	       	" tabs are not tabs, they are spaces
-	set pastetoggle=<F12>  	" pastetoggle (sane indentation on pastes)
+  set nowrap               " done't wrap long lines
+  set autoindent           " indent at the same level of the previous line
+  set shiftwidth=2         " use indents of 4 spaces
+  set tabstop=2           " an indentation every four columns
+  set softtabstop=2
+  set expandtab            " tabs are not tabs, they are spaces
+  set smarttab
+
+  set pastetoggle=<F12>    " pastetoggle (sane indentation on pastes)
 
   " disable textwrapping
   set textwidth=72
@@ -153,33 +156,33 @@
   "enable comment text wrapping and comment leading
   set formatoptions=croq
 
-	"set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
+  "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 
-	" Remove trailing whitespaces and ^M chars
-	"autocmd FileType c,cpp,java,php,js,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+  " Remove trailing whitespaces and ^M chars
+  "autocmd FileType c,cpp,java,php,js,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 " }
 
 " Key Mappings {
 
-	"The default leader is '\', but many people prefer ',' as it's in a standard
-	"location
-	let mapleader = ','
+  "The default leader is '\', but many people prefer ',' as it's in a standard
+  "location
+  let mapleader = ','
 
-	" Easier moving in tabs and windows
-	map <C-J> <C-W>j<C-W>_
-	map <C-K> <C-W>k<C-W>_
-	map <C-L> <C-W>l<C-W>_
-	map <C-H> <C-W>h<C-W>_
-	map <C-K> <C-W>k<C-W>_
+  " Easier moving in tabs and windows
+  map <C-J> <C-W>j<C-W>_
+  map <C-K> <C-W>k<C-W>_
+  map <C-L> <C-W>l<C-W>_
+  map <C-H> <C-W>h<C-W>_
+  map <C-K> <C-W>k<C-W>_
 
-	" The following two lines conflict with moving to top and bottom of the
-	" screen
-	" If you prefer that functionality, comment them out.
-	map <S-H> gT
-	map <S-L> gt
+  " The following two lines conflict with moving to top and bottom of the
+  " screen
+  " If you prefer that functionality, comment them out.
+  map <S-H> gT
+  map <S-L> gt
 
-	" Yank from the cursor to the end of the line, to be consistent with C and D.
-	nnoremap Y y$
+  " Yank from the cursor to the end of the line, to be consistent with C and D.
+  nnoremap Y y$
 
   imap jj <Esc>
 
@@ -263,27 +266,27 @@
     let g:CommandTMaxHeight = 10
   "
 
-	" OmniComplete
-		" Popup menu hightLight Group
-		"highlight Pmenu 	ctermbg=13 	guibg=DarkBlue
-		highlight PmenuSel 	ctermbg=7 	guibg=DarkBlue 		guifg=LightBlue
-		"highlight PmenuSbar ctermbg=7 	guibg=DarkGray
-		"highlight PmenuThumb 			guibg=Black
+  " OmniComplete
+    " Popup menu hightLight Group
+    "highlight Pmenu   ctermbg=13   guibg=DarkBlue
+    highlight PmenuSel   ctermbg=7   guibg=DarkBlue     guifg=LightBlue
+    "highlight PmenuSbar ctermbg=7   guibg=DarkGray
+    "highlight PmenuThumb       guibg=Black
 
-		hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
-		hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
-		hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
+    hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
+    hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
+    hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
 
-		" some convenient mappings
-		inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-		inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-		inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-		inoremap <expr> <C-d> 	   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-		inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+    " some convenient mappings
+    inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+    inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+    inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+    inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+    inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
 
-		" automatically open and close the popup menu / preview window
-		au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-		set completeopt=menu,preview,longest
+    " automatically open and close the popup menu / preview window
+    au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+    set completeopt=menu,preview,longest
 
     function! RunPhpcs() 
       let l:quote_token="'"
@@ -301,28 +304,28 @@
     command! Phpcs execute RunPhpcs()
     nmap <leader>p :Phpcs<CR><CR>
 
-	"
+  "
 " }
 
 " GUI Settings {
-	" GVIM- (here instead of .gvimrc)
+  " GVIM- (here instead of .gvimrc)
   set background=light
-	if has('gui_running')
+  if has('gui_running')
 
-		set guioptions-=T          	" remove the toolbar
-		set guioptions-=l          	" remove the toolbar
-		set guioptions-=L          	" remove the toolbar
-		set guioptions-=r          	" remove the toolbar
-		set guioptions-=R          	" remove the toolbar
-		set guioptions-=m          	" remove the toolbar
-		set guifont=Menlo:h14
+    set guioptions-=T            " remove the toolbar
+    set guioptions-=l            " remove the toolbar
+    set guioptions-=L            " remove the toolbar
+    set guioptions-=r            " remove the toolbar
+    set guioptions-=R            " remove the toolbar
+    set guioptions-=m            " remove the toolbar
+    set guifont=Menlo:h14
 
     "Remove all bells - this needs to be moved to .gvimrc
     set vb t_vb=
 
-	else
-		set term=builtin_ansi       " Make arrow and other keys work
-	endif
+  else
+    set term=builtin_ansi       " Make arrow and other keys work
+  endif
 " }
 
 " Diff Settings {
@@ -331,14 +334,6 @@
     let &lines=50
     let &columns=200
   endif
-" }
-
-" Python Settings {
-augroup ft_python
-  au!
-
-  au FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,exc
-augroup end
 " }
 
 " Markdown Settings {
