@@ -158,8 +158,6 @@
 
   "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 
-  " Remove trailing whitespaces and ^M chars
-  "autocmd FileType c,cpp,java,php,js,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 " }
 
 " Key Mappings {
@@ -220,7 +218,6 @@
 
   " typos
   command! W w
-  command -nargs=* -complete=file E e <args>
 
   " easier quicklist movement
   nmap <leader>n :cn<CR>
@@ -288,22 +285,6 @@
     au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
     set completeopt=menu,preview,longest
 
-    function! RunPhpcs() 
-      let l:quote_token="'"
-      let l:filename=@% 
-      let l:phpcs_output=system('/usr/local/Cellar/php-code-sniffer/1.4.4/libexec/phpcs --report=emacs --standard=/Users/jcantrell/trulia_codesniff.xml '.l:filename) 
-      let l:phpcs_output=substitute(l:phpcs_output, '\\"', l:quote_token, 'g')
-      let l:phpcs_list=split(l:phpcs_output, "\n") 
-      unlet l:phpcs_list[0] 
-      cexpr l:phpcs_list 
-      cwindow 
-      copen
-    endfunction 
-
-    set errorformat=%f:%l:%c:\ %m
-    command! Phpcs execute RunPhpcs()
-    nmap <leader>p :Phpcs<CR><CR>
-
   "
 " }
 
@@ -353,7 +334,10 @@ augroup ft_html
 augroup end
 " }
 
-au BufRead,BufNewFile *.handlebars,*.hbs set ft=handlebars
+au BufRead,BufNewFile *.{handlebars,hbs} set ft=handlebars
+
+" Remove trailing whitespaces and ^M chars
+autocmd BufWritePre *.{c,cpp,php,js,html,tpl,xml,yml,rb,py}  :%s/\s\+$//e
 
 "load colorschemes
 if has('gui_running')
