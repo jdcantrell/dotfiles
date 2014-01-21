@@ -299,7 +299,8 @@
     set guioptions-=r            " remove the toolbar
     set guioptions-=R            " remove the toolbar
     set guioptions-=m            " remove the toolbar
-    set guifont=Menlo:h14
+    " set guifont=Menlo:h14
+		set guifont=Menlo\ 11
 
     "Remove all bells - this needs to be moved to .gvimrc
     set vb t_vb=
@@ -342,6 +343,7 @@ autocmd BufWritePre *.{c,cpp,php,js,html,tpl,xml,yml,rb,py}  :%s/\s\+$//e
 "load colorschemes
 if has('gui_running')
   colorscheme molokai
+  set vb t_vb=
 
   function! StatuslineColor(mode)
     if a:mode == 'i'
@@ -363,5 +365,3 @@ else
   set t_Co=256
   colorscheme tango
 endif
-
-
