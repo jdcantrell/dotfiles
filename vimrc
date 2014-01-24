@@ -33,6 +33,7 @@
   Bundle 'molokai'
   Bundle 'chriskempson/vim-tomorrow-theme'
   Bundle 'jdcantrell/colour-schemes', {'rtp': 'vim-themes/'}
+  Bundle 'bling/vim-airline'
 
   " language helpers/enhancements
   Bundle 'Better-Javascript-Indentation'
@@ -55,7 +56,7 @@
 
   scriptencoding utf-8
 
-  set modelines=0
+  set modelines=5
   set shortmess+=filmnrxoOtT       " abbrev. of messages (avoids 'hit enter')
   set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
   set virtualedit=onemore        " allow for cursor beyond last character
@@ -103,23 +104,6 @@
     set ruler                    " show the ruler
     set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
     set showcmd                  " show partial commands in status line and
-  endif
-
-  if has('statusline')
-    set laststatus=2
-    set statusline  =%<%t
-    set statusline +=\ 
-    set statusline +=%h
-    set statusline +=%m
-    set statusline +=%r
-    set statusline +=%=
-    set statusline +=%{strlen(&ft)?&ft:'none'}
-    set statusline +=\ 
-    set statusline +=%{&ff}
-    set statusline +=\ 
-    set statusline +=%(%5l,%-3c%)
-    set statusline +=\ 
-    set statusline +=%3p%%\ 
   endif
 
   set backspace=indent,eol,start   " backspace for dummys
@@ -238,9 +222,10 @@
   nmap <leader>h :JSHint<CR>
   "
 
-  " Powerline
+  " Airline
     if has('gui_running')
-      let g:Powerline_stl_path_style = "filename"
+      let g:airline_left_sep=''
+      let g:airline_right_sep=''
     endif
   "
 
@@ -299,8 +284,12 @@
     set guioptions-=r            " remove the toolbar
     set guioptions-=R            " remove the toolbar
     set guioptions-=m            " remove the toolbar
-    " set guifont=Menlo:h14
-		set guifont=Menlo\ 11
+
+    if has("gui_macvim")
+      set guifont=Menlo:h14
+    else
+      set guifont=Menlo\ 11
+    endif
 
     "Remove all bells - this needs to be moved to .gvimrc
     set vb t_vb=
