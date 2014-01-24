@@ -8,7 +8,13 @@ fi
 
 #virtualenv
 export WORKON_HOME="~/.envs"
-source /usr/local/bin/virtualenvwrapper.sh
+
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+  source /usr/local/bin/virtualenvwrapper.sh
+fi
+if [ -f /usr/bin/virtualenvwrapper.sh ]; then
+  source /usr/bin/virtualenvwrapper.sh
+fi
 
 #alias type things
 alias http-serve='python -m SimpleHTTPServer 40001'
