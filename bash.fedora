@@ -1,6 +1,8 @@
 # vim: set filetype=sh :
 alias ls="ls --color"
 
+source /etc/profile.d/bash_completion.sh
+
 #rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
