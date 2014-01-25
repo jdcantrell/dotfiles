@@ -99,6 +99,7 @@
 " Vim UI {
   set tabpagemax=15             " only show 15 tabs
   set showmode                  " display the current mode
+  set laststatus=2
 
   if has('cmdline_info')
     set ruler                    " show the ruler
