@@ -2,14 +2,15 @@
   name = JD Cantrell
   email = jdcantrell@gmail.com
 [alias]
+   co = checkout
    #log aliases
    lol = log --decorate --pretty=oneline --abbrev-commit
    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
    lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
 
    #daily util methods for creating new branches and pushing to remote
-   g = !sh -c 'git checkout -b $1 -t origin/GOAT$2' -
-   done = push origin $(git symbolic-ref HEAD --short)
+   goat = !sh -c 'git checkout -b G$2-CSSP-$1 -t origin/GOAT$2' -
+   done = !sh -c 'git push origin $(git symbolic-ref HEAD --short)' -
 
    #find any branch that has been merged into master and delete it
    delete-merged = !git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d
