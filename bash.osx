@@ -8,3 +8,19 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init - )"
 
+
+ss_capture() {
+  delay=$1
+  delay=${delay:=10}
+  i=0
+
+  echo "Capturing a screen shot every $delay seconds."
+  mkdir -p ~/Desktop/Capture
+  while [ 1 ]; do
+    ((i ++))
+    echo -en "\rFrame $i"
+    vardate=$(date +%d\-%m\-%Y\_%H.%M.%S)
+    screencapture -t jpg -x ~/Desktop/Capture/$vardate.jpg
+    sleep $delay
+  done
+}
