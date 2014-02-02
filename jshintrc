@@ -1,4 +1,6 @@
 {
+  "white": true,
+
   "bitwise": true,
   "camelcase": false,
   "curly": true,
