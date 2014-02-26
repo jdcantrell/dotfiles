@@ -31,6 +31,7 @@
   " themes
   Bundle 'tango.vim'
   Bundle 'molokai'
+  Bundle 'Solarized'
   Bundle 'chriskempson/vim-tomorrow-theme'
   Bundle 'jdcantrell/colour-schemes', {'rtp': 'vim-themes/'}
   Bundle 'bling/vim-airline'
@@ -83,11 +84,6 @@
   " Keep the color syntax honest
   autocmd BufEnter * :syntax sync fromstart
 
-  "Highlight the status bar in terminals when going to/from insert mode
-  "Commented out while we're using powerline
-  "au InsertEnter * hi StatusLine cterm=bold ctermfg=15 ctermbg=4
-  "au InsertLeave * hi StatusLine cterm=bold ctermfg=15 ctermbg=0
-
   " Setting up the directories {
     set nobackup             " backups are nice not that nice...
     set noswapfile
@@ -121,7 +117,6 @@
   set whichwrap=b,s,h,l,<,>,[,]    " backspace and cursor keys wrap to
   set scrolljump=5         " lines to scroll when cursor leaves screen
   set scrolloff=3         " minimum lines to keep above and below cursor
-  set foldenable          " auto fold code
 " }
 
 " Formatting {
@@ -180,6 +175,7 @@
   " Make it easy to update and source _vimrc
   nmap <silent> ,ev :e $MYVIMRC<cr>
   nmap <silent> ,sv :so $MYVIMRC<cr>
+  nmap <silent> ,bd :1,1000bd<cr>
 
   " change directory to current file (think 'use dir')
   nmap <leader>dd :cd %:p:h<cr>
@@ -274,31 +270,6 @@
   "
 " }
 
-" GUI Settings {
-  " GVIM- (here instead of .gvimrc)
-  set background=light
-  if has('gui_running')
-
-    set guioptions-=T            " remove the toolbar
-    set guioptions-=l            " remove the toolbar
-    set guioptions-=L            " remove the toolbar
-    set guioptions-=r            " remove the toolbar
-    set guioptions-=R            " remove the toolbar
-    set guioptions-=m            " remove the toolbar
-
-    if has("gui_macvim")
-      set guifont=Menlo:h14
-    else
-      set guifont=Menlo\ 11
-    endif
-
-    "Remove all bells - this needs to be moved to .gvimrc
-    set vb t_vb=
-
-  else
-    set term=builtin_ansi       " Make arrow and other keys work
-  endif
-" }
 
 " Diff Settings {
   set diffexpr=
@@ -325,30 +296,33 @@ augroup ft_html
 augroup end
 " }
 
-au BufRead,BufNewFile *.{handlebars,hbs} set ft=handlebars
-
 " Remove trailing whitespaces and ^M chars
-autocmd BufWritePre *.{c,cpp,php,js,html,tpl,xml,yml,rb,py}  :%s/\s\+$//e
+autocmd BufWritePre *  :%s/\s\+$//e
 
-"load colorschemes
+set background=light
 if has('gui_running')
   colorscheme molokai
+
+  set guioptions-=T            " remove the toolbar
+  set guioptions-=l            " remove the toolbar
+  set guioptions-=L            " remove the toolbar
+  set guioptions-=r            " remove the toolbar
+  set guioptions-=R            " remove the toolbar
+  set guioptions-=m            " remove the toolbar
+
+  if has("gui_macvim")
+    set guifont=Menlo:h14
+  else
+    set guifont=Menlo\ 11
+  endif
+
+  "Remove all bells - this needs to be moved to .gvimrc
   set vb t_vb=
 
-  function! StatuslineColor(mode)
-    if a:mode == 'i'
-      hi statusline guibg=#fafafa guifg=#718c00
-    elseif a:mode == 'r'
-      hi statusline guibg=#fafafa guifg=#f5871f
-    else
-      hi statusline guibg=#fafafa guifg=#4271ae
-    endif
-  endfunction
-
-  au InsertEnter * call StatuslineColor(v:insertmode)
-  au InsertLeave * call StatuslineColor("command")
-  call StatuslineColor('command')
-
+  "Highlight the status bar in terminals when going to/from insert mode
+  "Commented out while we're using powerline
+  "au InsertEnter * hi StatusLine guibg=#fafafa guifg=#718c00
+  "au InsertLeave * hi StatusLine guibg=#fafafa guifg=#4271ae
 
 else
   set term=$TERM
