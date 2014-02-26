@@ -3,13 +3,19 @@
   email = jdcantrell@gmail.com
 [alias]
    co = checkout
+   st = status -sb
+
    #log aliases
    lol = log --decorate --pretty=oneline --abbrev-commit
    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
    lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
 
    #daily util methods for creating new branches and pushing to remote
-   goat = !sh -c 'git checkout -b G$2-CSSP-$1 -t origin/GOAT$2' -
+   g = !sh -c 'git checkout -b G$1-CSSP-$2 -t origin/GOAT$1' -
+
+   #checkout a branch that matches a string
+   f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -
+
    done = !sh -c 'git push origin $(git symbolic-ref HEAD --short)' -
 
    #find any branch that has been merged into master and delete it
