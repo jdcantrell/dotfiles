@@ -27,11 +27,14 @@
   Bundle 'gmarik/vundle'
   Bundle 'matchit.zip'
   Bundle 'ctrlp.vim'
+  Bundle 'neocomplcache'
 
   " themes
   Bundle 'tango.vim'
   Bundle 'molokai'
   Bundle 'Solarized'
+  Bundle 'baskerville/bubblegum'
+  Bundle 'Pychimp/vim-luna'
   Bundle 'chriskempson/vim-tomorrow-theme'
   Bundle 'jdcantrell/colour-schemes', {'rtp': 'vim-themes/'}
   Bundle 'bling/vim-airline'
@@ -42,14 +45,10 @@
   Bundle 'tpope/vim-liquid'
   Bundle 'tpope/vim-markdown'
   Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-  Bundle 'pep8--Driessen'
   Bundle 'jshint.vim'
-  Bundle 'Handlebars'
-  " }
-" }
-" set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
-"
-"
+ " }
+ "}
+
 " General {
   filetype plugin indent on    " Automatically detect file types.
   syntax on           " syntax highlighting
@@ -179,6 +178,7 @@
 
   " change directory to current file (think 'use dir')
   nmap <leader>dd :cd %:p:h<cr>
+  nmap <leader>ww :cd ~/Trulia/web<cr>
 
   noremap ; :
   noremap j gj
@@ -196,6 +196,10 @@
 
   " expand path on %%
   cabbr <expr> %% expand('%:p:h')
+  cabbr <expr> ww "~/Trulia/web"
+  cabbr <expr> cc "~/Trulia/common"
+  cabbr <expr> txl "~/Trulia/oocss"
+
 
   " typos
   command! W w
@@ -214,6 +218,17 @@
 
 " Plugins {
 
+  "NeoComplCache
+  " Disable AutoComplPop.
+  let g:acp_enableAtStartup = 0
+  " Use neocomplcache.
+  let g:neocomplcache_enable_at_startup = 1
+  " Use smartcase.
+  let g:neocomplcache_enable_smart_case = 1
+  " Set minimum syntax keyword length.
+  let g:neocomplcache_min_syntax_length = 3
+  let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
   " JSHint
   let g:jshintprg="jshint"
   nmap <leader>h :JSHint<CR>
@@ -228,14 +243,11 @@
 
   " ctrlp {
     let g:ctrlp_working_path_mode = 'ra'
-    let g:ctrlp_by_filename = 1
 
-    nnoremap <silent> <D-t> :CtrlP<CR>
-    nnoremap <silent> <D-r> :CtrlPBuffer<CR>
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
-  "}"
+  "}
 
   " Sparkup
     let g:sparkupExecuteMapping = '<D-e>'
@@ -255,18 +267,6 @@
     hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
     hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
     hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
-
-    " some convenient mappings
-    inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-    inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-    inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-    inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-    inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
-
-    " automatically open and close the popup menu / preview window
-    au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-    set completeopt=menu,preview,longest
-
   "
 " }
 
@@ -293,6 +293,13 @@ augroup ft_html
   au!
 
   au BufNewFile,BufRead *.tpl setlocal filetype=smarty
+augroup end
+" }
+"
+" Python {
+augroup ft_python
+  au!
+  au FileType python set shiftwidth=2
 augroup end
 " }
 
