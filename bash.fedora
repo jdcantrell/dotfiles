@@ -1,5 +1,6 @@
 # vim: set filetype=sh :
 alias ls="ls --color"
+alias ack="ack-grep"
 
 source /etc/profile.d/bash_completion.sh
 
@@ -13,7 +14,7 @@ eval "$(rbenv init -)"
   function dev-find {
     pwd=$(pwd)
 
-    for link in $(ls ~/.sites)
+    for link in $(/bin/ls ~/.sites)
     do
       if [[ $pwd = $(readlink -f ~/.sites/$link) ]]; then
         echo $link
@@ -26,11 +27,13 @@ eval "$(rbenv init -)"
   #$1 - a name for the site, defaults to current directory name
   function dev-mk {
     link=$(dev-find)
-    if [[ -z $link ]]; then
+    if [ -z $link ]; then
       name=${1:-$(basename $(pwd))}
-      if [! -f ~/.sites/$name ]; then
+
+      if ! [ -e ~/.sites/$name ]; then
         ln -s $(pwd) ~/.sites/$name
       fi
+
       echo "http://$name.dev"
     else
       echo "http://$link.dev"
@@ -44,7 +47,7 @@ eval "$(rbenv init -)"
 
   #get xip.io url
   function xip {
-    ip=$(ifconfig p5p1 | grep -Eo 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | cut -d ' ' -f2)
+    ip=$(ifconfig eth0 | grep -Eo 'inet addr:[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | cut -d ':' -f2)
     link=$(dev-find)
     echo "http://$link.$ip.xip.io"
   }
