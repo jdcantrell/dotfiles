@@ -1,5 +1,4 @@
 "Modeline and Notes {
-" vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
 "   This is the personal .vimrc file of jd cantrell.
 " }
@@ -17,6 +16,7 @@
     endif
   " }
 
+  let $VIMHOME=expand('<sfile>:p:h')
 
   set ffs=unix,dos
   filetype off
@@ -27,7 +27,9 @@
   Bundle 'gmarik/vundle'
   Bundle 'matchit.zip'
   Bundle 'ctrlp.vim'
-  Bundle 'neocomplcache'
+  " Bundle 'neocomplcache'
+  Bundle 'Shougo/neocomplete.vim'
+  Bundle 'Syntastic'
 
   " themes
   Bundle 'tango.vim'
@@ -217,16 +219,16 @@
 
 " Plugins {
 
-  "NeoComplCache
   " Disable AutoComplPop.
   let g:acp_enableAtStartup = 0
-  " Use neocomplcache.
-  let g:neocomplcache_enable_at_startup = 1
+  " Use neocomplete.
+  let g:neocomplete#enable_at_startup = 1
   " Use smartcase.
-  let g:neocomplcache_enable_smart_case = 1
+  let g:neocomplete#enable_smart_case = 1
   " Set minimum syntax keyword length.
-  let g:neocomplcache_min_syntax_length = 3
-  let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
   " JSHint
   let g:jshintprg="jshint"
@@ -246,7 +248,7 @@
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
-  "}
+  "
 
   " Sparkup
     let g:sparkupExecuteMapping = '<D-e>'
@@ -256,6 +258,12 @@
     let g:CommandTMaxHeight = 10
   "
 
+  " Syntastic {
+    let g:syntastic_enable_signs = 0
+    let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs']
+    let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/Projects/dotfiles/dev/phpcs.xml'
+    let g:syntastic_php_phpmd_post_args = $VIMHOME.'/Projects/dotfiles/dev/phpmd.xml'
+  " }
   " OmniComplete
     " Popup menu hightLight Group
     "highlight Pmenu   ctermbg=13   guibg=DarkBlue
@@ -294,6 +302,8 @@ augroup ft_html
   au BufNewFile,BufRead *.tpl setlocal filetype=smarty
 augroup end
 " }
+"
+"
 "
 " Python {
 augroup ft_python
