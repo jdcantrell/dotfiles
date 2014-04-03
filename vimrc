@@ -36,7 +36,6 @@
   Bundle 'baskerville/bubblegum'
   Bundle 'Pychimp/vim-luna'
   Bundle 'chriskempson/vim-tomorrow-theme'
-  Bundle 'jdcantrell/colour-schemes', {'rtp': 'vim-themes/'}
   Bundle 'bling/vim-airline'
 
   " language helpers/enhancements
@@ -309,6 +308,7 @@ autocmd BufWritePre *  :%s/\s\+$//e
 set background=light
 if has('gui_running')
   colorscheme molokai
+
 
   set guioptions-=T            " remove the toolbar
   set guioptions-=l            " remove the toolbar
