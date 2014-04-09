@@ -20,6 +20,18 @@ fi
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias socks='ssh -D 9999'
 
+
+function sniff() {
+  sniff=$1
+  sniff=${sniff:="jd"}
+
+  rm ~/.phpcs.xml
+  rm ~/.phpmd.xml
+
+  ln -s ~/Projects/dotfiles/dev/phpcs-$sniff.xml ~/.phpcs.xml
+  ln -s ~/Projects/dotfiles/dev/phpmd-$sniff.xml ~/.phpmd.xml
+}
+
 # Prompty things
 GIT_BRANCH="\[\e[0;32m\]"; #prefix branch name with a color
 GIT_AHEAD="\[\e[1;32m\]±"; #symbol for when we have unpushed commits
