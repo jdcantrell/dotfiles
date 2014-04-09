@@ -180,6 +180,7 @@
   " change directory to current file (think 'use dir')
   nmap <leader>dd :cd %:p:h<cr>
   nmap <leader>ww :cd ~/Trulia/web<cr>
+  nmap <leader>cc :cd ~/Trulia/common<cr>
 
   noremap ; :
   noremap j gj
@@ -201,6 +202,9 @@
   cabbr <expr> cc "~/Trulia/common"
   cabbr <expr> txl "~/Trulia/oocss"
 
+  " Open file in stash
+  nnoremap <leader>sc :exe ':silent !open -a firefox http://stash.sv2.trulia.com/projects/web/repos/common/browse/%:p:.'<cr>
+  nnoremap <leader>sw :exe ':silent !open -a firefox http://stash.sv2.trulia.com/projects/web/repos/web/browse/%:p:.'<cr>
 
   " typos
   command! W w
@@ -261,8 +265,8 @@
   " Syntastic {
     let g:syntastic_enable_signs = 0
     let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs']
-    let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/Projects/dotfiles/dev/phpcs.xml'
-    let g:syntastic_php_phpmd_post_args = $VIMHOME.'/Projects/dotfiles/dev/phpmd.xml'
+    let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/.phpcs.xml'
+    let g:syntastic_php_phpmd_post_args = $VIMHOME.'/.phpmd.xml'
   " }
   " OmniComplete
     " Popup menu hightLight Group

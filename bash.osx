@@ -52,3 +52,14 @@ EOF
 }
 
 alias dev-watch='tab ~/Trulia "bundle exec guard"'
+
+function sniff() {
+  sniff=$1
+  sniff=${sniff:="jd"}
+
+  rm ~/.phpcs.xml
+  rm ~/.phpmd.xml
+
+  ln -s ~/Projects/dotfiles/dev/phpcs-$sniff.xml ~/.phpcs.xml
+  ln -s ~/Projects/dotfiles/dev/phpmd-$sniff.xml ~/.phpmd.xml
+}
