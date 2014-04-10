@@ -27,7 +27,6 @@
   Bundle 'gmarik/vundle'
   Bundle 'matchit.zip'
   Bundle 'ctrlp.vim'
-  " Bundle 'neocomplcache'
   Bundle 'Shougo/neocomplete.vim'
   Bundle 'Syntastic'
 
@@ -46,7 +45,6 @@
   Bundle 'tpope/vim-liquid'
   Bundle 'tpope/vim-markdown'
   Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-  Bundle 'jshint.vim'
  " }
  "}
 
@@ -209,9 +207,19 @@
   " typos
   command! W w
 
-  " easier quicklist movement
-  nmap <leader>n :cn<CR>
-  nmap <leader>N :cp<CR>
+  " easier location list movement
+  nmap <leader>N :lfirst<CR>
+  nmap <leader>n :lnext<CR>
+  nmap <leader>m :lprev<CR>
+  nmap <leader>M :llast<CR>
+  nmap <leader>H :lclose<CR>
+
+  " This will temporarily set the cwd to the current file, display
+  " errors, move to first error and then reset cwd to the original
+  " This makes the location list show only the filename instead a large
+  " relative path
+  " ps h stands for hint as in jshint
+  nmap <leader>h :let $rcwd=getcwd()<CR>:cd %:p:h<CR>:Errors<CR>:lfirst<CR>:cd $rcwd<CR>
 
   " ,W strip whitespace
   nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
@@ -236,7 +244,7 @@
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
   " JSHint
   let g:jshintprg="jshint"
-  nmap <leader>h :JSHint<CR>
+
   "
 
   " Airline
