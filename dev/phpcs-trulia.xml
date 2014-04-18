@@ -58,8 +58,6 @@
  </rule>
 
 
- <rule ref="PSR2.Classes.PropertyDeclaration" />
- <rule ref="PSR2.Methods.MethodDeclaration" />
  <rule ref="PSR2.ControlStructures.ControlStructureSpacing" />
  <rule ref="PSR2.ControlStructures.ElseIfDeclaration" />
  <rule ref="PSR2.ControlStructures.SwitchDeclaration">
@@ -109,7 +107,7 @@
  <rule ref="Squiz.WhiteSpace.CastSpacing" />
  <rule ref="Squiz.WhiteSpace.FunctionSpacing">
     <properties>
-        <property name="spacing" value="1"/>
+        <property name="spacing" value="2"/>
     </properties>
  </rule>
  <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>

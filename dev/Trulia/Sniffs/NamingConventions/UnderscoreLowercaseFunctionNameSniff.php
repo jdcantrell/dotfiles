@@ -148,7 +148,7 @@ class Trulia_Sniffs_NamingConventions_UnderscoreLowercaseFunctionNameSniff  exte
 
         $methodProps = $phpcsFile->getMethodProperties($stackPtr);
 
-        if (PHP_CodeSniffer::isUnderscoreName(strtoupper($methodName)) === false
+        if (strpos($methodName, ' ') !== false
           || $methodName !== strtolower($methodName)
         ) {
             if ($methodProps['scope_specified'] === true) {
