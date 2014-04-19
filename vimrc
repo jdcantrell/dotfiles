@@ -29,6 +29,7 @@
   Bundle 'ctrlp.vim'
   Bundle 'Shougo/neocomplete.vim'
   Bundle 'Syntastic'
+  Plugin 'Tabular'
 
   " themes
   Bundle 'tango.vim'
