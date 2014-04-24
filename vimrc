@@ -272,7 +272,9 @@
   "
 
   " Syntastic {
+    let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_enable_signs = 0
+    let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
     let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs']
     let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/.phpcs.xml'
     let g:syntastic_php_phpmd_post_args = $VIMHOME.'/.phpmd.xml'
