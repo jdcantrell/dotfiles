@@ -24,28 +24,26 @@
   set rtp+=~/.vim/bundle/vundle/
   call vundle#rc()
   " vim plugins
-  Bundle 'gmarik/vundle'
-  Bundle 'matchit.zip'
-  Bundle 'ctrlp.vim'
-  Bundle 'Shougo/neocomplete.vim'
-  Bundle 'Syntastic'
+  Plugin 'gmarik/vundle'
+  Plugin 'matchit.zip'
+  Plugin 'ctrlp.vim'
+  Plugin 'Shougo/neocomplete.vim'
+  Plugin 'Syntastic'
   Plugin 'Tabular'
+  Plugin 'Tagbar'
+  Plugin 'bling/vim-airline'
 
   " themes
-  Bundle 'tango.vim'
-  Bundle 'molokai'
-  Bundle 'Solarized'
-  Bundle 'baskerville/bubblegum'
-  Bundle 'Pychimp/vim-luna'
-  Bundle 'chriskempson/vim-tomorrow-theme'
-  Bundle 'bling/vim-airline'
+  Plugin 'tango.vim'
+  Plugin 'molokai'
+  Plugin 'Solarized'
+  Plugin 'chriskempson/vim-tomorrow-theme'
 
   " language helpers/enhancements
-  Bundle 'Better-Javascript-Indentation'
-  Bundle 'smarty-syntax'
-  Bundle 'tpope/vim-liquid'
-  Bundle 'tpope/vim-markdown'
-  Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+  Plugin 'Better-Javascript-Indentation'
+  Plugin 'smarty-syntax'
+  Plugin 'tpope/vim-markdown'
+  Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
  " }
  "}
 
@@ -171,16 +169,6 @@
   nnoremap <Space> <C-d>
   nnoremap <S-Space> <C-u>
 
-  " Make it easy to update and source _vimrc
-  nmap <silent> ,ev :e $MYVIMRC<cr>
-  nmap <silent> ,sv :so $MYVIMRC<cr>
-  nmap <silent> ,bd :1,1000bd<cr>
-
-  " change directory to current file (think 'use dir')
-  nmap <leader>dd :cd %:p:h<cr>
-  nmap <leader>ww :cd ~/Trulia/web<cr>
-  nmap <leader>cc :cd ~/Trulia/common<cr>
-
   noremap ; :
   noremap j gj
   noremap k gk
@@ -201,6 +189,16 @@
   cabbr <expr> cc "~/Trulia/common"
   cabbr <expr> txl "~/Trulia/oocss"
 
+  " Make it easy to update and source _vimrc
+  nmap <silent> <leader>ev :e $MYVIMRC<cr>
+  nmap <silent> <leader>sv :so $MYVIMRC<cr>
+  nmap <silent> <leader>bd :1,1000bd<cr>
+
+  " change directory to current file (think 'use dir')
+  nmap <leader>dd :cd %:p:h<cr>
+  nmap <leader>ww :cd ~/Trulia/web<cr>
+  nmap <leader>cc :cd ~/Trulia/common<cr>
+
   " Open file in stash
   nnoremap <leader>sc :exe ':silent !open -a firefox http://stash.sv2.trulia.com/projects/web/repos/common/browse/%:p:.'<cr>
   nnoremap <leader>sw :exe ':silent !open -a firefox http://stash.sv2.trulia.com/projects/web/repos/web/browse/%:p:.'<cr>
@@ -214,6 +212,11 @@
   nmap <leader>m :lprev<CR>
   nmap <leader>M :llast<CR>
   nmap <leader>H :lclose<CR>
+
+
+  nmap <leader>f :CtrlP<CR>
+  nmap <leader>t :CtrlPTag<CR>
+  nmap <leader>T :TagbarToggle<CR>
 
   " This will temporarily set the cwd to the current file, display
   " errors, move to first error and then reset cwd to the original
@@ -252,6 +255,7 @@
     if has('gui_running')
       let g:airline_left_sep=''
       let g:airline_right_sep=''
+      let g:airline#extensions#tagbar#enabled = 0
     endif
   "
 
@@ -275,7 +279,7 @@
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_enable_signs = 0
     let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
-    let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs']
+    let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs', 'scheck']
     let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/.phpcs.xml'
     let g:syntastic_php_phpmd_post_args = $VIMHOME.'/.phpmd.xml'
   " }
