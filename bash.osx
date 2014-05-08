@@ -52,4 +52,4 @@ EOF
 }
 
 alias dev-watch='tab ~/Trulia "bundle exec guard"'
-
+alias pu='phpunit --configuration tests/phpunit_local.xml'

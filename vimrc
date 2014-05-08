@@ -203,6 +203,10 @@
   nnoremap <leader>sc :exe ':silent !open -a firefox http://stash.sv2.trulia.com/projects/web/repos/common/browse/%:p:.'<cr>
   nnoremap <leader>sw :exe ':silent !open -a firefox http://stash.sv2.trulia.com/projects/web/repos/web/browse/%:p:.'<cr>
 
+  "tabularize
+  vnoremap <leader>A :Tabularize /=<cr>
+  vnoremap <leader>a :Tabularize /=><cr>
+
   " typos
   command! W w
 
