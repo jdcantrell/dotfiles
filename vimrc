@@ -61,6 +61,8 @@
   set history=1000          " Store a ton of history (default is 20)
   set nospell           " spell checking off
 
+  set autoread " auto reload unmodified files that have been changed
+
   set mousehide
   set cmdheight=1
 
