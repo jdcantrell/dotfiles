@@ -45,9 +45,10 @@ class Trulia_Sniffs_ControlStructures_ControlSignatureSniff extends Squiz_Sniffs
                 'for (...)EOL...{',
                 'if (...)EOL...{',
                 'foreach (...)EOL...{',
-                '}EOL...else if (...)EOL...{',
-                '}EOL...elseif (...)EOL...{',
-                '}EOL...elseEOL...{',
+                '}EOL...else',
+                'else if (...)EOL...{',
+                'elseif (...)EOL...{',
+                'elseEOL...{',
                );
 
     }//end getPatterns()
