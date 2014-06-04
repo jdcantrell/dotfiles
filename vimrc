@@ -317,6 +317,8 @@ augroup ft_markdown
 
   au BufNewFile,BufRead *.md setlocal filetype=markdown
   au FileType markdown setlocal formatoptions+=t
+  au FileType markdown setlocal spell
+  au FileType markdown nested NeoCompleteLock
 augroup end
 " }
 
