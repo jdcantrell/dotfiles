@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="Fathom Standard">
+<ruleset name="Trulia Standard">
 
  <!--
     The name attribute of the ruleset tag is displayed
@@ -100,9 +100,7 @@
  <rule ref="Squiz.Scope.MemberVarScope" />
  <rule ref="Squiz.Scope.MethodScope" />
  <rule ref="Squiz.Scope.StaticThisUsage" />
- <!--
  <rule ref="Squiz.Strings.DoubleQuoteUsage" />
- -->
  <rule ref="Squiz.Strings.EchoedStrings" />
  <rule ref="Squiz.WhiteSpace.CastSpacing" />
  <rule ref="Squiz.WhiteSpace.FunctionSpacing">
