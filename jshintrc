@@ -28,6 +28,7 @@
     "Backbone": true,
     "trulia": true,
     "site_root": true,
-    "_SITE_ROOT": true
+    "_SITE_ROOT": true,
+    "define" : true
   }
 }
