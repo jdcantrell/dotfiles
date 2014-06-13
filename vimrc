@@ -32,6 +32,7 @@
   Plugin 'Tabular'
   Plugin 'Tagbar'
   Plugin 'bling/vim-airline'
+  Plugin 'mrtazz/simplenote.vim'
 
   " themes
   Plugin 'tango.vim'
@@ -269,8 +270,9 @@
     let g:ctrlp_working_path_mode = 'ra'
 
     let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$',
+        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$|vendor',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
+    set wildignore+=*/vendor/**
   "
 
   " Sparkup
@@ -280,12 +282,17 @@
   " Command-T
     let g:CommandTMaxHeight = 10
   "
+  "
+  " SimpleNote
+  if filereadable(expand("~/.simplenoterc"))
+    source ~/.simplenoterc
+  endif
 
   " Syntastic {
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_enable_signs = 0
     let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
-    let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs', 'scheck']
+    let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs']
     let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/.phpcs.xml'
     let g:syntastic_php_phpmd_post_args = $VIMHOME.'/.phpmd.xml'
   " }
