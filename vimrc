@@ -272,8 +272,7 @@
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$|vendor',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
-    set wildignore+=*/vendor/**
-  "
+  " }
 
   " Sparkup
     let g:sparkupExecuteMapping = '<D-e>'
