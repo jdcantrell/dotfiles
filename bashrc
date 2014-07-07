@@ -1,4 +1,9 @@
 #set up our environment
+HISTFILESIZE=5000
+HISTSIZE=5000
+HISTCONTROL=ignoreboth
+HISTIGNORE='ls:bg:fg:history'
+
 export CLICOLOR=1
 export EDITOR='vim'
 
