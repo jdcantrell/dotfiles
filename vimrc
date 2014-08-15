@@ -36,9 +36,8 @@
 
   " themes
   Plugin 'tango.vim'
-  Plugin 'molokai'
   Plugin 'Solarized'
-  Plugin 'chriskempson/vim-tomorrow-theme'
+  Plugin 'chriskempson/base16-vim'
 
   " language helpers/enhancements
   Plugin 'Better-Javascript-Indentation'
@@ -350,7 +349,7 @@ autocmd BufWritePre *  :%s/\s\+$//e
 
 set background=light
 if has('gui_running')
-  colorscheme molokai
+  colorscheme base16-monokai
 
 
   set guioptions-=T            " remove the toolbar
