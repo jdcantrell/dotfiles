@@ -21,13 +21,17 @@
   set ffs=unix,dos
   filetype off
   " Setup Bundle Support {
-  set rtp+=~/.vim/bundle/vundle/
-  call vundle#rc()
+  set rtp+=~/.vim/bundle/Vundle.vim/
+  call vundle#begin()
   " vim plugins
-  Plugin 'gmarik/vundle'
+  Plugin 'gmarik/Vundle.vim'
   Plugin 'matchit.zip'
   Plugin 'ctrlp.vim'
-  Plugin 'Shougo/neocomplete.vim'
+  if v:version > 703
+    Plugin 'Shougo/neocomplete.vim'
+  else
+    Plugin 'Shougo/neocomplcache.vim'
+  endif
   Plugin 'Syntastic'
   Plugin 'Tabular'
   Plugin 'Tagbar'
@@ -44,6 +48,7 @@
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+  call vundle#end()
  " }
  "}
 
@@ -347,7 +352,7 @@ augroup end
 " Remove trailing whitespaces and ^M chars
 autocmd BufWritePre *  :%s/\s\+$//e
 
-set background=light
+set background=dark
 if has('gui_running')
   colorscheme base16-monokai
 
