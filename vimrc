@@ -32,11 +32,13 @@
   else
     Plugin 'Shougo/neocomplcache.vim'
   endif
+  Plugin 'Shougo/neosnippet'
+  Plugin 'Shougo/neosnippet-snippets'
   Plugin 'Syntastic'
   Plugin 'Tabular'
   Plugin 'Tagbar'
   Plugin 'bling/vim-airline'
-  Plugin 'mrtazz/simplenote.vim'
+  Plugin 'junegunn/goyo.vim'
 
   " themes
   Plugin 'tango.vim'
@@ -44,6 +46,7 @@
   Plugin 'chriskempson/base16-vim'
 
   " language helpers/enhancements
+  Plugin 'StanAngeloff/php.vim'
   Plugin 'Better-Javascript-Indentation'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
@@ -241,6 +244,7 @@
   " ,S sort css tags
   nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
 
+  nnoremap <leader>p "0p<CR>
 
 " }
 
@@ -257,6 +261,19 @@
   let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+  "Snippets
+  " Plugin key-mappings.
+  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+  " For snippet_complete marker.
+  if has('conceal')
+    set conceallevel=2 concealcursor=i
+  endif
+
+
   " JSHint
   let g:jshintprg="jshint"
 
@@ -348,6 +365,20 @@ augroup ft_python
   au FileType python set shiftwidth=2
 augroup end
 " }
+
+let php_sql_query = 1
+let php_htmlInStrings = 1
+let php_noShortTags = 1
+
+function! PhpSyntaxOverride()
+  hi! def link phpDocTags  phpDefine
+  hi! def link phpDocParam phpType
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
 
 " Remove trailing whitespaces and ^M chars
 autocmd BufWritePre *  :%s/\s\+$//e
