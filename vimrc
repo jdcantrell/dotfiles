@@ -27,17 +27,17 @@
   Plugin 'gmarik/Vundle.vim'
   Plugin 'matchit.zip'
   Plugin 'ctrlp.vim'
-  if v:version > 703
-    Plugin 'Shougo/neocomplete.vim'
-  else
-    Plugin 'Shougo/neocomplcache.vim'
-  endif
-  Plugin 'Shougo/neosnippet'
-  Plugin 'Shougo/neosnippet-snippets'
+  Plugin 'Shougo/neocomplete.vim'
+
+  Plugin 'UltiSnips'
   Plugin 'Syntastic'
   Plugin 'Tabular'
   Plugin 'Tagbar'
   Plugin 'bling/vim-airline'
+
+
+
+  " zen writing
   Plugin 'junegunn/goyo.vim'
 
   " themes
@@ -46,7 +46,11 @@
   Plugin 'chriskempson/base16-vim'
 
   " language helpers/enhancements
+  Plugin 'vim-php/tagbar-phpctags.vim'
   Plugin 'StanAngeloff/php.vim'
+  Plugin 'tobyS/vmustache' " needed for pdv
+  Plugin 'tobyS/pdv'
+  Plugin 'shawncplus/phpcomplete.vim'
   Plugin 'Better-Javascript-Indentation'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
@@ -65,6 +69,7 @@
   set modelines=5
   set shortmess+=filmnrxoOtT       " abbrev. of messages (avoids 'hit enter')
   set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
+  set foldlevel=20
   set virtualedit=onemore        " allow for cursor beyond last character
   set history=1000          " Store a ton of history (default is 20)
   set nospell           " spell checking off
@@ -144,6 +149,8 @@
   set formatoptions=croq
 
   "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
+  set tags+=./.git/tags
+  set completeopt=menu,menuone
 
 " }
 
@@ -230,7 +237,7 @@
 
   nmap <leader>f :CtrlP<CR>
   nmap <leader>t :CtrlPTag<CR>
-  nmap <leader>T :TagbarToggle<CR>
+  nmap <leader>b :TagbarToggle<CR>
 
   " This will temporarily set the cwd to the current file, display
   " errors, move to first error and then reset cwd to the original
@@ -248,8 +255,12 @@
 
 " }
 
+set omnifunc=syntaxcomplete#Complete
+"
+
 " Plugins {
 
+  " Neocomplete
   " Disable AutoComplPop.
   let g:acp_enableAtStartup = 0
   " Use neocomplete.
@@ -260,18 +271,39 @@
   let g:neocomplete#sources#syntax#min_keyword_length = 3
   let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
+  " Define dictionary.
+  let g:neocomplete#sources#dictionary#dictionaries = {
+      \ 'default' : '',
+      \ 'vimshell' : $HOME.'/.vimshell_hist',
+      \ 'scheme' : $HOME.'/.gosh_completions'
+          \ }
+
+  " Define keyword.
+  if !exists('g:neocomplete#keyword_patterns')
+      let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+  " Plugin key-mappings.
+  inoremap <expr><C-g>     neocomplete#undo_completion()
+  " inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+  " Recommended key-mappings.
+  " <CR>: close popup and save indent.
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function()
+    return neocomplete#close_popup() . "\<CR>"
+    " For no inserting <CR> key.
+    "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+  endfunction
+  " <TAB>: completion.
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-  "Snippets
-  " Plugin key-mappings.
-  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-  " For snippet_complete marker.
-  if has('conceal')
-    set conceallevel=2 concealcursor=i
+  " Enable heavy omni completion.
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
   endif
+  let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
 
   " JSHint
@@ -294,6 +326,11 @@
         \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$|vendor',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
   " }
+
+  "pdv
+  let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+  nnoremap <leader>pd :call pdv#DocumentWithSnip()<CR>
+
 
   " Sparkup
     let g:sparkupExecuteMapping = '<D-e>'
@@ -327,6 +364,12 @@
     hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
     hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
   "
+  "
+  "
+  "" Set ultisnips triggers
+  let g:UltiSnipsExpandTrigger=""
+  let g:UltiSnipsJumpForwardTrigger="<C-l>"
+  let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 " }
 
 
@@ -345,7 +388,7 @@ augroup ft_markdown
   au BufNewFile,BufRead *.md setlocal filetype=markdown
   au FileType markdown setlocal formatoptions+=t
   au FileType markdown setlocal spell
-  au FileType markdown nested NeoCompleteLock
+  "au FileType markdown nested NeoCompleteLock
 augroup end
 " }
 
@@ -357,14 +400,6 @@ augroup ft_html
 augroup end
 " }
 "
-"
-"
-" Python {
-augroup ft_python
-  au!
-  au FileType python set shiftwidth=2
-augroup end
-" }
 
 let php_sql_query = 1
 let php_htmlInStrings = 1
