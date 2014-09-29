@@ -35,14 +35,11 @@
   Plugin 'Tagbar'
   Plugin 'bling/vim-airline'
 
-
-
   " zen writing
   Plugin 'junegunn/goyo.vim'
 
   " themes
   Plugin 'tango.vim'
-  Plugin 'Solarized'
   Plugin 'chriskempson/base16-vim'
 
   " language helpers/enhancements
@@ -290,12 +287,12 @@ set omnifunc=syntaxcomplete#Complete
 
   " Recommended key-mappings.
   " <CR>: close popup and save indent.
-  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
   function! s:my_cr_function()
     return neocomplete#close_popup() . "\<CR>"
     " For no inserting <CR> key.
     "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
   endfunction
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
   " <TAB>: completion.
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
@@ -336,15 +333,6 @@ set omnifunc=syntaxcomplete#Complete
     let g:sparkupExecuteMapping = '<D-e>'
   "
 
-  " Command-T
-    let g:CommandTMaxHeight = 10
-  "
-  "
-  " SimpleNote
-  if filereadable(expand("~/.simplenoterc"))
-    source ~/.simplenoterc
-  endif
-
   " Syntastic {
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_enable_signs = 0
@@ -367,7 +355,7 @@ set omnifunc=syntaxcomplete#Complete
   "
   "
   "" Set ultisnips triggers
-  let g:UltiSnipsExpandTrigger=""
+  let g:UltiSnipsExpandTrigger="<C-e>"
   let g:UltiSnipsJumpForwardTrigger="<C-l>"
   let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 " }
