@@ -183,7 +183,6 @@
   nnoremap <Space> <C-d>
   nnoremap <S-Space> <C-u>
 
-  noremap ; :
   noremap j gj
   noremap k gk
 
@@ -233,8 +232,9 @@
 
 
   nmap <leader>f :CtrlP<CR>
-  nmap <leader>t :CtrlPTag<CR>
-  nmap <leader>b :TagbarToggle<CR>
+  nmap <leader>t :TagbarToggle<CR>
+  noremap ; :CtrlP<CR>
+  nmap <leader>b :CtrlPBuffer<CR>
 
   " This will temporarily set the cwd to the current file, display
   " errors, move to first error and then reset cwd to the original
@@ -243,10 +243,9 @@
   " ps h stands for hint as in jshint
   nmap <leader>h :let $rcwd=getcwd()<CR>:cd %:p:h<CR>:Errors<CR>:lfirst<CR>:cd $rcwd<CR>
 
+  nnoremap <leader>s :call AggregateSyntasticErrors()<CR>:Errors<CR>
   " ,W strip whitespace
   nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
-  " ,S sort css tags
-  nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
 
   nnoremap <leader>p "0p<CR>
 
@@ -335,11 +334,19 @@ set omnifunc=syntaxcomplete#Complete
 
   " Syntastic {
     let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_aggregate_errors = 0
     let g:syntastic_enable_signs = 0
     let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
     let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs']
     let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/.phpcs.xml'
     let g:syntastic_php_phpmd_post_args = $VIMHOME.'/.phpmd.xml'
+
+
+    function! AggregateSyntasticErrors()
+      let g:syntastic_aggregate_errors = 1
+      execute 'SyntasticCheck'
+      let g:syntastic_aggregate_errors = 0
+    endfunction
   " }
   " OmniComplete
     " Popup menu hightLight Group
@@ -389,7 +396,7 @@ augroup end
 " }
 "
 
-let php_sql_query = 1
+let php_sql_query = 0
 let php_htmlInStrings = 1
 let php_noShortTags = 1
 

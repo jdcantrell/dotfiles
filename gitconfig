@@ -25,8 +25,9 @@
   #you have a remote called `me`)
   delete-merged-remote = !git branch -r --merged master | grep -v 'master$' | grep ' me' | sed -e 's/ me\\///' | xargs -n 1 git push me --delete
 
-  #stash pr checkout
-  prco = "!f() { git fetch $1 refs/pull-requests/$2/from:$3; git co $3; }; f"
+  #stash pr checkout use:
+  #git pr origin 123
+  pr = "!f() { git fetch $1 refs/pull-requests/$2/from:PR-$2; git checkout PR-$2; }; f"
 
   #authors
   authors = !git log --raw | grep "^Author: " | sort | uniq | cut -d ' ' -f2- | sed 's/^/- /'

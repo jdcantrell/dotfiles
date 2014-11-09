@@ -1,7 +1,7 @@
 # vim: set filetype=sh :
 
 #osx with brew
-export PATH="/usr/local/bin:/usr/local/opt/php55/bin:$PATH"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/opt/php55/bin:$PATH"
 
 . $(brew --prefix)/etc/bash_completion
 
@@ -53,3 +53,8 @@ EOF
 
 alias dev-watch='tab ~/Trulia "bundle exec guard"'
 alias pu='phpunit --configuration tests/phpunit_local.xml'
+
+function watchtest () {
+  echo "Watching for changes in ./$1 and ./tests/$1"
+  watchmedo shell-command -W -p "*.php" -R -c "phpunit --config tests/phpunit_local.xml tests/$1"
+}
