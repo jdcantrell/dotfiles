@@ -54,7 +54,7 @@ eval "$(rbenv init -)"
 
   #use icanhazip.com to get your external ip
   function xip-all {
-    ip=$(curl icanhazip.com)
+    ip=$(wget -qO- http://icanhazip.com)
     link=$(dev-find)
     echo "http://$link.$ip.xip.io"
   }
