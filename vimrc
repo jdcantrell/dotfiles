@@ -29,7 +29,8 @@
   Plugin 'ctrlp.vim'
   Plugin 'Shougo/neocomplete.vim'
 
-  Plugin 'UltiSnips'
+  Plugin 'SirVer/ultisnips'
+  Plugin 'honza/vim-snippets'
   Plugin 'Syntastic'
   Plugin 'Tabular'
   Plugin 'Tagbar'
@@ -196,11 +197,10 @@
   cmap w!! w !sudo tee % >/dev/null
 
 
-  " expand path on %%
+  " expand path on %%:
   cabbr <expr> %% expand('%:p:h')
   cabbr <expr> ww "~/Trulia/web"
   cabbr <expr> cc "~/Trulia/common"
-  cabbr <expr> txl "~/Trulia/oocss"
 
   " Make it easy to update and source _vimrc
   nmap <silent> <leader>ev :e $MYVIMRC<cr>
@@ -338,8 +338,10 @@ set omnifunc=syntaxcomplete#Complete
     let g:syntastic_enable_signs = 0
     let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
     let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs']
-    let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/.phpcs.xml'
-    let g:syntastic_php_phpmd_post_args = $VIMHOME.'/.phpmd.xml'
+    let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/Trulia/trulia/phpcs.xml'
+    let g:syntastic_php_phpmd_post_args = $VIMHOME.'/Trulia/trulia/phpmd.xml'
+
+    let g:syntastic_python_checkers = ['pep8', 'pyflakes']
 
 
     function! AggregateSyntasticErrors()
