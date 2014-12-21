@@ -35,6 +35,7 @@
   Plugin 'Tabular'
   Plugin 'Tagbar'
   Plugin 'bling/vim-airline'
+  Plugin 'Gundo'
 
   " zen writing
   Plugin 'junegunn/goyo.vim'
@@ -52,6 +53,7 @@
   Plugin 'Better-Javascript-Indentation'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
+  Plugin 'indentpython.vim'
   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
   call vundle#end()
  " }
@@ -397,6 +399,15 @@ augroup ft_html
 augroup end
 " }
 "
+"
+"
+augroup ft_python
+  au!
+  au BufRead,BufNewFile *.py,*pyw setlocal shiftwidth=4
+  au BufRead,BufNewFile *py,*pyw setlocal tabstop=4
+  au BufRead,BufNewFile *py,*pyw setlocal softtabstop=4
+  au BufRead,BufNewFile *py,*pyw setlocal shiftround
+augroup end
 
 let php_sql_query = 0
 let php_htmlInStrings = 1
@@ -430,7 +441,7 @@ if has('gui_running')
   if has("gui_macvim")
     set guifont=Menlo:h14
   else
-    set guifont=Menlo\ 11
+    set guifont=Menlo\ 10
   endif
 
   "Remove all bells - this needs to be moved to .gvimrc
