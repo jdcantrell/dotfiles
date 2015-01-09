@@ -36,6 +36,7 @@
   Plugin 'Tagbar'
   Plugin 'bling/vim-airline'
   Plugin 'Gundo'
+  Plugin 'buffet.vim'
 
   " zen writing
   Plugin 'junegunn/goyo.vim'
@@ -236,7 +237,7 @@
   nmap <leader>f :CtrlP<CR>
   nmap <leader>t :TagbarToggle<CR>
   noremap ; :CtrlP<CR>
-  nmap <leader>b :CtrlPBuffer<CR>
+  nmap <leader>b :Bufferlist<CR>
 
   " This will temporarily set the cwd to the current file, display
   " errors, move to first error and then reset cwd to the original

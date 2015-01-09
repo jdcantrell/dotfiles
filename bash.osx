@@ -58,3 +58,7 @@ function watchtest () {
   echo "Watching for changes in ./$1 and ./tests/$1"
   watchmedo shell-command -W -p "*.php" -R -c "phpunit --config tests/phpunit_local.xml tests/$1"
 }
+function watchsrp () {
+  echo "Watching for changes, and running tests in $1/tests"
+  watchmedo shell-command -W -p "*.php" -R -c "phpunit --bootstrap tests/general/bootstrap.php $1/tests"
+}
