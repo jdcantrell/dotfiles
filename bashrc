@@ -25,7 +25,6 @@ fi
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias socks='ssh -D 9999'
 
-
 function sniff() {
   sniff=$1
   sniff=${sniff:="jd"}

@@ -1,6 +1,6 @@
 [user]
   name = JD Cantrell
-  email = jcantrell@trulia.com
+  email = jd@goodrobot.net
 [alias]
   co = checkout
   st = status -sb
@@ -11,7 +11,6 @@
   lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
 
   #daily util methods for creating new branches and pushing to remote
-  g = !sh -c 'git checkout -b G$1-CSSP-$2 -t origin/GOAT$1' -
   h = !sh -c 'git checkout -b H$1-CSSP-$2 -t origin/HAWK$1' -
 
   #checkout a branch that matches a string
@@ -33,6 +32,9 @@
   #authors
   authors = !git log --raw | grep "^Author: " | sort | uniq | cut -d ' ' -f2- | sed 's/^/- /'
 
+  #setup forked push url and set email for trulia
+  trulia = "!f() { source=$(git remote -v | grep 'fetch' | awk '{print $2}'); me=$(echo $source | sed -e 's/web/~jcantrell/'); git remote set-url --push origin $me; git remote add source $source; git remote add me $me; git config user.email 'jcantrell@trulia.com'; }; f" -
+
 [color]
   branch = auto
   diff = auto
@@ -43,3 +45,5 @@
   excludesfile = "~/.gitignore"
 [github]
   user = jdcantrell
+[push]
+	default = current
