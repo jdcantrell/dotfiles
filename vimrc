@@ -37,6 +37,7 @@
   Plugin 'bling/vim-airline'
   Plugin 'Gundo'
   Plugin 'buffet.vim'
+  Plugin 'fugitive.vim'
 
   " zen writing
   Plugin 'junegunn/goyo.vim'
@@ -50,7 +51,7 @@
   Plugin 'StanAngeloff/php.vim'
   Plugin 'tobyS/vmustache' " needed for pdv
   Plugin 'tobyS/pdv'
-  Plugin 'shawncplus/phpcomplete.vim'
+  " Plugin 'shawncplus/phpcomplete.vim'
   Plugin 'Better-Javascript-Indentation'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
@@ -306,7 +307,7 @@ set omnifunc=syntaxcomplete#Complete
 
 
   " JSHint
-  let g:jshintprg="jshint"
+  let g:jshintprg="/usr/bin/jshint"
 
   "
 
@@ -442,7 +443,7 @@ if has('gui_running')
   if has("gui_macvim")
     set guifont=Menlo:h14
   else
-    set guifont=Menlo\ 10
+    set guifont=Menlo\ 10.5
   endif
 
   "Remove all bells - this needs to be moved to .gvimrc
