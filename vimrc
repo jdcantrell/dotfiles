@@ -28,6 +28,7 @@
   Plugin 'matchit.zip'
   Plugin 'ctrlp.vim'
   Plugin 'Shougo/neocomplete.vim'
+  Plugin 'Shougo/vimproc.vim'
 
   Plugin 'SirVer/ultisnips'
   Plugin 'honza/vim-snippets'
@@ -160,7 +161,7 @@
 
   "The default leader is '\', but many people prefer ',' as it's in a standard
   "location
-  let mapleader = ','
+  let mapleader = "\<Space>"
 
   " Easier moving in tabs and windows
   map <C-J> <C-W>j<C-W>_
@@ -209,12 +210,12 @@
   " Make it easy to update and source _vimrc
   nmap <silent> <leader>ev :e $MYVIMRC<cr>
   nmap <silent> <leader>sv :so $MYVIMRC<cr>
-  nmap <silent> <leader>bd :1,1000bd<cr>
+  nmap <silent> <leader>bd :bd <C-a><cr>
 
   " change directory to current file (think 'use dir')
   nmap <leader>dd :cd %:p:h<cr>
-  nmap <leader>ww :cd ~/Trulia/web<cr>
-  nmap <leader>cc :cd ~/Trulia/common<cr>
+  nmap <leader>wd :cd ~/Trulia/web<cr>
+  nmap <leader>cd :cd ~/Trulia/common<cr>
 
   " Open file in stash
   nnoremap <leader>sc :exe ':silent !open -a firefox http://stash.sv2.trulia.com/projects/web/repos/common/browse/%:p:.'<cr>
@@ -228,16 +229,15 @@
   command! W w
 
   " easier location list movement
-  nmap <leader>N :lfirst<CR>
-  nmap <leader>n :lnext<CR>
-  nmap <leader>m :lprev<CR>
-  nmap <leader>M :llast<CR>
-  nmap <leader>H :lclose<CR>
+  nmap <leader>lf :lfirst<CR>
+  nmap <leader>ln :lnext<CR>
+  nmap <leader>lp :lprev<CR>
+  nmap <leader>ll :llast<CR>
+  nmap <leader>lc :lclose<CR>
 
 
-  nmap <leader>f :CtrlP<CR>
+  nmap <leader>o :CtrlP<CR>
   nmap <leader>t :TagbarToggle<CR>
-  noremap ; :CtrlP<CR>
   nmap <leader>b :Bufferlist<CR>
 
   " This will temporarily set the cwd to the current file, display
@@ -251,7 +251,10 @@
   " ,W strip whitespace
   nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 
-  nnoremap <leader>p "0p<CR>
+  vmap <leader>y "+y
+  nmap <leader>p "+p
+
+  nnoremap <Leader>w :w<CR>
 
 " }
 
@@ -270,6 +273,7 @@ set omnifunc=syntaxcomplete#Complete
   " Set minimum syntax keyword length.
   let g:neocomplete#sources#syntax#min_keyword_length = 3
   let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplete#max_list = 10
 
   " Define dictionary.
   let g:neocomplete#sources#dictionary#dictionaries = {
@@ -300,10 +304,10 @@ set omnifunc=syntaxcomplete#Complete
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
   " Enable heavy omni completion.
-  if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-  endif
-  let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+  "if !exists('g:neocomplete#sources#omni#input_patterns')
+    "let g:neocomplete#sources#omni#input_patterns = {}
+  "endif
+  "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
 
   " JSHint
@@ -325,11 +329,24 @@ set omnifunc=syntaxcomplete#Complete
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$|vendor',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
+
+    let g:ctrlp_use_caching = 0
+    if executable('ag')
+        set grepprg=ag\ --nogroup\ --nocolor
+
+        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    else
+      let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+      let g:ctrlp_prompt_mappings = {
+        \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
+        \ }
+    endif
+
   " }
 
   "pdv
   let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
-  nnoremap <leader>pd :call pdv#DocumentWithSnip()<CR>
+  nnoremap <leader>c :call pdv#DocumentWithSnip()<CR>
 
 
   " Sparkup
