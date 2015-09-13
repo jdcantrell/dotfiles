@@ -327,7 +327,7 @@ set omnifunc=syntaxcomplete#Complete
     let g:ctrlp_working_path_mode = 'ra'
 
     let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$|vendor',
+        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$\|_built$\|_built',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
 
     let g:ctrlp_use_caching = 0

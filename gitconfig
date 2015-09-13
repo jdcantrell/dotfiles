@@ -23,7 +23,7 @@
 
   #find remote branches that have been merged and delete those (assume
   #you have a remote called `me`)
-  delete-merged-remote = !git branch -r --merged master | grep -v 'master$' | grep ' me' | sed -e 's/ me\\///' | xargs -n 1 git push me --delete
+  delete-merged-remote = !git branch -r --merged | grep -v 'master$' | grep ' me' | sed -e 's/ me\\///' | xargs -n 1 git push me --delete
 
   #stash pr checkout use:
   #git pr origin 123
