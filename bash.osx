@@ -1,7 +1,8 @@
 # vim: set filetype=sh :
 
 #osx with brew
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/opt/php55/bin:$PATH"
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"
 
 . $(brew --prefix)/etc/bash_completion
 

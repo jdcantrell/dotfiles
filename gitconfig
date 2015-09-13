@@ -23,7 +23,7 @@
 
   #find remote branches that have been merged and delete those (assume
   #you have a remote called `me`)
-  delete-merged-remote = !git branch -r --merged master | grep -v 'master$' | grep ' me' | sed -e 's/ me\\///' | xargs -n 1 git push me --delete
+  delete-merged-remote = !git branch -r --merged | grep -v 'master$' | grep ' me' | sed -e 's/ me\\///' | xargs -n 1 git push me --delete
 
   #stash pr checkout use:
   #git pr origin 123
@@ -33,7 +33,7 @@
   authors = !git log --raw | grep "^Author: " | sort | uniq | cut -d ' ' -f2- | sed 's/^/- /'
 
   #setup forked push url and set email for trulia
-  trulia = "!f() { source=$(git remote -v | grep 'fetch' | awk '{print $2}'); me=$(echo $source | sed -e 's/web/~jcantrell/'); git remote set-url --push origin $me; git remote add source $source; git remote add me $me; git config user.email 'jcantrell@trulia.com'; }; f" -
+  trulia = "!f() { source=$(git remote -v | grep 'origin' | grep 'fetch' | awk '{print $2}'); me=$(echo $source | sed -e 's/web/~jcantrell/'); git remote set-url --push origin $me; git remote add source $source; git remote add me $me; git config user.email 'jcantrell@trulia.com'; }; f" -
 
 [color]
   branch = auto
