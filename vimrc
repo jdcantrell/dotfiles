@@ -52,7 +52,7 @@
   Plugin 'StanAngeloff/php.vim'
   Plugin 'tobyS/vmustache' " needed for pdv
   Plugin 'tobyS/pdv'
-  " Plugin 'shawncplus/phpcomplete.vim'
+   Plugin 'shawncplus/phpcomplete.vim'
   Plugin 'Better-Javascript-Indentation'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
@@ -65,7 +65,7 @@
 " General {
   filetype plugin indent on    " Automatically detect file types.
   syntax on           " syntax highlighting
-  set mouse=a          " automatically enable mouse usage
+  " set mouse=a          " automatically enable mouse usage
 
   scriptencoding utf-8
 
@@ -460,7 +460,7 @@ if has('gui_running')
   if has("gui_macvim")
     set guifont=Menlo:h14
   else
-    set guifont=Menlo\ 10.5
+    set guifont=Monospace\ 11
   endif
 
   "Remove all bells - this needs to be moved to .gvimrc

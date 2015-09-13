@@ -33,7 +33,7 @@
   authors = !git log --raw | grep "^Author: " | sort | uniq | cut -d ' ' -f2- | sed 's/^/- /'
 
   #setup forked push url and set email for trulia
-  trulia = "!f() { source=$(git remote -v | grep 'fetch' | awk '{print $2}'); me=$(echo $source | sed -e 's/web/~jcantrell/'); git remote set-url --push origin $me; git remote add source $source; git remote add me $me; git config user.email 'jcantrell@trulia.com'; }; f" -
+  trulia = "!f() { source=$(git remote -v | grep 'origin' | grep 'fetch' | awk '{print $2}'); me=$(echo $source | sed -e 's/web/~jcantrell/'); git remote set-url --push origin $me; git remote add source $source; git remote add me $me; git config user.email 'jcantrell@trulia.com'; }; f" -
 
 [color]
   branch = auto
