@@ -37,8 +37,6 @@
   Plugin 'Tagbar'
   Plugin 'bling/vim-airline'
   Plugin 'Gundo'
-  Plugin 'buffet.vim'
-  Plugin 'fugitive.vim'
 
   " zen writing
   Plugin 'junegunn/goyo.vim'
@@ -48,6 +46,7 @@
   Plugin 'chriskempson/base16-vim'
 
   " language helpers/enhancements
+  Plugin 'kovisoft/slimv'
   Plugin 'vim-php/tagbar-phpctags.vim'
   Plugin 'StanAngeloff/php.vim'
   Plugin 'tobyS/vmustache' " needed for pdv
@@ -58,6 +57,7 @@
   Plugin 'tpope/vim-markdown'
   Plugin 'indentpython.vim'
   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
   call vundle#end()
  " }
  "}
@@ -326,21 +326,17 @@ set omnifunc=syntaxcomplete#Complete
   " ctrlp {
     let g:ctrlp_working_path_mode = 'ra'
 
-    let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.sass-cache$\|_built$\|_built',
-        \ 'file': '\.exe$\|\.so$\|\.dll$' }
-
     let g:ctrlp_use_caching = 0
-    if executable('ag')
-        set grepprg=ag\ --nogroup\ --nocolor
+     if executable('ag')
+         set grepprg=ag\ --nogroup\ --nocolor
 
-        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    else
-      let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-      let g:ctrlp_prompt_mappings = {
-        \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
-        \ }
-    endif
+         let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+     else
+       let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+       let g:ctrlp_prompt_mappings = {
+         \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
+         \ }
+     endif
 
   " }
 
@@ -450,12 +446,12 @@ if has('gui_running')
   colorscheme base16-monokai
 
 
-  set guioptions-=T            " remove the toolbar
-  set guioptions-=l            " remove the toolbar
-  set guioptions-=L            " remove the toolbar
-  set guioptions-=r            " remove the toolbar
-  set guioptions-=R            " remove the toolbar
-  set guioptions-=m            " remove the toolbar
+   set guioptions-=T            " remove the toolbar
+   set guioptions-=l            " remove the left scrollbar
+   set guioptions-=L            " remove the toolbar
+   set guioptions-=r            " remove right scrollbar
+   set guioptions-=R            " remove the toolbar
+  " set guioptions-=m            " remove the toolbar
 
   if has("gui_macvim")
     set guifont=Menlo:h14
