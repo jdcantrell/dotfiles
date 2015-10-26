@@ -133,8 +133,8 @@ _git_ahead() {
   fi
 }
 
-PROMPT_HI="\[$bldcyn\]";
-PROMPT_LOW="\[$txtcyn\]";
+PROMPT_HI="\[$bldblu\]";
+PROMPT_LOW="\[$txtblu\]";
 
 #if on a remote host list host name and change color
 REMOTE_HOST="";
