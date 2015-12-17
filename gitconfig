@@ -13,6 +13,9 @@
   #daily util methods for creating new branches and pushing to remote
   h = !sh -c 'git checkout -b H$1-CSSP-$2 -t origin/HAWK$1' -
 
+  #daily util methods for creating new branches and pushing to remote
+  i = !sh -c 'git checkout -b I$1-CSSP-$2 -t origin/IBEX$1' -
+
   #checkout a branch that matches a string
   f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -
 

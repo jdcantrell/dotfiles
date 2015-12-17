@@ -29,6 +29,7 @@
   Plugin 'ctrlp.vim'
   Plugin 'Shougo/neocomplete.vim'
   Plugin 'Shougo/vimproc.vim'
+  Plugin 'joonty/vdebug.git'
 
   Plugin 'SirVer/ultisnips'
   Plugin 'honza/vim-snippets'
@@ -349,6 +350,14 @@ set omnifunc=syntaxcomplete#Complete
     let g:sparkupExecuteMapping = '<D-e>'
   "
 
+  " vdebug {
+    let g:vdebug_options = {'ide_key': 'netbeans-xdebug'}
+    let g:vdebug_options = {'break_on_open': 0}
+    let g:vdebug_options = {'server': 'fedev.sv2.trulia.com'}
+    let g:vdebug_options = {'port': '9000'}
+    let g:vdebug_options['path_maps'] = {'/Users/jcantrell/Trulia': '/home/jcantrell/public_html'}
+  " }
+
   " Syntastic {
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_aggregate_errors = 0
@@ -387,6 +396,9 @@ set omnifunc=syntaxcomplete#Complete
 " }
 
 
+
+
+
 " Diff Settings {
   set diffexpr=
   if &diff
@@ -413,9 +425,9 @@ augroup ft_html
   au BufNewFile,BufRead *.tpl setlocal filetype=smarty
 augroup end
 " }
-"
-"
-"
+
+
+
 augroup ft_python
   au!
   au BufRead,BufNewFile *.py,*pyw setlocal shiftwidth=4
