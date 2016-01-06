@@ -207,6 +207,7 @@
   cabbr <expr> %% expand('%:p:h')
   cabbr <expr> ww "~/Trulia/web"
   cabbr <expr> cc "~/Trulia/common"
+  cabbr <expr> vt expand('%:p:h') . "/vendor/trulia"
 
   " Make it easy to update and source _vimrc
   nmap <silent> <leader>ev :e $MYVIMRC<cr>
@@ -238,6 +239,8 @@
 
 
   nmap <leader>o :CtrlP<CR>
+  nmap <leader>vs :CtrlP ./vendor/trulia/search-core<CR>
+  nmap <leader>vc :CtrlP ./vendor/trulia/web-common<CR>
   nmap <leader>t :TagbarToggle<CR>
   nmap <leader>b :Bufferlist<CR>
 
