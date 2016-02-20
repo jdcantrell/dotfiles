@@ -50,3 +50,5 @@
   user = jdcantrell
 [push]
 	default = current
+[diff]
+  algorithm = patience

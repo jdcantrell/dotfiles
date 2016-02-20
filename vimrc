@@ -28,15 +28,16 @@
   Plugin 'matchit.zip'
   Plugin 'ctrlp.vim'
   Plugin 'Shougo/neocomplete.vim'
+  Plugin 'Shougo/neosnippet'
+  Plugin 'Shougo/neosnippet-snippets'
   Plugin 'Shougo/vimproc.vim'
   Plugin 'joonty/vdebug.git'
 
-  Plugin 'SirVer/ultisnips'
-  Plugin 'honza/vim-snippets'
   Plugin 'Syntastic'
   Plugin 'Tabular'
   Plugin 'Tagbar'
-  Plugin 'bling/vim-airline'
+  Plugin 'vim-airline/vim-airline'
+  Plugin 'vim-airline/vim-airline-themes'
   Plugin 'Gundo'
 
   " zen writing
@@ -165,17 +166,17 @@
   let mapleader = "\<Space>"
 
   " Easier moving in tabs and windows
-  map <C-J> <C-W>j<C-W>_
-  map <C-K> <C-W>k<C-W>_
-  map <C-L> <C-W>l<C-W>_
-  map <C-H> <C-W>h<C-W>_
-  map <C-K> <C-W>k<C-W>_
+  "map <C-J> <C-W>j<C-W>_
+  "map <C-K> <C-W>k<C-W>_
+  "map <C-L> <C-W>l<C-W>_
+  "map <C-H> <C-W>h<C-W>_
+  "map <C-K> <C-W>k<C-W>_
 
   " The following two lines conflict with moving to top and bottom of the
   " screen
   " If you prefer that functionality, comment them out.
-  map <S-H> gT
-  map <S-L> gt
+  "map <S-H> gT
+  "map <S-L> gt
 
   " Yank from the cursor to the end of the line, to be consistent with C and D.
   nnoremap Y y$
@@ -313,6 +314,28 @@ set omnifunc=syntaxcomplete#Complete
   "endif
   "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
+  " NeoSnippets
+  " Plugin key-mappings.
+  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+  imap <expr><C-k> (pumvisible()? "\<C-y>" : '') . "\<Plug>(neosnippet_expand_or_jump)"
+
+
+
+  " SuperTab like snippets behavior.
+  "imap <expr><TAB>
+  " \ pumvisible() ? "\<C-n>" :
+  " \ neosnippet#expandable_or_jumpable() ?
+  " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+  " For conceal markers.
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
 
   " JSHint
   let g:jshintprg="/usr/bin/jshint"
@@ -362,7 +385,12 @@ set omnifunc=syntaxcomplete#Complete
   " }
 
   " Syntastic {
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+
     let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 0
     let g:syntastic_aggregate_errors = 0
     let g:syntastic_enable_signs = 0
     let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
@@ -389,18 +417,7 @@ set omnifunc=syntaxcomplete#Complete
     hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
     hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
     hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
-  "
-  "
-  "
-  "" Set ultisnips triggers
-  let g:UltiSnipsExpandTrigger="<C-e>"
-  let g:UltiSnipsJumpForwardTrigger="<C-l>"
-  let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 " }
-
-
-
-
 
 " Diff Settings {
   set diffexpr=
@@ -458,7 +475,7 @@ autocmd BufWritePre *  :%s/\s\+$//e
 
 set background=dark
 if has('gui_running')
-  colorscheme base16-monokai
+  colorscheme base16-mocha
 
 
    set guioptions-=T            " remove the toolbar

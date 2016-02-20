@@ -25,6 +25,8 @@ ss_capture() {
   done
 }
 
+alias phpunit='php -dzend_extension=/usr/local/opt/php56-xdebug/xdebug.so $(which phpunit)'
+
 
 function tab () {
   local cmd=""
