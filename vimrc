@@ -49,15 +49,17 @@
 
   " language helpers/enhancements
   Plugin 'kovisoft/slimv'
+  Plugin 'evidens/vim-twig'
   Plugin 'vim-php/tagbar-phpctags.vim'
   Plugin 'StanAngeloff/php.vim'
   Plugin 'tobyS/vmustache' " needed for pdv
   Plugin 'tobyS/pdv'
-   Plugin 'shawncplus/phpcomplete.vim'
+  Plugin 'shawncplus/phpcomplete.vim'
   Plugin 'Better-Javascript-Indentation'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
   Plugin 'indentpython.vim'
+  Plugin 'HTML5-Syntax-File'
   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
   call vundle#end()
