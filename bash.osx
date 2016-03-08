@@ -1,13 +1,10 @@
 # vim: set filetype=sh :
 
 #osx with brew
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="/usr/local/bin:/usr/local/sbin:~/.composer/vendor/bin:$PATH"
 export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"
 
 . $(brew --prefix)/etc/bash_completion
-
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init - )"
 
 ss_capture() {
   delay=$1
@@ -25,7 +22,7 @@ ss_capture() {
   done
 }
 
-alias phpunit='php -dzend_extension=/usr/local/opt/php56-xdebug/xdebug.so $(which phpunit)'
+alias phpunit='php -dzend_extension=/usr/local/opt/php56-xdebug/xdebug.so /usr/local/bin/phpunit'
 
 
 function tab () {
@@ -54,7 +51,7 @@ function tab () {
 EOF
 }
 
-alias dev-watch='tab ~/Trulia "bundle exec guard"'
+alias dev-watch='tab ~/Work "bundle exec guard"'
 alias pu='phpunit --configuration tests/phpunit_local.xml'
 
 function watchtest () {

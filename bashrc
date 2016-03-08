@@ -15,6 +15,7 @@ fi
 export WORKON_HOME="~/.envs"
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+  VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
   source /usr/local/bin/virtualenvwrapper.sh
 fi
 if [ -f /usr/bin/virtualenvwrapper.sh ]; then
@@ -34,6 +35,10 @@ function sniff() {
 
   ln -s ~/Projects/dotfiles/dev/phpcs-$sniff.xml ~/.phpcs.xml
   ln -s ~/Projects/dotfiles/dev/phpmd-$sniff.xml ~/.phpmd.xml
+}
+
+function ssh-upload-key() {
+  ssh $1 'cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub
 }
 
 #colors

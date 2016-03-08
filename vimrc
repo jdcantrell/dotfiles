@@ -52,14 +52,13 @@
   Plugin 'evidens/vim-twig'
   Plugin 'vim-php/tagbar-phpctags.vim'
   Plugin 'StanAngeloff/php.vim'
-  Plugin 'tobyS/vmustache' " needed for pdv
-  Plugin 'tobyS/pdv'
   Plugin 'shawncplus/phpcomplete.vim'
   Plugin 'Better-Javascript-Indentation'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
   Plugin 'indentpython.vim'
   Plugin 'HTML5-Syntax-File'
+  Plugin 'elzr/vim-json'
   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
   call vundle#end()
@@ -208,8 +207,8 @@
 
   " expand path on %%:
   cabbr <expr> %% expand('%:p:h')
-  cabbr <expr> ww "~/Trulia/web"
-  cabbr <expr> cc "~/Trulia/common"
+  cabbr <expr> ww "~/Work/web"
+  cabbr <expr> cc "~/Work/common"
   cabbr <expr> vt expand('%:p:h') . "/vendor/trulia"
 
   " Make it easy to update and source _vimrc
@@ -219,8 +218,8 @@
 
   " change directory to current file (think 'use dir')
   nmap <leader>dd :cd %:p:h<cr>
-  nmap <leader>wd :cd ~/Trulia/web<cr>
-  nmap <leader>cd :cd ~/Trulia/common<cr>
+  nmap <leader>wd :cd ~/Work/web<cr>
+  nmap <leader>cd :cd ~/Work/common<cr>
 
   " Open file in stash
   nnoremap <leader>sc :exe ':silent !open -a firefox http://stash.sv2.trulia.com/projects/web/repos/common/browse/%:p:.'<cr>
@@ -397,10 +396,11 @@ set omnifunc=syntaxcomplete#Complete
     let g:syntastic_enable_signs = 0
     let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
     let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs']
-    let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/Trulia/trulia/phpcs.xml'
-    let g:syntastic_php_phpmd_post_args = $VIMHOME.'/Trulia/trulia/phpmd.xml'
+    let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/Work/code-quality-configs/CodeSniffer/phpcs.xml'
+    let g:syntastic_php_phpmd_post_args = $VIMHOME.'/Work/trulia/phpmd.xml'
 
-    let g:syntastic_python_checkers = ['pep8', 'pyflakes']
+    let g:syntastic_python_checkers = ['pyflakes']
+    let g:syntastic_python_flake8_args='--ignore=E501,E225'
 
 
     function! AggregateSyntasticErrors()
