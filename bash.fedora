@@ -1,6 +1,8 @@
 # vim: set filetype=sh :
 alias ls="ls --color"
 
+alias phpunit='php -dzend_extension=xdebug.xo $(which phpunit)'
+
 source /etc/profile.d/bash_completion.sh
 
 #Local dev site functions
@@ -29,9 +31,9 @@ source /etc/profile.d/bash_completion.sh
         ln -s $(pwd) ~/.sites/$name
       fi
 
-      echo "http://$name.dev"
+      echo "http://$name.sim.bz"
     else
-      echo "http://$link.dev"
+      echo "http://$link.sim.bz"
     fi
   }
 

@@ -53,6 +53,7 @@
   Plugin 'vim-php/tagbar-phpctags.vim'
   Plugin 'StanAngeloff/php.vim'
   Plugin 'shawncplus/phpcomplete.vim'
+  Plugin '2072/PHP-Indenting-for-VIm'
   Plugin 'elzr/vim-json'
   Plugin 'gavocanov/vim-js-indent'
   Plugin 'othree/yajs.vim'
@@ -201,8 +202,10 @@
   nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
   " cut/paste to/from clipboard
   map <D-V> "+gP
+  "map <C-V> "+gP
   cmap <D-V> <C-R>+
   vnoremap <D-C> "+y
+  vnoremap <C-C> "+y
 
   cmap w!! w !sudo tee % >/dev/null
 

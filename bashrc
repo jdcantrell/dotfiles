@@ -7,10 +7,6 @@ HISTIGNORE='ls:bg:fg:history'
 export CLICOLOR=1
 export EDITOR='vim'
 
-if [ -f ~/.bash.local ]; then
-  source ~/.bash.local
-fi
-
 #virtualenv
 export WORKON_HOME="~/.envs"
 
@@ -18,6 +14,7 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
   VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
   source /usr/local/bin/virtualenvwrapper.sh
 fi
+
 if [ -f /usr/bin/virtualenvwrapper.sh ]; then
   source /usr/bin/virtualenvwrapper.sh
 fi
@@ -25,17 +22,6 @@ fi
 #alias type things
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias socks='ssh -D 9999'
-
-function sniff() {
-  sniff=$1
-  sniff=${sniff:="jd"}
-
-  rm ~/.phpcs.xml
-  rm ~/.phpmd.xml
-
-  ln -s ~/Projects/dotfiles/dev/phpcs-$sniff.xml ~/.phpcs.xml
-  ln -s ~/Projects/dotfiles/dev/phpmd-$sniff.xml ~/.phpmd.xml
-}
 
 function ssh-upload-key() {
   ssh $1 'cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub
@@ -96,19 +82,6 @@ undmag=$under$magenta
 undcyn=$under$cyan
 undwht=$under$white
 
-# Set Prompt
-# \w = Full Path           eg.  /usr/www/html
-# \W = Current directory   eg.  html
-#
-# Sample:
-#   [Jan 01 13:37] [user@hostname ~]$ true
-#   [Jan 01 13:37] [user@hostname ~]$ false
-#    ಠ╭╮ಠ ( return value: 1 )
-#   [Jan 01 13:37] [user@hostname ~]$
-#
-
-
-
 # Prompty things
 GIT_BRANCH="\[$txtgrn\]"; #prefix branch name with a color
 GIT_AHEAD="\[$bldgrn\]±"; #symbol for when we have unpushed commits
@@ -154,3 +127,11 @@ set_bash_prompt() {
 }
 
 PROMPT_COMMAND=set_bash_prompt
+
+if [ -f ~/.bash.local ]; then
+  source ~/.bash.local
+fi
+
+#alias type things
+alias http-serve='python -m SimpleHTTPServer 40001'
+alias socks='ssh -D 9999'
