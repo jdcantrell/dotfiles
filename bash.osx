@@ -62,3 +62,60 @@ function watchsrp () {
   echo "Watching for changes, and running tests in $1/tests"
   watchmedo shell-command -W -p "*.php" -R -c "phpunit --bootstrap tests/general/bootstrap.php $1/tests"
 }
+
+#Local dev site functions
+
+#find current directory in our list of sites
+function dev-find {
+  pwd=$(pwd)
+
+  for link in $(ls ~/.sites)
+  do
+    if [[ $pwd = $(readlink ~/.sites/$link -q) ]]; then
+      echo $link
+      break
+    fi
+  done
+}
+
+#if this directory is not already a site create it
+#$1 - a name for the site, defaults to current directory name
+function dev-mk {
+  link=$(dev-find)
+  if [[ -z $link ]]; then
+    name=${1:-$(basename $(pwd))}
+    if [ -f ~/.sites/$name ]; then
+      echo 'Exists already.'
+    else
+      ln -s $(pwd) ~/.sites/$name
+    fi
+    echo "http://$name.sim.bz"
+  else
+    echo "http://$link.sim.bz"
+  fi
+}
+
+#open dev site in ff (and create it first if needed)
+function dev-ff {
+  firefox $(dev-mk $1)
+}
+
+#get xip.io url
+function xip {
+  ip=$(ifconfig utun0 | grep -Eo 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | cut -d ' ' -f2)
+  ip=$(ifconfig en0 | grep -Eo 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | cut -d ' ' -f2)
+  link=$(dev-find)
+  echo "http://$link.$ip.xip.io"
+}
+
+#use icanhazip.com to get your external ip
+function xip-all {
+  ip=$(curl icanhazip.com)
+  link=$(dev-find)
+  echo "http://$link.$ip.xip.io"
+}
+
+#open xip.io url in FF
+function xip-ff {
+  firefox $(xip)
+}

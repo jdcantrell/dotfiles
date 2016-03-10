@@ -53,12 +53,14 @@
   Plugin 'vim-php/tagbar-phpctags.vim'
   Plugin 'StanAngeloff/php.vim'
   Plugin 'shawncplus/phpcomplete.vim'
-  Plugin 'Better-Javascript-Indentation'
+  Plugin 'elzr/vim-json'
+  Plugin 'gavocanov/vim-js-indent'
+  Plugin 'othree/yajs.vim'
+  Plugin 'mxw/vim-jsx'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
   Plugin 'indentpython.vim'
   Plugin 'HTML5-Syntax-File'
-  Plugin 'elzr/vim-json'
   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
   call vundle#end()
@@ -449,6 +451,9 @@ augroup end
 " }
 
 
+" es6 {
+  let g:jsx_ext_required = 0 " allow jsx in .js
+" }
 
 augroup ft_python
   au!
