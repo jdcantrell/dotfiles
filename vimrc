@@ -407,6 +407,9 @@ set omnifunc=syntaxcomplete#Complete
     let g:syntastic_python_checkers = ['pyflakes']
     let g:syntastic_python_flake8_args='--ignore=E501,E225'
 
+    let g:syntastic_javascript_checkers = ['eslint']
+    let g:syntastic_javascript_eslint_args = '-c='.$VIMHOME.'/Work/code-quality-configs/eslint/eslintrc'
+
 
     function! AggregateSyntasticErrors()
       let g:syntastic_aggregate_errors = 1
