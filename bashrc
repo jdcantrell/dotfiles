@@ -22,6 +22,7 @@ fi
 #alias type things
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias socks='ssh -D 9999'
+alias phpsh='psysh'
 
 function ssh-upload-key() {
   ssh $1 'cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub

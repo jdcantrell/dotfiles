@@ -30,8 +30,10 @@
   Plugin 'Shougo/neocomplete.vim'
   Plugin 'Shougo/neosnippet'
   Plugin 'Shougo/neosnippet-snippets'
+  Plugin 'Shougo/unite.vim'
   Plugin 'Shougo/vimproc.vim'
   Plugin 'joonty/vdebug.git'
+  Plugin 'airblade/vim-rooter'
 
   Plugin 'Syntastic'
   Plugin 'Tabular'
@@ -40,18 +42,19 @@
   Plugin 'vim-airline/vim-airline-themes'
   Plugin 'Gundo'
 
-  " zen writing
+  " " zen writing
   Plugin 'junegunn/goyo.vim'
 
-  " themes
+  " " themes
   Plugin 'tango.vim'
   Plugin 'chriskempson/base16-vim'
 
-  " language helpers/enhancements
+  " " language helpers/enhancements
+  " Plugin 'StanAngeloff/php.vim'
+  Plugin 'jtriley/vim-rst-headings'
   Plugin 'kovisoft/slimv'
   Plugin 'evidens/vim-twig'
   Plugin 'vim-php/tagbar-phpctags.vim'
-  Plugin 'StanAngeloff/php.vim'
   Plugin 'shawncplus/phpcomplete.vim'
   Plugin '2072/PHP-Indenting-for-VIm'
   Plugin 'elzr/vim-json'
@@ -224,7 +227,6 @@
   " change directory to current file (think 'use dir')
   nmap <leader>dd :cd %:p:h<cr>
   nmap <leader>wd :cd ~/Work/web<cr>
-  nmap <leader>cd :cd ~/Work/common<cr>
 
   " Open file in stash
   nnoremap <leader>sc :exe ':silent !open -a firefox http://stash.sv2.trulia.com/projects/web/repos/common/browse/%:p:.'<cr>
@@ -245,9 +247,11 @@
   nmap <leader>lc :lclose<CR>
 
 
+  nnoremap <leader>f :UniteWithProjectDir file_rec/async <cr>
   nmap <leader>o :CtrlP<CR>
   nmap <leader>vs :CtrlP ./vendor/trulia/search-core<CR>
   nmap <leader>vc :CtrlP ./vendor/trulia/web-common<CR>
+  nmap <leader>vt :CtrlP ./vendor/trulia/
   nmap <leader>t :TagbarToggle<CR>
   nmap <leader>b :Bufferlist<CR>
 
@@ -292,6 +296,9 @@ set omnifunc=syntaxcomplete#Complete
       \ 'vimshell' : $HOME.'/.vimshell_hist',
       \ 'scheme' : $HOME.'/.gosh_completions'
           \ }
+
+  " remove spell check words
+  let g:neocomplcache_disabled_sources_list = {'_' : ['dictionary_complete']}
 
   " Define keyword.
   if !exists('g:neocomplete#keyword_patterns')
@@ -370,6 +377,29 @@ set omnifunc=syntaxcomplete#Complete
          \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
          \ }
      endif
+  " }
+
+  " unite {
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  call unite#filters#sorter_default#use(['sorter_rank'])
+  call unite#custom#profile('default', 'context', {
+  \  'start_insert': 1,
+  \   'winheight': 10,
+  \   'direction': 'botright',
+  \ })
+
+  function! s:unite_settings()
+    nmap <buffer> Q <plug>(unite_exit)
+    nmap <buffer> <esc> <plug>(unite_exit)
+    imap <buffer> <esc> <plug>(unite_exit)
+  endfunction
+  autocmd FileType unite call s:unite_settings()
+
+  let g:unite_source_grep_command='ag'
+  let g:unite_source_grep_default_opts='-i --vimgrep --hidden'
+  let g:unite_source_grep_recursive_opt=''
+  let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
+
 
   " }
 
@@ -381,6 +411,10 @@ set omnifunc=syntaxcomplete#Complete
   " Sparkup
     let g:sparkupExecuteMapping = '<D-e>'
   "
+
+  " vim-rooter {
+  let g:rooter_silent_chdir = 1
+  " }
 
   " vdebug {
     let g:vdebug_options = {'ide_key': 'netbeans-xdebug'}
@@ -407,9 +441,10 @@ set omnifunc=syntaxcomplete#Complete
     let g:syntastic_python_checkers = ['pyflakes']
     let g:syntastic_python_flake8_args='--ignore=E501,E225'
 
+    let g:syntastic_rst_checkers = ['rstcheck']
+
     let g:syntastic_javascript_checkers = ['eslint']
     let g:syntastic_javascript_eslint_args = '-c='.$VIMHOME.'/Work/code-quality-configs/eslint/eslintrc'
-
 
     function! AggregateSyntasticErrors()
       let g:syntastic_aggregate_errors = 1
@@ -453,9 +488,10 @@ augroup ft_html
   au!
 
   au BufNewFile,BufRead *.tpl setlocal filetype=smarty
+  au FileType html setlocal spell
 augroup end
-" }
 
+" }
 
 " es6 {
   let g:jsx_ext_required = 0 " allow jsx in .js
@@ -470,8 +506,7 @@ augroup ft_python
 augroup end
 
 let php_sql_query = 0
-let php_htmlInStrings = 1
-let php_noShortTags = 1
+let php_html_load = 0
 
 function! PhpSyntaxOverride()
   hi! def link phpDocTags  phpDefine
@@ -481,6 +516,15 @@ endfunction
 augroup phpSyntaxOverride
   autocmd!
   autocmd FileType php call PhpSyntaxOverride()
+augroup END
+
+augroup lexical
+  autocmd!
+  autocmd FileType markdown,mkd setlocal spell
+  autocmd FileType rst setlocal spell
+  autocmd FileType text setlocal spell
+  autocmd FileType html setlocal spell
+  autocmd FileType html.twig setlocal spell
 augroup END
 
 " Remove trailing whitespaces and ^M chars
@@ -499,7 +543,7 @@ if has('gui_running')
   " set guioptions-=m            " remove the toolbar
 
   if has("gui_macvim")
-    set guifont=Menlo:h14
+    set guifont=Source\ Code\ Pro:h15
   else
     set guifont=Monospace\ 11
   endif
