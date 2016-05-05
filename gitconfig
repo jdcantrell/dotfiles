@@ -42,6 +42,19 @@
 
   last-week = log --since="last week" --decorate --date=short --pretty="%ad (%ar) -- %s" --author="$(git config --get user.name)"
 
+  #quality of life aliases
+  new = checkout -b
+  unstage = reset -q HEAD --
+  discard = checkout --
+  uncommit = reset --mixed HEAD~
+  amend = commit --amend
+  nevermind = !git reset --hard HEAD && git clean -d -f
+  branches = branch -a
+  remotes =  remote -v
+  tags = tag
+  stashes = stash list
+
+
 [color]
   branch = auto
   diff = auto
