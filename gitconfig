@@ -11,10 +11,8 @@
   lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
 
   #daily util methods for creating new branches and pushing to remote
-  h = !sh -c 'git checkout -b H$1-CSSP-$2 -t origin/HAWK$1' -
-
-  #daily util methods for creating new branches and pushing to remote
   i = !sh -c 'git checkout -b I$1-CSSP-$2 -t origin/IBEX$1' -
+  c = !sh -c 'git checkout -b cssp-$1-$2 -t origin/master' -
 
   #checkout a branch that matches a string
   f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -
@@ -53,6 +51,8 @@
   remotes =  remote -v
   tags = tag
   stashes = stash list
+  delete-commit = reset --hard HEAD~1
+  undo-commit = reset --soft HEAD~1
 
 
 [color]
@@ -68,4 +68,5 @@
 [push]
   default = current
 [diff]
+  compactionHeuristic = true
   algorithm = patience
