@@ -80,7 +80,7 @@ function new_window () {
 EOF
 }
 
-alias search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "npm run build -- --watch"; cd ~/Work/search-web'
+alias start-search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "nvm use; npm run build -- --watch"; cd ~/Work/search-web'
 alias dev-watch='tab ~/Work "bundle exec guard"'
 alias pu='phpunit --configuration tests/phpunit_local.xml'
 

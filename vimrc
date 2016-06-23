@@ -161,7 +161,6 @@
   set formatoptions=croq
 
   "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
-  set tags+=./.git/tags
   set completeopt=menu,menuone
 
 " }

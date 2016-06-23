@@ -12,7 +12,7 @@
 
   #daily util methods for creating new branches and pushing to remote
   i = !sh -c 'git checkout -b I$1-CSSP-$2 -t origin/IBEX$1' -
-  c = !sh -c 'git checkout -b cssp-$1-$2 -t origin/master' -
+  cssp = !sh -c 'git checkout -b CSSP-$1 -t origin/master' -
 
   #checkout a branch that matches a string
   f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -
@@ -40,6 +40,8 @@
 
   last-week = log --since="last week" --decorate --date=short --pretty="%ad (%ar) -- %s" --author="$(git config --get user.name)"
 
+  branch-name = "!git rev-parse --abbrev-ref HEAD"
+
   #quality of life aliases
   new = checkout -b
   unstage = reset -q HEAD --
@@ -53,6 +55,7 @@
   stashes = stash list
   delete-commit = reset --hard HEAD~1
   undo-commit = reset --soft HEAD~1
+  reset-me = "!git reset me/$(git branch-name) --hard"
 
 
 [color]
