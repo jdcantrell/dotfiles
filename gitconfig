@@ -16,6 +16,7 @@
 
   #checkout a branch that matches a string
   f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -
+  cssp = !sh -c 'git checkout -b CSSP-$1 -t origin/master' -
 
   done = !sh -c 'git push origin $(git symbolic-ref HEAD --short)' -
 
@@ -46,6 +47,7 @@
   new = checkout -b
   unstage = reset -q HEAD --
   discard = checkout --
+  delete-last-commit = reset --hard HEAD~1
   uncommit = reset --mixed HEAD~
   amend = commit --amend
   nevermind = !git reset --hard HEAD && git clean -d -f
