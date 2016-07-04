@@ -136,6 +136,3 @@ fi
 #alias type things
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias socks='ssh -D 9999'
-
-export NVM_DIR="/home/jd/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
