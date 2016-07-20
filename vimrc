@@ -443,8 +443,7 @@ set omnifunc=syntaxcomplete#Complete
     let g:syntastic_rst_checkers = ['rstcheck']
 
     let g:syntastic_javascript_checkers = ['eslint']
-    let g:syntastic_javascript_eslint_exe = 'npm run lint:js --'
-    let g:syntastic_javascript_eslint_args = '-c='.$VIMHOME.'/Work/code-quality-configs/eslint/eslintrc'
+    let g:syntastic_javascript_eslint_exe = 'npm run lint:js -- --rule "no-var: 1" '
 
     function! AggregateSyntasticErrors()
       let g:syntastic_aggregate_errors = 1
