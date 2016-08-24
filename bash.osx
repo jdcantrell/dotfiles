@@ -7,7 +7,7 @@ export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"
 . $(brew --prefix)/etc/bash_completion
 
 export NVM_DIR="/Users/jcantrell/.nvm/"
-. "$(brew --prefix nvm)/nvm.sh"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 ss_capture() {
   delay=$1
@@ -80,9 +80,8 @@ function new_window () {
 EOF
 }
 
-alias start-search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "nvm use; npm run build -- --watch"; cd ~/Work/search-web'
+alias start-search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "nvm use --delete-prefix; npm run build -- --watch"; cd ~/Work/search-web'
 alias dev-watch='tab ~/Work "bundle exec guard"'
-alias pu='phpunit --configuration tests/phpunit_local.xml'
 
 function watchtest () {
   echo "Watching for changes in ./$1 and ./tests/$1"
@@ -148,4 +147,16 @@ function xip-all {
 #open xip.io url in FF
 function xip-ff {
   firefox $(xip)
+}
+
+function add-smudge {
+  name=$1
+  filename=$2
+  find=$3
+  replace=$4
+
+  git config filter.$name.smudge "sed -e 's/$find/$replace/'"
+  git config filter.$name.clean "sed -e 's/$replace/$find/'"
+  touch .git/info/attributes
+  echo "$filename filter=$name" >> .git/info/attributes
 }
