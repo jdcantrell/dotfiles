@@ -88,13 +88,13 @@ GIT_BRANCH="\[$txtgrn\]"; #prefix branch name with a color
 GIT_AHEAD="\[$bldgrn\]±"; #symbol for when we have unpushed commits
 GIT_DIRTY="\[$bldylw\]"; #color for uncomitted changes
 
-_git_info() {
+git_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
   echo -n "${ref#refs/heads/} "
 }
 
 # Checks if working tree is dirty
-_git_dirty() {
+git_dirty() {
   if [[ -n $(git status -s --ignore-submodules=dirty 2> /dev/null) ]]; then
     #dirty
     echo -n $GIT_DIRTY
@@ -105,10 +105,16 @@ _git_dirty() {
 }
 
 # Checks if there are commits ahead from remote
-_git_ahead() {
+git_ahead() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
   if $(echo "$(git log origin/${ref#refs/heads/}..HEAD 2> /dev/null)" | grep '^commit' &> /dev/null); then
     echo  -n $GIT_AHEAD
+  fi
+}
+
+git_rebase() {
+  if [ -d ".git/rebase-apply" ]; then
+    echo -n "\[$txtmag\](rebase) "
   fi
 }
 
@@ -124,7 +130,7 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 fi
 
 set_bash_prompt() {
-  PS1="\[$reset\]$REMOTE_HOST$(_git_ahead)$GIT_BRANCH$(_git_dirty)$(_git_info)$PROMPT_HI\W$PROMPT_LOW ➤ \[$reset\]"
+  PS1="\[$reset\]$REMOTE_HOST$(git_ahead)$GIT_BRANCH$(git_dirty)$(git_rebase)$(git_info)$PROMPT_HI\W$PROMPT_LOW ➤ \[$reset\]"
 }
 
 PROMPT_COMMAND=set_bash_prompt

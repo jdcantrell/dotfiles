@@ -80,7 +80,7 @@ function new_window () {
 EOF
 }
 
-alias start-search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "nvm use --delete-prefix; npm run build -- --watch"; cd ~/Work/search-web'
+alias start-search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "nvm use --delete-prefix; npm update; npm run build -- --watch"; cd ~/Work/search-web'
 alias dev-watch='tab ~/Work "bundle exec guard"'
 
 function watchtest () {
@@ -159,4 +159,16 @@ function add-smudge {
   git config filter.$name.clean "sed -e 's/$replace/$find/'"
   touch .git/info/attributes
   echo "$filename filter=$name" >> .git/info/attributes
+}
+
+function update-search-web {
+  branch=$1
+  cd vendor/trulia/search-web
+  git co $branch
+  git fetch me
+  git reset-me
+  cd ../../../
+  composer dump
+  nvm use --delete-prefix
+  npm run dev
 }

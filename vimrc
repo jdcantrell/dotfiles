@@ -61,6 +61,7 @@
   Plugin 'gavocanov/vim-js-indent'
   Plugin 'othree/yajs.vim'
   Plugin 'mxw/vim-jsx'
+  Plugin 'mtscout6/syntastic-local-eslint.vim'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
   Plugin 'indentpython.vim'
@@ -443,7 +444,8 @@ set omnifunc=syntaxcomplete#Complete
     let g:syntastic_rst_checkers = ['rstcheck']
 
     let g:syntastic_javascript_checkers = ['eslint']
-    let g:syntastic_javascript_eslint_exe = 'npm run lint:js -- --rule "no-var: 1" '
+    " let g:syntastic_javascript_eslint_exe = 'npm run lint:js -- '
+    let g:syntastic_javascript_eslint_args = '--rule "no-var: 1"'
 
     function! AggregateSyntasticErrors()
       let g:syntastic_aggregate_errors = 1
