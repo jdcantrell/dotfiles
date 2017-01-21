@@ -1,0 +1,8 @@
+directory: /media/Baranduin/backup/Music
+library: /media/Baranduin/backup/music.blb
+
+plugins: fetchart scrub
+
+fetchart:
+  auto: yes
+

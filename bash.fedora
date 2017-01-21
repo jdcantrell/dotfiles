@@ -70,3 +70,15 @@ export NVM_DIR="/home/jd/.nvm"
     firefox $(xip)
   }
 
+function add-smudge {
+  name=$1
+  filename=$2
+  find=$3
+  replace=$4
+
+  git config filter.$name.smudge "sed -e 's/$find/$replace/'"
+  git config filter.$name.clean "sed -e 's/$replace/$find/'"
+  touch .git/info/attributes
+  echo "$filename filter=$name" >> .git/info/attributes
+}
+
