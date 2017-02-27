@@ -34,10 +34,10 @@
   Plugin 'Shougo/vimproc.vim'
   Plugin 'joonty/vdebug.git'
   Plugin 'airblade/vim-rooter'
+  Plugin 'vim-scripts/Rename'
 
   " Plugin 'Syntastic'
-  " Plugin 'w0rp/ale'
-  Plugin 'jdcantrell/ale'
+  Plugin 'w0rp/ale'
   Plugin 'Tabular'
   Plugin 'Tagbar'
   Plugin 'vim-airline/vim-airline'
@@ -50,9 +50,12 @@
   " " themes
   Plugin 'tango.vim'
   Plugin 'chriskempson/base16-vim'
+  Plugin 'badwolf'
 
   " " language helpers/enhancements
   " Plugin 'StanAngeloff/php.vim'
+  Plugin 'HerringtonDarkholme/yats.vim'
+  Plugin 'Quramy/tsuquyomi'
   Plugin 'jtriley/vim-rst-headings'
   Plugin 'kovisoft/slimv'
   Plugin 'evidens/vim-twig'
@@ -63,12 +66,14 @@
   Plugin 'gavocanov/vim-js-indent'
   Plugin 'othree/yajs.vim'
   Plugin 'mxw/vim-jsx'
-  " Plugin 'mtscout6/syntastic-local-eslint.vim'
+  Plugin 'jdcantrell/syntastic-local-eslint.vim'
   Plugin 'smarty-syntax'
   Plugin 'tpope/vim-markdown'
   Plugin 'indentpython.vim'
   Plugin 'HTML5-Syntax-File'
   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
+  Plugin 'dzeban/vim-log-syntax'
 
   call vundle#end()
  " }
@@ -264,7 +269,7 @@
   " ps h stands for hint as in jshint
   nmap <leader>h :let $rcwd=getcwd()<CR>:cd %:p:h<CR>:Errors<CR>:lfirst<CR>:cd $rcwd<CR>
 
-  nnoremap <leader>s :call AggregateSyntasticErrors()<CR>:Errors<CR>
+  " nnoremap <leader>s :call AggregateSyntasticErrors()<CR>:Errors<CR>
   " ,W strip whitespace
   nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 
@@ -427,44 +432,50 @@ set omnifunc=syntaxcomplete#Complete
   " }
 
   " Ale {
-    let g:ale_sign_error = '>'
-    let g:ale_sign_warning = '-'
+     nmap <silent> <leader>n <Plug>(ale_next_wrap)
+     let g:ale_sign_error = '='
+     let g:ale_sign_warning = '-'
+     let g:ale_sign_column_always = 1
+     let g:ale_lint_on_save = 1
 
-    let g:ale_php_phpcs_standard = $VIMHOME.'/Work/code-quality-configs/CodeSniffer/phpcs.xml'
-    let g:ale_php_phpmd_ruleset = $VIMHOME.'/Work/code-quality-configs/MessDetector/phpmd.xml'
-    let g:ale_javascript_eslint_executable = 'npm run eslint'
-    let g:ale_javascript_eslint_options = '--rule "no-var: 1"'
+     let g:ale_php_phpcs_standard = $VIMHOME.'/Work/code-quality-configs/CodeSniffer/phpcs.xml'
+     let g:ale_php_phpmd_ruleset = $VIMHOME.'/Work/code-quality-configs/MessDetector/phpmd.xml'
+     let g:ale_javascript_eslint_executable = 'npm run eslint'
+     let g:ale_javascript_eslint_options = '--rule "no-var: 1"'
 
   " }
 
   " Syntastic {
-    " set statusline+=%#warningmsg#
-    " set statusline+=%{SyntasticStatuslineFlag()}
-    " set statusline+=%*
+  "  set statusline+=%#warningmsg#
+  "  set statusline+=%{SyntasticStatuslineFlag()}
+  "  set statusline+=%*
 
-    " let g:syntastic_always_populate_loc_list = 1
-    " let g:syntastic_auto_loc_list = 0
-    " let g:syntastic_aggregate_errors = 0
-    " let g:syntastic_enable_signs = 0
-    " let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
-    " let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs']
-    " let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/Work/code-quality-configs/CodeSniffer/phpcs.xml'
-    " let g:syntastic_php_phpmd_post_args = $VIMHOME.'/Work/trulia/phpmd.xml'
+  "  let g:syntastic_always_populate_loc_list = 1
+  "  let g:syntastic_auto_loc_list = 0
+  "  let g:syntastic_aggregate_errors = 0
+  "  let g:syntastic_enable_signs = 0
+  "  let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
+  "  let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs', 'phan']
+  "  let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/Work/code-quality-configs/CodeSniffer/phpcs.xml'
+  "  let g:syntastic_php_phpmd_post_args = $VIMHOME.'/Work/trulia/phpmd.xml'
 
-    " let g:syntastic_python_checkers = ['pyflakes']
-    " let g:syntastic_python_flake8_args='--ignore=E501,E225'
+  "  let g:syntastic_python_checkers = ['pyflakes']
+  "  let g:syntastic_python_flake8_args='--ignore=E501,E225'
 
-    " let g:syntastic_rst_checkers = ['rstcheck']
+  "  let g:syntastic_rst_checkers = ['rstcheck']
 
-    " let g:syntastic_javascript_checkers = ['eslint']
-    " " let g:syntastic_javascript_eslint_exe = 'npm run lint:js -- '
-    " let g:syntastic_javascript_eslint_args = '--rule "no-var: 1"'
+  "  let g:syntastic_javascript_checkers = ['eslint']
+  "  let g:syntastic_javascript_eslint_args = '--rule "no-var: 1"'
 
-    " function! AggregateSyntasticErrors()
-    "   let g:syntastic_aggregate_errors = 1
-    "   execute 'SyntasticCheck'
-    "   let g:syntastic_aggregate_errors = 0
-    " endfunction
+  "  function! AggregateSyntasticErrors()
+  "    let g:syntastic_aggregate_errors = 1
+  "    execute 'SyntasticCheck'
+  "    let g:syntastic_aggregate_errors = 0
+  "  endfunction
+
+  "  let g:tsuquyomi_disable_quickfix = 1
+  "  let g:syntastic_typescript_checkers = ['tslint', 'tsuquyomi'] " You shouldn't use 'tsc' checker.
+  "  let g:syntastic_typescript_tslint_args = '--config tslint.json'
   " }
   " OmniComplete
     " Popup menu hightLight Group
@@ -557,7 +568,7 @@ if has('gui_running')
   " set guioptions-=m            " remove the toolbar
 
   if has("gui_macvim")
-    set guifont=Source\ Code\ Pro:h15
+    set guifont=Source\ Code\ Pro:h16
   else
     set guifont=Monospace\ 12
   endif

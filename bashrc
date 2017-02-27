@@ -1,3 +1,6 @@
+# if not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
 #set up our environment
 HISTFILESIZE=5000
 HISTSIZE=5000
@@ -138,7 +141,3 @@ PROMPT_COMMAND=set_bash_prompt
 if [ -f ~/.bash.local ]; then
   source ~/.bash.local
 fi
-
-#alias type things
-alias http-serve='python -m SimpleHTTPServer 40001'
-alias socks='ssh -D 9999'
