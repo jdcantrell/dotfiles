@@ -54,24 +54,34 @@
 
   " " language helpers/enhancements
   " Plugin 'StanAngeloff/php.vim'
-  Plugin 'HerringtonDarkholme/yats.vim'
-  Plugin 'Quramy/tsuquyomi'
   Plugin 'jtriley/vim-rst-headings'
+  Plugin 'tpope/vim-markdown'
+
+  " lisp
   Plugin 'kovisoft/slimv'
+
+  " python
+  Plugin 'Vimjas/vim-python-pep8-indent'
+
+  " php
   Plugin 'evidens/vim-twig'
-  Plugin 'vim-php/tagbar-phpctags.vim'
+  Plugin 'smarty-syntax'
+  Plugin 'StanAngeloff/php.vim'
   Plugin 'shawncplus/phpcomplete.vim'
   Plugin '2072/PHP-Indenting-for-VIm'
+
+  " html/js
+  Plugin 'othree/html5.vim'
   Plugin 'elzr/vim-json'
   Plugin 'gavocanov/vim-js-indent'
   Plugin 'othree/yajs.vim'
+  Plugin 'jiangmiao/simple-javascript-indenter'
   Plugin 'mxw/vim-jsx'
   Plugin 'jdcantrell/syntastic-local-eslint.vim'
-  Plugin 'smarty-syntax'
-  Plugin 'tpope/vim-markdown'
-  Plugin 'indentpython.vim'
-  Plugin 'HTML5-Syntax-File'
-  Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
+  " typescript
+  Plugin 'Quramy/tsuquyomi'
+  Plugin 'HerringtonDarkholme/yats.vim'
 
   Plugin 'dzeban/vim-log-syntax'
 
@@ -341,6 +351,9 @@ set omnifunc=syntaxcomplete#Complete
   xmap <C-k>     <Plug>(neosnippet_expand_target)
 
   imap <expr><C-k> (pumvisible()? "\<C-y>" : '') . "\<Plug>(neosnippet_expand_or_jump)"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
 
 
 
