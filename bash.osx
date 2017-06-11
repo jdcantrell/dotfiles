@@ -10,26 +10,9 @@ export HOMEBREW_GITHUB_API_TOKEN="2e95db4979c1674313ffc6177b1932beb235b9f5";
 export NVM_DIR="/Users/jcantrell/.nvm/"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-ss_capture() {
-  delay=$1
-  delay=${delay:=10}
-  i=0
-
-  echo "Capturing a screen shot every $delay seconds."
-  mkdir -p ~/Desktop/Capture
-  while [ 1 ]; do
-    ((i ++))
-    echo -en "\rFrame $i"
-    vardate=$(date +%d\-%m\-%Y\_%H.%M.%S)
-    screencapture -t jpg -x ~/Desktop/Capture/$vardate.jpg
-    sleep $delay
-  done
-}
-
 alias phpunit='php -dzend_extension=/usr/local/opt/php56-xdebug/xdebug.so /usr/local/bin/phpunit'
 
-
-function tab () {
+tab () {
   local cmd=""
   local cdto="$PWD"
   local args="$@"
@@ -55,7 +38,7 @@ end tell
 EOF
 }
 
-function new_window () {
+new_window () {
   local cmd=""
   local cdto="$PWD"
   local args="$@"
@@ -81,14 +64,14 @@ function new_window () {
 EOF
 }
 
-alias start-search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "nvm use --delete-prefix; npm update; npm run build -- --watch"; cd ~/Work/search-web'
+alias start-search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "nvm use --delete-prefix; yarn upgrade; yarn run build -- --watch"; cd ~/Work/search-web'
 alias dev-watch='tab ~/Work "bundle exec guard"'
 
-function watchtest () {
+watchtest () {
   echo "Watching for changes in ./$1 and ./tests/$1"
   watchmedo shell-command -W -p "*.php" -R -c "phpunit --config tests/phpunit_local.xml tests/$1"
 }
-function watchsrp () {
+watchsrp () {
   echo "Watching for changes, and running tests in $1/tests"
   watchmedo shell-command -W -p "*.php" -R -c "phpunit --bootstrap tests/general/bootstrap.php $1/tests"
 }
@@ -96,13 +79,14 @@ function watchsrp () {
 #Local dev site functions
 
 #find current directory in our list of sites
-function dev-find {
+dev_find() {
   pwd=$(pwd)
 
-  for link in $(ls ~/.sites)
+  for link in ~/.sites/*
   do
-    if [[ $pwd = $(readlink ~/.sites/$link -q) ]]; then
-      echo $link
+    dir=$(readlink "$link" -q);
+    if [ "$pwd" = "$dir" ]; then
+      echo "$link"
       break
     fi
   done
@@ -110,14 +94,15 @@ function dev-find {
 
 #if this directory is not already a site create it
 #$1 - a name for the site, defaults to current directory name
-function dev-mk {
-  link=$(dev-find)
-  if [[ -z $link ]]; then
-    name=${1:-$(basename $(pwd))}
-    if [ -f ~/.sites/$name ]; then
+dev_mk() {
+  link=$(dev_find)
+  if [ -z "$link" ]; then
+    name=${1:-$(basename "$(pwd)")}
+    target="$HOME/.sites/$name"
+    if [ -f "$target" ]; then
       echo 'Exists already.'
     else
-      ln -s $(pwd) ~/.sites/$name
+      ln -s "$(pwd)" "$target"
     fi
     echo "http://$name.sim.bz"
   else
@@ -125,32 +110,22 @@ function dev-mk {
   fi
 }
 
-#open dev site in ff (and create it first if needed)
-function dev-ff {
-  firefox $(dev-mk $1)
-}
-
 #get xip.io url
-function xip {
+xip() {
   ip=$(ifconfig utun0 | grep -Eo 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | cut -d ' ' -f2)
   ip=$(ifconfig en0 | grep -Eo 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | cut -d ' ' -f2)
-  link=$(dev-find)
+  link=$(dev_find)
   echo "http://$link.$ip.xip.io"
 }
 
 #use icanhazip.com to get your external ip
-function xip-all {
+xip_all() {
   ip=$(curl icanhazip.com)
-  link=$(dev-find)
+  link=$(dev_find)
   echo "http://$link.$ip.xip.io"
 }
 
-#open xip.io url in FF
-function xip-ff {
-  firefox $(xip)
-}
-
-function add-smudge {
+add_smudge() {
   name=$1
   filename=$2
   find=$3
@@ -162,14 +137,95 @@ function add-smudge {
   echo "$filename filter=$name" >> .git/info/attributes
 }
 
-function update-search-web {
-  branch=$1
-  cd vendor/trulia/search-web
-  git co $branch
+
+web_sw_latest() {
+  cd ~/Work/web || return 1
+  nvm use --delete-prefix
+  cd vendor/trulia/search-web || return 1
+  git co master
+  git pull origin master
+  cd - || return 1
+  composer install
+  npm run dev
+}
+
+web_full_refresh() {
+  cd ~/Work/web || return 1
+  nvm use --delete-prefix
+  cd vendor/trulia/search-web || return 1
+  git co master
+  git pull origin master
+  cd - || return 1
+  composer install
+  rm -rf ./node_modules/
+  npm install
+  npm run dev
+}
+
+web_sw_update() {
+  cd ~/Work/web || return 1
+  cd vendor/trulia/search-web || return 1
   git fetch me
   git reset-me
-  cd ../../../
+  cd - || return 1
   composer dump
   nvm use --delete-prefix
   npm run dev
+}
+
+web_sw_co() {
+  cd ~/Work/web || return 1
+  branch=$1
+  remote=${2:-me};
+  cd vendor/trulia/search-web || return 1
+  git fetch "$remote"
+  if git show-ref --quiet "refs/heads/$branch"; then
+    git co "$branch"
+  else
+    git co -b "$branch" -t "$remote/$branch"
+  fi
+  if [[ "$2" = "me" ]]; then
+    git reset-me
+  fi
+  cd - || return 1
+  composer dump
+  nvm use --delete-prefix
+  npm run dev
+}
+
+
+sweb() {
+case "$1" in
+  co)
+    web_sw_co "$1" "$2"
+    ;;
+  update)
+    web_sw_update
+    ;;
+  refresh)
+    web_full_refresh
+    ;;
+  latest)
+    web_sw_latest
+    ;;
+  *)
+    echo "sweb does tedious web tasks for you:"
+    echo "general utils:"
+    echo "refresh           - re-install composer and npm dependencies and rebuild"
+    echo ""
+    echo "search-web related utils:"
+    echo "co branch origin  - checkout search-web origin/branch. Origin defaults to me"
+    echo "update            - update the current search-web branch to the latest commit"
+    echo "latest            - set search-web to the latest master commit"
+    echo ""
+    ;;
+esac
+}
+
+
+convert_video_to_gif() {
+  SCALE=${3:-"600:-1"}
+  ffmpeg -y -i "$1" -vf "fps=10,scale=$SCALE:flags=lanczos,palettegen" convert_video_to_gif_palette.png
+  ffmpeg -y -i "$1" -i convert_video_to_gif_palette.png -filter_complex "fps=10,scale=$SCALE:flags=lanczos[x];[x][1:v]paletteuse" "$2"
+  rm convert_video_to_gif_palette.png
 }

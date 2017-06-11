@@ -16,7 +16,7 @@
 
   #checkout a branch that matches a string
   f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -
-  cssp = !sh -c 'git checkout -b CSSP-$1 -t origin/master' -
+  cssp = "!f() { git checkout -b CSSP-$1 -t origin/${2:-master}; }; f"
 
   done = !sh -c 'git push origin $(git symbolic-ref HEAD --short)' -
 

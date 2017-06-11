@@ -80,7 +80,7 @@
   Plugin 'jdcantrell/syntastic-local-eslint.vim'
 
   " typescript
-  Plugin 'Quramy/tsuquyomi'
+  "Plugin 'Quramy/tsuquyomi'
   Plugin 'HerringtonDarkholme/yats.vim'
 
   Plugin 'dzeban/vim-log-syntax'
@@ -456,6 +456,10 @@ set omnifunc=syntaxcomplete#Complete
      let g:ale_javascript_eslint_executable = 'npm run eslint'
      let g:ale_javascript_eslint_options = '--rule "no-var: 1"'
 
+     let g:ale_linters = { 'html': ['htmlhint'], }
+
+     let g:ale_pattern_options = { '.*static/js/.*\.js$': {'ale_enabled': 0}, '.*_built/.*\.js$': {'ale_enabled': 0} }
+
   " }
 
   " Syntastic {
@@ -570,7 +574,7 @@ autocmd BufWritePre *  :%s/\s\+$//e
 
 set background=dark
 if has('gui_running')
-  colorscheme base16-mocha
+  colorscheme base16-unikitty-dark
 
 
    set guioptions-=T            " remove the toolbar
