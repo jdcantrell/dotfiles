@@ -75,7 +75,6 @@
   Plugin 'elzr/vim-json'
   Plugin 'gavocanov/vim-js-indent'
   Plugin 'othree/yajs.vim'
-  Plugin 'jiangmiao/simple-javascript-indenter'
   Plugin 'mxw/vim-jsx'
   Plugin 'jdcantrell/syntastic-local-eslint.vim'
 
@@ -173,7 +172,7 @@
   set pastetoggle=<F12>    " pastetoggle (sane indentation on pastes)
 
   " disable textwrapping
-  set textwidth=72
+  set textwidth=100
 
   "enable comment text wrapping and comment leading
   set formatoptions=croq
@@ -187,7 +186,7 @@
 
   "The default leader is '\', but many people prefer ',' as it's in a standard
   "location
-  let mapleader = "\<Space>"
+  let mapleader = ","
 
   " Easier moving in tabs and windows
   "map <C-J> <C-W>j<C-W>_
@@ -376,6 +375,7 @@ set omnifunc=syntaxcomplete#Complete
   "
 
   " Airline
+    let g:airline#extensions#ale#enabled = 1
     if has('gui_running')
       let g:airline_left_sep=''
       let g:airline_right_sep=''
@@ -457,10 +457,12 @@ set omnifunc=syntaxcomplete#Complete
      let g:ale_javascript_eslint_options = '--rule "no-var: 1"'
 
      let g:ale_linters = { 'html': ['htmlhint'], }
+     let g:ale_maximum_file_size = 60000
 
      let g:ale_pattern_options = { '.*static/js/.*\.js$': {'ale_enabled': 0}, '.*_built/.*\.js$': {'ale_enabled': 0} }
 
   " }
+
 
   " Syntastic {
   "  set statusline+=%#warningmsg#

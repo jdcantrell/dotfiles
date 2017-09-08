@@ -76,3 +76,5 @@
 [diff]
   compactionHeuristic = true
   algorithm = patience
+[merge]
+  ff = only

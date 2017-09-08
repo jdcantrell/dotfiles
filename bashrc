@@ -14,7 +14,7 @@ export EDITOR='vim'
 export WORKON_HOME="~/.envs"
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-  VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+  VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
   source /usr/local/bin/virtualenvwrapper.sh
 fi
 
