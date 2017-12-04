@@ -22,23 +22,22 @@
   filetype off
   " Setup Bundle Support {
   set rtp+=~/.vim/bundle/Vundle.vim/
+  set rtp+=~/usr/local/opt/fzf
   call vundle#begin()
   " vim plugins
   Plugin 'gmarik/Vundle.vim'
   Plugin 'matchit.zip'
   Plugin 'ctrlp.vim'
+  Plugin 'junegunn/fzf.vim'
   Plugin 'Shougo/neocomplete.vim'
-  Plugin 'Shougo/neosnippet'
-  Plugin 'Shougo/neosnippet-snippets'
-  Plugin 'Shougo/unite.vim'
   Plugin 'Shougo/vimproc.vim'
   Plugin 'joonty/vdebug.git'
   Plugin 'airblade/vim-rooter'
   Plugin 'vim-scripts/Rename'
 
+
   " Plugin 'Syntastic'
   Plugin 'w0rp/ale'
-  Plugin 'Tabular'
   Plugin 'Tagbar'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
@@ -53,7 +52,6 @@
   Plugin 'badwolf'
 
   " " language helpers/enhancements
-  " Plugin 'StanAngeloff/php.vim'
   Plugin 'jtriley/vim-rst-headings'
   Plugin 'tpope/vim-markdown'
 
@@ -79,7 +77,7 @@
   Plugin 'jdcantrell/syntastic-local-eslint.vim'
 
   " typescript
-  "Plugin 'Quramy/tsuquyomi'
+  Plugin 'Quramy/tsuquyomi'
   Plugin 'HerringtonDarkholme/yats.vim'
 
   Plugin 'dzeban/vim-log-syntax'
@@ -263,7 +261,6 @@
   nmap <leader>lc :lclose<CR>
 
 
-  nnoremap <leader>f :UniteWithProjectDir file_rec/async <cr>
   nmap <leader>o :CtrlP<CR>
   nmap <leader>vs :CtrlP ./vendor/trulia/search-core<CR>
   nmap <leader>vc :CtrlP ./vendor/trulia/web-common<CR>
@@ -399,30 +396,6 @@ set omnifunc=syntaxcomplete#Complete
      endif
   " }
 
-  " unite {
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  call unite#filters#sorter_default#use(['sorter_rank'])
-  call unite#custom#profile('default', 'context', {
-  \  'start_insert': 1,
-  \   'winheight': 10,
-  \   'direction': 'botright',
-  \ })
-
-  function! s:unite_settings()
-    nmap <buffer> Q <plug>(unite_exit)
-    nmap <buffer> <esc> <plug>(unite_exit)
-    imap <buffer> <esc> <plug>(unite_exit)
-  endfunction
-  autocmd FileType unite call s:unite_settings()
-
-  let g:unite_source_grep_command='ag'
-  let g:unite_source_grep_default_opts='-i --vimgrep --hidden'
-  let g:unite_source_grep_recursive_opt=''
-  let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
-
-
-  " }
-
   "pdv
   let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
   nnoremap <leader>c :call pdv#DocumentWithSnip()<CR>
@@ -456,10 +429,15 @@ set omnifunc=syntaxcomplete#Complete
      let g:ale_javascript_eslint_executable = 'npm run eslint'
      let g:ale_javascript_eslint_options = '--rule "no-var: 1"'
 
-     let g:ale_linters = { 'html': ['htmlhint'], }
+     let g:ale_linters = { 'html': ['htmlhint'], 'typescript': ['tslint', 'tsserver', 'typecheck'], }
      let g:ale_maximum_file_size = 60000
 
      let g:ale_pattern_options = { '.*static/js/.*\.js$': {'ale_enabled': 0}, '.*_built/.*\.js$': {'ale_enabled': 0} }
+
+     let g:ale_fixers = {}
+     let g:ale_fixers['javascript'] = ['prettier']
+     let g:ale_fix_on_save = 1
+     let g:ale_javascript_prettier_options = '--single-quote --trailing-comma'
 
   " }
 

@@ -11,8 +11,8 @@
   lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
 
   #daily util methods for creating new branches and pushing to remote
-  i = !sh -c 'git checkout -b I$1-CSSP-$2 -t origin/IBEX$1' -
-  cssp = !sh -c 'git checkout -b CSSP-$1 -t origin/master' -
+  cssp = !sh -c 'git checkout -b WEBS-$1 -t origin/master' -
+  webs = !sh -c 'git checkout -b WEBS-$1 -t origin/master' -
 
   #checkout a branch that matches a string
   f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -

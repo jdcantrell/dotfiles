@@ -141,3 +141,5 @@ PROMPT_COMMAND=set_bash_prompt
 if [ -f ~/.bash.local ]; then
   source ~/.bash.local
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

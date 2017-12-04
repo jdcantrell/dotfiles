@@ -8,9 +8,11 @@ export HOMEBREW_GITHUB_API_TOKEN="2e95db4979c1674313ffc6177b1932beb235b9f5";
 . $(brew --prefix)/etc/bash_completion
 
 export NVM_DIR="/Users/jcantrell/.nvm/"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh --delete-prefix # This loads nvm
 
 alias phpunit='php -dzend_extension=/usr/local/opt/php56-xdebug/xdebug.so /usr/local/bin/phpunit'
+
+alias love="/Applications/love.app/Contents/MacOS/love"
 
 tab () {
   local cmd=""
