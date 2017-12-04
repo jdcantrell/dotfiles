@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+NoDisplay=false
+Exec=/opt/firefox/firefox --class "Firefox Developer Edition" %u
+Name=Firefox Developer Edition
+Comment=The web browser.
+Keywords=ff
+Icon=/opt/firefox/browser/icons/mozicon128.png
