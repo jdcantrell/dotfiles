@@ -554,8 +554,6 @@ autocmd BufWritePre *  :%s/\s\+$//e
 
 set background=dark
 if has('gui_running')
-  colorscheme base16-unikitty-dark
-
 
    set guioptions-=T            " remove the toolbar
    set guioptions-=l            " remove the left scrollbar
@@ -573,13 +571,9 @@ if has('gui_running')
   "Remove all bells - this needs to be moved to .gvimrc
   set vb t_vb=
 
-  "Highlight the status bar in terminals when going to/from insert mode
-  "Commented out while we're using powerline
-  "au InsertEnter * hi StatusLine guibg=#fafafa guifg=#718c00
-  "au InsertLeave * hi StatusLine guibg=#fafafa guifg=#4271ae
-
 else
-  set term=$TERM
-  set t_Co=256
-  colorscheme tango
+  set termguicolors
+  set mouse=a
 endif
+
+colorscheme base16-unikitty-dark

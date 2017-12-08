@@ -3,7 +3,7 @@
 #osx with brew
 export PATH="/usr/local/bin:/usr/local/sbin:~/.composer/vendor/bin:$PATH"
 export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"
-export HOMEBREW_GITHUB_API_TOKEN="wtf-why";
+[ -s ".bash.tokens" ] && . .bash.tokens
 
 . $(brew --prefix)/etc/bash_completion
 
