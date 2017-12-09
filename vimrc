@@ -571,6 +571,7 @@ if has('gui_running')
   "Remove all bells - this needs to be moved to .gvimrc
   set vb t_vb=
 
+  colorscheme base16-unikitty-dark
 else
   set termguicolors
   if &term =~# '^screen'
@@ -578,6 +579,6 @@ else
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   endif
   set mouse=a
+  colorscheme base16-onedark
 endif
 
-colorscheme base16-unikitty-dark
