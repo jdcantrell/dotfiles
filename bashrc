@@ -10,18 +10,6 @@ HISTIGNORE='ls:bg:fg:history'
 export CLICOLOR=1
 export EDITOR='vim'
 
-#virtualenv
-export WORKON_HOME="~/.envs"
-
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-  VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
-  source /usr/local/bin/virtualenvwrapper.sh
-fi
-
-if [ -f /usr/bin/virtualenvwrapper.sh ]; then
-  source /usr/bin/virtualenvwrapper.sh
-fi
-
 #alias type things
 alias http-serve='python -m SimpleHTTPServer 40001'
 alias socks='ssh -D 9999'

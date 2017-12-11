@@ -77,8 +77,8 @@
   Plugin 'jdcantrell/syntastic-local-eslint.vim'
 
   " typescript
-  Plugin 'Quramy/tsuquyomi'
-  Plugin 'HerringtonDarkholme/yats.vim'
+  " Plugin 'Quramy/tsuquyomi'
+  " Plugin 'HerringtonDarkholme/yats.vim'
 
   Plugin 'dzeban/vim-log-syntax'
 
@@ -442,38 +442,6 @@ set omnifunc=syntaxcomplete#Complete
   " }
 
 
-  " Syntastic {
-  "  set statusline+=%#warningmsg#
-  "  set statusline+=%{SyntasticStatuslineFlag()}
-  "  set statusline+=%*
-
-  "  let g:syntastic_always_populate_loc_list = 1
-  "  let g:syntastic_auto_loc_list = 0
-  "  let g:syntastic_aggregate_errors = 0
-  "  let g:syntastic_enable_signs = 0
-  "  let g:syntastic_stl_format = "%E{E:%e}%W{ W:%w} (%F)"
-  "  let g:syntastic_php_checkers = ['php', 'phpmd', 'phpcs', 'phan']
-  "  let g:syntastic_php_phpcs_args = '--standard='.$VIMHOME.'/Work/code-quality-configs/CodeSniffer/phpcs.xml'
-  "  let g:syntastic_php_phpmd_post_args = $VIMHOME.'/Work/trulia/phpmd.xml'
-
-  "  let g:syntastic_python_checkers = ['pyflakes']
-  "  let g:syntastic_python_flake8_args='--ignore=E501,E225'
-
-  "  let g:syntastic_rst_checkers = ['rstcheck']
-
-  "  let g:syntastic_javascript_checkers = ['eslint']
-  "  let g:syntastic_javascript_eslint_args = '--rule "no-var: 1"'
-
-  "  function! AggregateSyntasticErrors()
-  "    let g:syntastic_aggregate_errors = 1
-  "    execute 'SyntasticCheck'
-  "    let g:syntastic_aggregate_errors = 0
-  "  endfunction
-
-  "  let g:tsuquyomi_disable_quickfix = 1
-  "  let g:syntastic_typescript_checkers = ['tslint', 'tsuquyomi'] " You shouldn't use 'tsc' checker.
-  "  let g:syntastic_typescript_tslint_args = '--config tslint.json'
-  " }
   " OmniComplete
     " Popup menu hightLight Group
     "highlight Pmenu   ctermbg=13   guibg=DarkBlue
@@ -573,12 +541,16 @@ if has('gui_running')
 
   colorscheme base16-unikitty-dark
 else
-  set termguicolors
-  if &term =~# '^screen'
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  endif
   set mouse=a
-  colorscheme base16-onedark
+  if v:version < 800
+    colorscheme tango
+  else
+    set termguicolors
+    if &term =~# '^screen'
+      let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+      let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    endif
+    colorscheme base16-onedark
+  endif
 endif
 

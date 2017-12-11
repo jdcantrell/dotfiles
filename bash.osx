@@ -1,14 +1,16 @@
 # vim: set filetype=sh :
 
-#osx with brew
-export PATH="/usr/local/bin:/usr/local/sbin:~/.composer/vendor/bin:$PATH"
-export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"
-[ -s ".bash.tokens" ] && . .bash.tokens
+export NVM_DIR="/Users/jcantrell/.nvm/"
+[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh # This loads nvm
+nvm use default --delete-prefix
 
 . $(brew --prefix)/etc/bash_completion
 
-export NVM_DIR="/Users/jcantrell/.nvm/"
-[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh --delete-prefix # This loads nvm
+#osx with brew
+export PATH="/usr/local/sbin:$PATH"
+[ -s ".bash.tokens" ] && . .bash.tokens
+
+
 
 alias phpunit='php -dzend_extension=/usr/local/opt/php56-xdebug/xdebug.so /usr/local/bin/phpunit'
 
