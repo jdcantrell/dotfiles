@@ -533,7 +533,7 @@ if has('gui_running')
   if has("gui_macvim")
     set guifont=Source\ Code\ Pro:h16
   else
-    set guifont=Monospace\ 12
+    set guifont=Monospace\ 13
   endif
 
   "Remove all bells - this needs to be moved to .gvimrc
