@@ -71,64 +71,6 @@ EOF
 alias start-search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "nvm use --delete-prefix; yarn upgrade; yarn run build -- --watch"; cd ~/Work/search-web'
 alias dev-watch='tab ~/Work "bundle exec guard"'
 
-watchtest () {
-  echo "Watching for changes in ./$1 and ./tests/$1"
-  watchmedo shell-command -W -p "*.php" -R -c "phpunit --config tests/phpunit_local.xml tests/$1"
-}
-watchsrp () {
-  echo "Watching for changes, and running tests in $1/tests"
-  watchmedo shell-command -W -p "*.php" -R -c "phpunit --bootstrap tests/general/bootstrap.php $1/tests"
-}
-
-#Local dev site functions
-
-#find current directory in our list of sites
-dev_find() {
-  pwd=$(pwd)
-
-  for link in ~/.sites/*
-  do
-    dir=$(readlink "$link" -q);
-    if [ "$pwd" = "$dir" ]; then
-      echo "$link"
-      break
-    fi
-  done
-}
-
-#if this directory is not already a site create it
-#$1 - a name for the site, defaults to current directory name
-dev_mk() {
-  link=$(dev_find)
-  if [ -z "$link" ]; then
-    name=${1:-$(basename "$(pwd)")}
-    target="$HOME/.sites/$name"
-    if [ -f "$target" ]; then
-      echo 'Exists already.'
-    else
-      ln -s "$(pwd)" "$target"
-    fi
-    echo "http://$name.sim.bz"
-  else
-    echo "http://$link.sim.bz"
-  fi
-}
-
-#get xip.io url
-xip() {
-  ip=$(ifconfig utun0 | grep -Eo 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | cut -d ' ' -f2)
-  ip=$(ifconfig en0 | grep -Eo 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | cut -d ' ' -f2)
-  link=$(dev_find)
-  echo "http://$link.$ip.xip.io"
-}
-
-#use icanhazip.com to get your external ip
-xip_all() {
-  ip=$(curl icanhazip.com)
-  link=$(dev_find)
-  echo "http://$link.$ip.xip.io"
-}
-
 add_smudge() {
   name=$1
   filename=$2
