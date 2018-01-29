@@ -6,6 +6,7 @@ HISTFILESIZE=5000
 HISTSIZE=5000
 HISTCONTROL=ignoreboth
 HISTIGNORE='ls:bg:fg:history'
+PATH="$HOME/.local/bin:$PATH"
 
 export CLICOLOR=1
 export EDITOR='vim'
