@@ -48,6 +48,7 @@
   new = checkout -b
   unstage = reset -q HEAD --
   discard = checkout --
+  continue = rebase --continue
   delete-last-commit = reset --hard HEAD~1
   uncommit = reset --mixed HEAD~
   amend = commit --amend

@@ -30,6 +30,8 @@
   Plugin 'ctrlp.vim'
   Plugin 'junegunn/fzf.vim'
   Plugin 'Shougo/neocomplete.vim'
+  Plugin 'Shougo/neosnippet'
+  Plugin 'Shougo/neosnippet-snippets'
   Plugin 'Shougo/vimproc.vim'
   Plugin 'joonty/vdebug.git'
   Plugin 'airblade/vim-rooter'
@@ -49,7 +51,6 @@
   " " themes
   Plugin 'tango.vim'
   Plugin 'chriskempson/base16-vim'
-  Plugin 'badwolf'
 
   " " language helpers/enhancements
   Plugin 'jtriley/vim-rst-headings'
@@ -346,20 +347,9 @@ set omnifunc=syntaxcomplete#Complete
   smap <C-k>     <Plug>(neosnippet_expand_or_jump)
   xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-  imap <expr><C-k> (pumvisible()? "\<C-y>" : '') . "\<Plug>(neosnippet_expand_or_jump)"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-
-
-
-  " SuperTab like snippets behavior.
-  "imap <expr><TAB>
-  " \ pumvisible() ? "\<C-n>" :
-  " \ neosnippet#expandable_or_jumpable() ?
-  " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  imap <S-Tab>     <Plug>(neosnippet_expand_or_jump)
+  smap <S-Tab>     <Plug>(neosnippet_expand_or_jump)
+  xmap <S-Tab>     <Plug>(neosnippet_expand_target)
 
   " For conceal markers.
   if has('conceal')

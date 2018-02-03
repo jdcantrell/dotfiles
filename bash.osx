@@ -7,7 +7,7 @@ nvm use default --delete-prefix
 . $(brew --prefix)/etc/bash_completion
 
 #osx with brew
-export PATH="/usr/local/sbin:$PATH"
+export PATH="$HOME/.local/bin:/usr/local/sbin:~/Library/Python/3.6/bin/:$PATH"
 [ -s ".bash.tokens" ] && . .bash.tokens
 
 
