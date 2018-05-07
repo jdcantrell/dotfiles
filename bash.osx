@@ -1,8 +1,7 @@
 # vim: set filetype=sh :
 
 export NVM_DIR="/Users/jcantrell/.nvm/"
-[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh # This loads nvm
-nvm use default --delete-prefix
+[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh --no-use # This loads nvm
 
 . $(brew --prefix)/etc/bash_completion
 

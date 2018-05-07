@@ -11,12 +11,11 @@
   lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
 
   #daily util methods for creating new branches and pushing to remote
-  cssp = !sh -c 'git checkout -b WEBS-$1 -t origin/master' -
   webs = !sh -c 'git checkout -b WEBS-$1 -t origin/master' -
+  txl = !sh -c 'git checkout -b TXL-$1 -t origin/develop' -
 
   #checkout a branch that matches a string
   f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -
-  cssp = "!f() { git checkout -b CSSP-$1 -t origin/${2:-master}; }; f"
 
   done = !sh -c 'git push origin $(git symbolic-ref HEAD --short)' -
 
@@ -67,6 +66,7 @@
   diff = auto
   interactive = auto
   status = auto
+	ui = true
 [core]
   autocrlf = input
   excludesfile = "~/.gitignore"
@@ -79,3 +79,15 @@
   algorithm = patience
 [merge]
   ff = only
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
