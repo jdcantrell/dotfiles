@@ -47,6 +47,7 @@
 
   " " zen writing
   Plugin 'junegunn/goyo.vim'
+  Plugin 'mrtazz/simplenote.vim'
 
   " " themes
   Plugin 'tango.vim'
@@ -171,7 +172,7 @@
   set pastetoggle=<F12>    " pastetoggle (sane indentation on pastes)
 
   " disable textwrapping
-  set textwidth=100
+  set textwidth=80
 
   "enable comment text wrapping and comment leading
   set formatoptions=croq
@@ -209,6 +210,12 @@
   noremap <Left> :bp<cr>
   noremap <Right> :bn<cr>
 
+  noremap <S-Left> :let &columns = &columns - 1<cr>
+  noremap <S-Right> :let &columns = &columns + 1<cr>
+  noremap <S-Up> :let &lines = &lines - 1<cr>
+  noremap <S-Down> :let &lines = &lines + 1<cr>
+
+
   " pageing
   nnoremap <Space> <C-d>
   nnoremap <S-Space> <C-u>
@@ -226,6 +233,7 @@
   vnoremap <C-C> "+y
 
   cmap w!! w !sudo tee % >/dev/null
+
 
 
   " expand path on %%:
@@ -461,6 +469,11 @@ augroup ft_markdown
   au FileType markdown setlocal spell
   "au FileType markdown nested NeoCompleteLock
 augroup end
+" }
+
+" Simplenote {
+  source ~/.simplenoterc
+  let g:SimplenoteFiletype = 'markdown'
 " }
 
 " Smarty Stuff {

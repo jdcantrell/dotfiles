@@ -13,6 +13,7 @@ export PATH="$HOME/.local/bin:/usr/local/sbin:~/Library/Python/3.6/bin/:$PATH"
 
 alias phpunit='php -dzend_extension=/usr/local/opt/php56-xdebug/xdebug.so /usr/local/bin/phpunit'
 
+
 alias love="/Applications/love.app/Contents/MacOS/love"
 
 tab () {
@@ -69,6 +70,7 @@ EOF
 
 alias start-search-web='new_window ~/Work/search-web "./run.sh"; new_window ~/Work/search-web/ "nvm use --delete-prefix; yarn upgrade; yarn run build -- --watch"; cd ~/Work/search-web'
 alias dev-watch='tab ~/Work "bundle exec guard"'
+alias start-txl='new_window ~/Work/txl "nvm use --delete-prefix; yarn test:watch"; new_window ~/Work/txl "nvm use --delete-prefix; yarn dev-docs"; cd ~/Work/txl'
 
 add_smudge() {
   name=$1
