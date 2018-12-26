@@ -37,8 +37,6 @@
   Plugin 'airblade/vim-rooter'
   Plugin 'vim-scripts/Rename'
 
-
-  " Plugin 'Syntastic'
   Plugin 'w0rp/ale'
   Plugin 'Tagbar'
   Plugin 'vim-airline/vim-airline'
@@ -52,6 +50,7 @@
   " " themes
   Plugin 'tango.vim'
   Plugin 'chriskempson/base16-vim'
+  Plugin 'morhetz/gruvbox'
 
   " " language helpers/enhancements
   Plugin 'jtriley/vim-rst-headings'
@@ -62,6 +61,7 @@
 
   " python
   Plugin 'Vimjas/vim-python-pep8-indent'
+  Plugin 'davidhalter/jedi-vim'
 
   " php
   Plugin 'evidens/vim-twig'
@@ -76,7 +76,8 @@
   Plugin 'gavocanov/vim-js-indent'
   Plugin 'othree/yajs.vim'
   Plugin 'mxw/vim-jsx'
-  Plugin 'jdcantrell/syntastic-local-eslint.vim'
+  Plugin 'benjie/local-npm-bin.vim'
+
 
   " typescript
   " Plugin 'Quramy/tsuquyomi'
@@ -349,16 +350,6 @@ set omnifunc=syntaxcomplete#Complete
   "endif
   "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
-  " NeoSnippets
-  " Plugin key-mappings.
-  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-  imap <S-Tab>     <Plug>(neosnippet_expand_or_jump)
-  smap <S-Tab>     <Plug>(neosnippet_expand_or_jump)
-  xmap <S-Tab>     <Plug>(neosnippet_expand_target)
-
   " For conceal markers.
   if has('conceal')
     set conceallevel=2 concealcursor=niv
@@ -370,7 +361,7 @@ set omnifunc=syntaxcomplete#Complete
   "
 
   " Airline
-    let g:airline#extensions#ale#enabled = 1
+  " let g:airline#extensions#ale#enabled = 1
     if has('gui_running')
       let g:airline_left_sep=''
       let g:airline_right_sep=''
@@ -417,10 +408,15 @@ set omnifunc=syntaxcomplete#Complete
 
   " Ale {
      nmap <silent> <leader>n <Plug>(ale_next_wrap)
-     let g:ale_sign_error = '='
-     let g:ale_sign_warning = '-'
+     " The space in front of the error and warning sign is a unicode em space
+     " for some reason vim doesn't like a regular space when setting the sign characters
+     let g:ale_sign_error = ' ✖'
+     let g:ale_sign_warning = ' ➤'
+     let g:ale_sign_info = '🛈'
      let g:ale_sign_column_always = 1
      let g:ale_lint_on_save = 1
+     let g:ale_lint_on_text_changed = 'always'
+     let g:ale_lint_delay = 750
 
      let g:ale_php_phpcs_standard = $VIMHOME.'/Work/code-quality-configs/CodeSniffer/phpcs.xml'
      let g:ale_php_phpmd_ruleset = $VIMHOME.'/Work/code-quality-configs/MessDetector/phpmd.xml'
@@ -436,9 +432,7 @@ set omnifunc=syntaxcomplete#Complete
      let g:ale_fixers['javascript'] = ['prettier']
      let g:ale_fix_on_save = 1
      let g:ale_javascript_prettier_options = '--single-quote --trailing-comma'
-
   " }
-
 
   " OmniComplete
     " Popup menu hightLight Group
@@ -484,18 +478,16 @@ augroup ft_html
   au FileType html setlocal spell
 augroup end
 
-" }
-
 " es6 {
   let g:jsx_ext_required = 0 " allow jsx in .js
 " }
 
 augroup ft_python
   au!
-  au BufRead,BufNewFile *.py,*pyw setlocal shiftwidth=4
-  au BufRead,BufNewFile *py,*pyw setlocal tabstop=4
-  au BufRead,BufNewFile *py,*pyw setlocal softtabstop=4
-  au BufRead,BufNewFile *py,*pyw setlocal shiftround
+  au BufRead,BufNewFile * setlocal shiftwidth=4
+  au BufRead,BufNewFile * setlocal tabstop=4
+  au BufRead,BufNewFile * setlocal softtabstop=4
+  au BufRead,BufNewFile * setlocal shiftround
 augroup end
 
 let php_sql_query = 0
@@ -526,6 +518,12 @@ autocmd BufWritePre *  :%s/\s\+$//e
 set background=dark
 if has('gui_running')
 
+  map <S-Left> :set columns-=1<CR>
+  map <S-Right> :set columns+=5<CR>
+  map <S-Up> :set lines-=1<CR>
+  map <S-Down> :set lines+=5<CR>
+
+
    set guioptions-=T            " remove the toolbar
    set guioptions-=l            " remove the left scrollbar
    set guioptions-=L            " remove the toolbar
@@ -553,7 +551,7 @@ else
       let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
       let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
     endif
-    colorscheme base16-onedark
+    colorscheme gruvbox
   endif
 endif
 
