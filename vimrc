@@ -6,6 +6,7 @@
 " Environment {
   " Basics {
     set nocompatible     " must be first line
+    set pyx=3
   " }
 
   " Windows Compatible {
@@ -33,7 +34,6 @@
   Plugin 'Shougo/neosnippet'
   Plugin 'Shougo/neosnippet-snippets'
   Plugin 'Shougo/vimproc.vim'
-  Plugin 'joonty/vdebug.git'
   Plugin 'airblade/vim-rooter'
   Plugin 'vim-scripts/Rename'
 
@@ -41,11 +41,11 @@
   Plugin 'Tagbar'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
-  Plugin 'Gundo'
+  Plugin 'sjl/gundo.vim'
+  Plugin 'buffet.vim'
 
   " " zen writing
   Plugin 'junegunn/goyo.vim'
-  Plugin 'mrtazz/simplenote.vim'
 
   " " themes
   Plugin 'tango.vim'
@@ -76,7 +76,6 @@
   Plugin 'gavocanov/vim-js-indent'
   Plugin 'othree/yajs.vim'
   Plugin 'mxw/vim-jsx'
-  Plugin 'benjie/local-npm-bin.vim'
 
 
   " typescript
@@ -361,12 +360,8 @@ set omnifunc=syntaxcomplete#Complete
   "
 
   " Airline
-  " let g:airline#extensions#ale#enabled = 1
-    if has('gui_running')
-      let g:airline_left_sep=''
-      let g:airline_right_sep=''
-      let g:airline#extensions#tagbar#enabled = 0
-    endif
+  let g:airline_powerline_fonts = 1
+  let g:airline#extensions#tabline#enabled = 1
   "
 
   " ctrlp {
@@ -398,13 +393,6 @@ set omnifunc=syntaxcomplete#Complete
   let g:rooter_silent_chdir = 1
   " }
 
-  " vdebug {
-    let g:vdebug_options = {'ide_key': 'netbeans-xdebug'}
-    let g:vdebug_options = {'break_on_open': 0}
-    let g:vdebug_options = {'server': 'fedev.sv2.trulia.com'}
-    let g:vdebug_options = {'port': '9000'}
-    let g:vdebug_options['path_maps'] = {'/Users/jcantrell/Trulia': '/home/jcantrell/public_html'}
-  " }
 
   " Ale {
      nmap <silent> <leader>n <Plug>(ale_next_wrap)
@@ -454,6 +442,11 @@ set omnifunc=syntaxcomplete#Complete
   endif
 " }
 
+" Gundo {
+  let g:gundo_prefer_python3 = 1
+" }
+
+
 " Markdown Settings {
 augroup ft_markdown
   au!
@@ -464,12 +457,6 @@ augroup ft_markdown
   "au FileType markdown nested NeoCompleteLock
 augroup end
 " }
-
-" Simplenote {
-  source ~/.simplenoterc
-  let g:SimplenoteFiletype = 'markdown'
-" }
-
 " Smarty Stuff {
 augroup ft_html
   au!
@@ -483,11 +470,12 @@ augroup end
 " }
 
 augroup ft_python
-  au!
-  au BufRead,BufNewFile * setlocal shiftwidth=4
-  au BufRead,BufNewFile * setlocal tabstop=4
-  au BufRead,BufNewFile * setlocal softtabstop=4
-  au BufRead,BufNewFile * setlocal shiftround
+   au!
+   au Filetype python setlocal
+         \ shiftwidth=4
+         \ tabstop=4
+         \ softtabstop=4
+         \ shiftround
 augroup end
 
 let php_sql_query = 0
@@ -532,7 +520,7 @@ if has('gui_running')
   " set guioptions-=m            " remove the toolbar
 
   if has("gui_macvim")
-    set guifont=Source\ Code\ Pro:h16
+    set guifont=MesloLGSNerdFontCompleteM-Regular:h16
   else
     set guifont=Monospace\ 13
   endif
@@ -540,7 +528,7 @@ if has('gui_running')
   "Remove all bells - this needs to be moved to .gvimrc
   set vb t_vb=
 
-  colorscheme base16-unikitty-dark
+  colorscheme gruvbox
 else
   set mouse=a
   if v:version < 800
