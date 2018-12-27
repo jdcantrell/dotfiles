@@ -23,13 +23,11 @@
   filetype off
   " Setup Bundle Support {
   set rtp+=~/.vim/bundle/Vundle.vim/
-  set rtp+=~/usr/local/opt/fzf
   call vundle#begin()
   " vim plugins
   Plugin 'gmarik/Vundle.vim'
   Plugin 'matchit.zip'
-  Plugin 'ctrlp.vim'
-  Plugin 'junegunn/fzf.vim'
+  Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'Shougo/neocomplete.vim'
   Plugin 'Shougo/neosnippet'
   Plugin 'Shougo/neosnippet-snippets'
@@ -83,6 +81,8 @@
   " Plugin 'HerringtonDarkholme/yats.vim'
 
   Plugin 'dzeban/vim-log-syntax'
+
+  Plugin 'ryanoasis/vim-devicons'
 
   call vundle#end()
  " }
@@ -354,10 +354,6 @@ set omnifunc=syntaxcomplete#Complete
     set conceallevel=2 concealcursor=niv
   endif
 
-  " JSHint
-  let g:jshintprg="/usr/bin/jshint"
-
-  "
 
   " Airline
   let g:airline_powerline_fonts = 1
@@ -380,14 +376,6 @@ set omnifunc=syntaxcomplete#Complete
      endif
   " }
 
-  "pdv
-  let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
-  nnoremap <leader>c :call pdv#DocumentWithSnip()<CR>
-
-
-  " Sparkup
-    let g:sparkupExecuteMapping = '<D-e>'
-  "
 
   " vim-rooter {
   let g:rooter_silent_chdir = 1
@@ -447,27 +435,11 @@ set omnifunc=syntaxcomplete#Complete
 " }
 
 
-" Markdown Settings {
 augroup ft_markdown
   au!
-
   au BufNewFile,BufRead *.md setlocal filetype=markdown
   au FileType markdown setlocal formatoptions+=t
-  au FileType markdown setlocal spell
-  "au FileType markdown nested NeoCompleteLock
 augroup end
-" }
-" Smarty Stuff {
-augroup ft_html
-  au!
-
-  au BufNewFile,BufRead *.tpl setlocal filetype=smarty
-  au FileType html setlocal spell
-augroup end
-
-" es6 {
-  let g:jsx_ext_required = 0 " allow jsx in .js
-" }
 
 augroup ft_python
    au!
@@ -477,9 +449,6 @@ augroup ft_python
          \ softtabstop=4
          \ shiftround
 augroup end
-
-let php_sql_query = 0
-let php_html_load = 0
 
 function! PhpSyntaxOverride()
   hi! def link phpDocTags  phpDefine
@@ -511,18 +480,17 @@ if has('gui_running')
   map <S-Up> :set lines-=1<CR>
   map <S-Down> :set lines+=5<CR>
 
-
-   set guioptions-=T            " remove the toolbar
-   set guioptions-=l            " remove the left scrollbar
-   set guioptions-=L            " remove the toolbar
-   set guioptions-=r            " remove right scrollbar
-   set guioptions-=R            " remove the toolbar
+  set guioptions-=T            " remove the toolbar
+  set guioptions-=l            " remove the left scrollbar
+  set guioptions-=L            " remove the toolbar
+  set guioptions-=r            " remove right scrollbar
+  set guioptions-=R            " remove the toolbar
   " set guioptions-=m            " remove the toolbar
 
   if has("gui_macvim")
     set guifont=MesloLGSNerdFontCompleteM-Regular:h16
   else
-    set guifont=Monospace\ 13
+    set guifont=DejaVu\ Sans\ Mono\ Nerd\ Font\ 14
   endif
 
   "Remove all bells - this needs to be moved to .gvimrc
@@ -542,4 +510,3 @@ else
     colorscheme gruvbox
   endif
 endif
-
