@@ -34,6 +34,7 @@
   Plugin 'Shougo/vimproc.vim'
   Plugin 'airblade/vim-rooter'
   Plugin 'vim-scripts/Rename'
+  Plugin 'jeetsukumaran/vim-buffergator'
 
   Plugin 'w0rp/ale'
   Plugin 'Tagbar'
@@ -83,6 +84,7 @@
   Plugin 'dzeban/vim-log-syntax'
 
   Plugin 'ryanoasis/vim-devicons'
+  Plugin 'mhinz/vim-startify'
 
   call vundle#end()
  " }
@@ -420,20 +422,25 @@ set omnifunc=syntaxcomplete#Complete
     hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
     hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
     hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
-" }
+  " }
 
-" Diff Settings {
-  set diffexpr=
-  if &diff
-    let &lines=50
-    let &columns=200
-  endif
-" }
+  " Diff Settings {
+    set diffexpr=
+    if &diff
+      let &lines=50
+      let &columns=200
+    endif
+  " }
 
-" Gundo {
-  let g:gundo_prefer_python3 = 1
-" }
+  " Gundo {
+    let g:gundo_prefer_python3 = 1
+  " }
+  "
+  " vim-filer {
+    let g:gundo_prefer_python3 = 1
+  " }
 
+" }
 
 augroup ft_markdown
   au!
