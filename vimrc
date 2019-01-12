@@ -32,6 +32,8 @@
   Plugin 'Shougo/neosnippet'
   Plugin 'Shougo/neosnippet-snippets'
   Plugin 'Shougo/vimproc.vim'
+  Plugin 'Shougo/vimfiler.vim'
+  Plugin 'Shougo/unite.vim'
   Plugin 'airblade/vim-rooter'
   Plugin 'vim-scripts/Rename'
   Plugin 'jeetsukumaran/vim-buffergator'
@@ -54,6 +56,7 @@
   " " language helpers/enhancements
   Plugin 'jtriley/vim-rst-headings'
   Plugin 'tpope/vim-markdown'
+  Plugin 'ap/vim-css-color'
 
   " lisp
   Plugin 'kovisoft/slimv'
@@ -437,8 +440,19 @@ set omnifunc=syntaxcomplete#Complete
   " }
   "
   " vim-filer {
-    let g:gundo_prefer_python3 = 1
+    let g:vimfiler_as_default_explorer = 1
+    call vimfiler#custom#profile('default', 'context', {
+	    \ 'safe' : 0,
+      \ })
   " }
+
+  " unite {
+    let g:unite_source_grep_command="ag"
+    let g:unite_source_grep_default_opts="-i --nocolor --nogroup"
+
+    nmap <silent> <leader>ag :execute 'Unite grep:'.getcwd()<cr>
+  " }
+
 
 " }
 
