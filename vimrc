@@ -36,14 +36,14 @@
   Plugin 'Shougo/unite.vim'
   Plugin 'airblade/vim-rooter'
   Plugin 'vim-scripts/Rename'
-  Plugin 'jeetsukumaran/vim-buffergator'
 
   Plugin 'w0rp/ale'
   Plugin 'Tagbar'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
   Plugin 'sjl/gundo.vim'
-  Plugin 'buffet.vim'
+  Plugin 'sandeepcr529/Buffet.vim'
+  Plugin 'tpope/vim-fugitive'
 
   " " zen writing
   Plugin 'junegunn/goyo.vim'
@@ -63,7 +63,7 @@
 
   " python
   Plugin 'Vimjas/vim-python-pep8-indent'
-  Plugin 'davidhalter/jedi-vim'
+  " Plugin 'davidhalter/jedi-vim'
 
   " php
   Plugin 'evidens/vim-twig'
@@ -462,6 +462,11 @@ augroup ft_markdown
   au FileType markdown setlocal formatoptions+=t
 augroup end
 
+augroup ft_htmldjango
+  au!
+  au BufNewFile,BufRead *.j2 setlocal filetype=htmldjango
+augroup end
+
 augroup ft_python
    au!
    au Filetype python setlocal
@@ -510,6 +515,7 @@ if has('gui_running')
 
   if has("gui_macvim")
     set guifont=MesloLGSNerdFontCompleteM-Regular:h16
+    cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>
   else
     set guifont=DejaVu\ Sans\ Mono\ Nerd\ Font\ 14
   endif

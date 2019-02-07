@@ -1,6 +1,6 @@
 # vim: set filetype=sh :
 
-export NVM_DIR="/Users/jcantrell/.nvm/"
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh --no-use # This loads nvm
 
 . $(brew --prefix)/etc/bash_completion
