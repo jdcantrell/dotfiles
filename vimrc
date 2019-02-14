@@ -180,7 +180,7 @@
   set textwidth=80
 
   "enable comment text wrapping and comment leading
-  set formatoptions=croq
+  set formatoptions=croqa
 
   "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
   set completeopt=menu,menuone
@@ -453,6 +453,30 @@ set omnifunc=syntaxcomplete#Complete
     nmap <silent> <leader>ag :execute 'Unite grep:'.getcwd()<cr>
   " }
 
+  " goyo {
+  function! s:goyo_enter()
+    let b:quitting = 0
+    let b:quitting_bang = 0
+    setlocal tw=0
+    setlocal wm=2
+    autocmd QuitPre <buffer> let b:quitting = 1
+    cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+  endfunction
+
+  function! s:goyo_leave()
+    " Quit Vim if this is the only remaining buffer
+    if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+      if b:quitting_bang
+        qa!
+      else
+        qa
+      endif
+    endif
+  endfunction
+
+  autocmd! User GoyoEnter call <SID>goyo_enter()
+  autocmd! User GoyoLeave call <SID>goyo_leave()
+  " }
 
 " }
 
@@ -491,6 +515,7 @@ augroup lexical
   autocmd FileType markdown,mkd setlocal spell
   autocmd FileType rst setlocal spell
   autocmd FileType text setlocal spell
+  autocmd FileType text setlocal fo+=t
   autocmd FileType html setlocal spell
   autocmd FileType html.twig setlocal spell
 augroup END

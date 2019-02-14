@@ -1,0 +1,13 @@
+{
+  "journals": {
+    "default": "/Users/jcantrell/Projects/notes/journal.txt"
+  },
+  "editor": "vim -c Goyo -c startinsert",
+  "encrypt": false,
+  "default_hour": 9,
+  "default_minute": 0,
+  "timeformat": "%Y-%m-%d %H:%M",
+  "tagsymbols": "@",
+  "highlight": true,
+  "linewrap": 79
+}
