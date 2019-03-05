@@ -47,6 +47,8 @@
 
   " " zen writing
   Plugin 'junegunn/goyo.vim'
+  Plugin 'junegunn/vim-journal'
+  Plugin 'junegunn/limelight.vim'
 
   " " themes
   Plugin 'tango.vim'
@@ -180,7 +182,7 @@
   set textwidth=80
 
   "enable comment text wrapping and comment leading
-  set formatoptions=croqa
+  set formatoptions=croq
 
   "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
   set completeopt=menu,menuone
@@ -411,6 +413,7 @@ set omnifunc=syntaxcomplete#Complete
 
      let g:ale_fixers = {}
      let g:ale_fixers['javascript'] = ['prettier']
+     let g:ale_fixers['javascript.jsx'] = ['prettier']
      let g:ale_fix_on_save = 1
      let g:ale_javascript_prettier_options = '--single-quote --trailing-comma'
   " }
@@ -457,10 +460,11 @@ set omnifunc=syntaxcomplete#Complete
   function! s:goyo_enter()
     let b:quitting = 0
     let b:quitting_bang = 0
-    setlocal tw=0
+    set textwidth=80
     setlocal wm=2
     autocmd QuitPre <buffer> let b:quitting = 1
     cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+    Limelight
   endfunction
 
   function! s:goyo_leave()
@@ -472,7 +476,10 @@ set omnifunc=syntaxcomplete#Complete
         qa
       endif
     endif
+    Limelight!
   endfunction
+
+
 
   autocmd! User GoyoEnter call <SID>goyo_enter()
   autocmd! User GoyoLeave call <SID>goyo_leave()
