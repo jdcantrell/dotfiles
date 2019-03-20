@@ -460,7 +460,7 @@ set omnifunc=syntaxcomplete#Complete
   function! s:goyo_enter()
     let b:quitting = 0
     let b:quitting_bang = 0
-    set textwidth=80
+    setlocal textwidth=78
     setlocal wm=2
     autocmd QuitPre <buffer> let b:quitting = 1
     cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
