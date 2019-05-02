@@ -3,18 +3,11 @@
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh --no-use # This loads nvm
 
-. $(brew --prefix)/etc/bash_completion
+# brew install bash-completion
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-#osx with brew
-export PATH="/usr/local/opt/php@7.1/bin:$HOME/.local/bin:/usr/local/sbin:~/Library/Python/3.7/bin/:$PATH"
-[ -s ".bash.tokens" ] && . .bash.tokens
-
-
-
-alias phpunit='php -dzend_extension=/usr/local/opt/php56-xdebug/xdebug.so /usr/local/bin/phpunit'
-
-
-alias love="/Applications/love.app/Contents/MacOS/love"
+# add homebrew's python pass
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 
 tab () {
   local cmd=""

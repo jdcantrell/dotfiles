@@ -1,6 +1,8 @@
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+export GPG_TTY=$(tty)
+
 #set up our environment
 HISTFILESIZE=5000
 HISTSIZE=5000
@@ -130,5 +132,3 @@ PROMPT_COMMAND=set_bash_prompt
 if [ -f ~/.bash.local ]; then
   source ~/.bash.local
 fi
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

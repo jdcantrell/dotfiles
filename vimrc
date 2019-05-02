@@ -36,6 +36,7 @@
   Plugin 'Shougo/unite.vim'
   Plugin 'airblade/vim-rooter'
   Plugin 'vim-scripts/Rename'
+  Plugin 'jamessan/vim-gnupg'
 
   Plugin 'w0rp/ale'
   Plugin 'Tagbar'
@@ -414,6 +415,7 @@ set omnifunc=syntaxcomplete#Complete
      let g:ale_fixers = {}
      let g:ale_fixers['javascript'] = ['prettier']
      let g:ale_fixers['javascript.jsx'] = ['prettier']
+     let g:ale_fixers['python'] = ['black']
      let g:ale_fix_on_save = 1
      let g:ale_javascript_prettier_options = '--single-quote --trailing-comma'
   " }
@@ -455,6 +457,9 @@ set omnifunc=syntaxcomplete#Complete
 
     nmap <silent> <leader>ag :execute 'Unite grep:'.getcwd()<cr>
   " }
+  " Armor files
+    let g:GPGPreferArmor=1
+    let g:GPGDefaultRecipients=["jd@goodrobot.net"]
 
   " goyo {
   function! s:goyo_enter()
