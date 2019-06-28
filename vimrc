@@ -55,6 +55,8 @@
   Plugin 'tango.vim'
   Plugin 'chriskempson/base16-vim'
   Plugin 'morhetz/gruvbox'
+  Plugin 'kamwitsta/flatwhite-vim'
+  Plugin 'atelierbram/Base2Tone-vim'
 
   " " language helpers/enhancements
   Plugin 'jtriley/vim-rst-headings'
@@ -103,6 +105,7 @@
 
   scriptencoding utf-8
 
+  set nomodeline
   set modelines=5
   set shortmess+=filmnrxoOtT       " abbrev. of messages (avoids 'hit enter')
   set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
@@ -404,18 +407,16 @@ set omnifunc=syntaxcomplete#Complete
 
      let g:ale_php_phpcs_standard = $VIMHOME.'/Work/code-quality-configs/CodeSniffer/phpcs.xml'
      let g:ale_php_phpmd_ruleset = $VIMHOME.'/Work/code-quality-configs/MessDetector/phpmd.xml'
-     let g:ale_javascript_eslint_executable = 'npm run eslint'
-     let g:ale_javascript_eslint_options = '--rule "no-var: 1"'
 
-     let g:ale_linters = { 'html': ['htmlhint'], 'typescript': ['tslint', 'tsserver', 'typecheck'], }
+     " let g:ale_linters = { 'html': ['htmlhint'], 'typescript': ['tslint', 'tsserver', 'typecheck'], }
      let g:ale_maximum_file_size = 60000
 
-     let g:ale_pattern_options = { '.*static/js/.*\.js$': {'ale_enabled': 0}, '.*_built/.*\.js$': {'ale_enabled': 0} }
-
-     let g:ale_fixers = {}
-     let g:ale_fixers['javascript'] = ['prettier']
-     let g:ale_fixers['javascript.jsx'] = ['prettier']
-     let g:ale_fixers['python'] = ['black']
+     let g:ale_fixers = {
+           \ 'javascript': ['prettier'],
+           \ 'javascript.jsx': ['prettier'],
+           \ 'css': ['prettier'],
+           \ 'python': ['black'],
+           \}
      let g:ale_fix_on_save = 1
      let g:ale_javascript_prettier_options = '--single-quote --trailing-comma'
   " }
@@ -535,7 +536,7 @@ augroup END
 " Remove trailing whitespaces and ^M chars
 autocmd BufWritePre *  :%s/\s\+$//e
 
-set background=dark
+set background=light
 if has('gui_running')
 
   map <S-Left> :set columns-=1<CR>

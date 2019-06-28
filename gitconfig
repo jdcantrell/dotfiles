@@ -47,9 +47,10 @@
   new = checkout -b
   unstage = reset -q HEAD --
   discard = checkout --
+  forget = checkout HEAD~1 --
   continue = rebase --continue
   delete-last-commit = reset --hard HEAD~1
-  uncommit = reset --mixed HEAD~
+  uncommit = reset HEAD~
   amend = commit --amend
   nevermind = !git reset --hard HEAD && git clean -d -f
   branches = branch -a
