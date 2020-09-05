@@ -32,10 +32,13 @@
   Plugin 'Shougo/neosnippet'
   Plugin 'Shougo/neosnippet-snippets'
   Plugin 'Shougo/vimproc.vim'
-  Plugin 'Shougo/vimfiler.vim'
-  Plugin 'Shougo/unite.vim'
+  Plugin 'Shougo/defx.nvim'
+  Plugin 'roxma/nvim-yarp'
+  Plugin 'roxma/vim-hug-neovim-rpc'
+  Plugin 'Shougo/denite.nvim'
   Plugin 'airblade/vim-rooter'
-  Plugin 'vim-scripts/Rename'
+  Plugin 'mileszs/ack.vim'
+
   Plugin 'jamessan/vim-gnupg'
 
   Plugin 'w0rp/ale'
@@ -45,6 +48,7 @@
   Plugin 'sjl/gundo.vim'
   Plugin 'sandeepcr529/Buffet.vim'
   Plugin 'tpope/vim-fugitive'
+  Plugin 'tpope/vim-eunuch'
 
   " " zen writing
   Plugin 'junegunn/goyo.vim'
@@ -55,8 +59,6 @@
   Plugin 'tango.vim'
   Plugin 'chriskempson/base16-vim'
   Plugin 'morhetz/gruvbox'
-  Plugin 'kamwitsta/flatwhite-vim'
-  Plugin 'atelierbram/Base2Tone-vim'
 
   " " language helpers/enhancements
   Plugin 'jtriley/vim-rst-headings'
@@ -71,27 +73,23 @@
   " Plugin 'davidhalter/jedi-vim'
 
   " php
-  Plugin 'evidens/vim-twig'
-  Plugin 'smarty-syntax'
-  Plugin 'StanAngeloff/php.vim'
-  Plugin 'shawncplus/phpcomplete.vim'
-  Plugin '2072/PHP-Indenting-for-VIm'
+  " Plugin 'evidens/vim-twig'
+  " Plugin 'smarty-syntax'
+  " Plugin 'StanAngeloff/php.vim'
+  " Plugin 'shawncplus/phpcomplete.vim'
+  " Plugin '2072/PHP-Indenting-for-VIm'
 
   " html/js
   Plugin 'othree/html5.vim'
   Plugin 'elzr/vim-json'
-  Plugin 'gavocanov/vim-js-indent'
-  Plugin 'othree/yajs.vim'
-  Plugin 'mxw/vim-jsx'
-
-
-  " typescript
-  " Plugin 'Quramy/tsuquyomi'
-  " Plugin 'HerringtonDarkholme/yats.vim'
+  Plugin 'pangloss/vim-javascript'
+  Plugin 'leafgarland/typescript-vim'
+  Plugin 'MaxMEllon/vim-jsx-pretty'
+  Plugin 'jparise/vim-graphql'
 
   Plugin 'dzeban/vim-log-syntax'
 
-  Plugin 'ryanoasis/vim-devicons'
+  " Plugin 'ryanoasis/vim-devicons'
   Plugin 'mhinz/vim-startify'
 
   call vundle#end()
@@ -367,7 +365,7 @@ set omnifunc=syntaxcomplete#Complete
 
 
   " Airline
-  let g:airline_powerline_fonts = 1
+  " let g:airline_powerline_fonts = 1
   let g:airline#extensions#tabline#enabled = 1
   "
 
@@ -375,10 +373,10 @@ set omnifunc=syntaxcomplete#Complete
     let g:ctrlp_working_path_mode = 'ra'
 
     let g:ctrlp_use_caching = 0
-     if executable('ag')
-         set grepprg=ag\ --nogroup\ --nocolor
+     if executable('rg')
+         set grepprg=rg\ --color=never
 
-         let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+         let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
      else
        let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
        let g:ctrlp_prompt_mappings = {
@@ -399,7 +397,7 @@ set omnifunc=syntaxcomplete#Complete
      " for some reason vim doesn't like a regular space when setting the sign characters
      let g:ale_sign_error = ' ✖'
      let g:ale_sign_warning = ' ➤'
-     let g:ale_sign_info = '🛈'
+     let g:ale_sign_info = ' ➤'
      let g:ale_sign_column_always = 1
      let g:ale_lint_on_save = 1
      let g:ale_lint_on_text_changed = 'always'
@@ -414,11 +412,24 @@ set omnifunc=syntaxcomplete#Complete
      let g:ale_fixers = {
            \ 'javascript': ['prettier'],
            \ 'javascript.jsx': ['prettier'],
+           \ 'typescript': ['prettier'],
+           \ 'typescript.tsx': ['prettier'],
            \ 'css': ['prettier'],
+           \ 'html': ['prettier'],
            \ 'python': ['black'],
            \}
+     " let g:ale_fixers = {
+     "       \ 'javascript': [],
+     "       \ 'javascript.jsx': [],
+     "       \ 'typescript': [],
+     "       \ 'typescript.tsx': [],
+     "       \ 'css': [],
+     "       \ 'python': ['black'],
+     "       \}
      let g:ale_fix_on_save = 1
-     let g:ale_javascript_prettier_options = '--single-quote --trailing-comma'
+     let g:ale_javascript_prettier_options = ''
+     let g:ale_exclude_highlights = []
+
   " }
 
   " OmniComplete
@@ -445,15 +456,10 @@ set omnifunc=syntaxcomplete#Complete
     let g:gundo_prefer_python3 = 1
   " }
   "
-  " vim-filer {
-    let g:vimfiler_as_default_explorer = 1
-    call vimfiler#custom#profile('default', 'context', {
-	    \ 'safe' : 0,
-      \ })
-  " }
 
   " unite {
-    let g:unite_source_grep_command="ag"
+  "
+    let g:unite_source_grep_command="rg"
     let g:unite_source_grep_default_opts="-i --nocolor --nogroup"
 
     nmap <silent> <leader>ag :execute 'Unite grep:'.getcwd()<cr>
@@ -489,6 +495,23 @@ set omnifunc=syntaxcomplete#Complete
 
   autocmd! User GoyoEnter call <SID>goyo_enter()
   autocmd! User GoyoLeave call <SID>goyo_leave()
+  " }
+
+
+  " ack.vim {
+  let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
+
+  " Auto close the Quickfix list after pressing '<enter>' on a list item
+  let g:ack_autoclose = 1
+
+  " Any empty ack search will search for the work the cursor is on
+  let g:ack_use_cword_for_empty_search = 1
+
+  " Don't jump to first match
+  cnoreabbrev Ack Ack!
+
+  " Maps <leader>/ so we're ready to type the search keyword
+  nnoremap <Leader>/ :Ack!<Space>
   " }
 
 " }
@@ -533,10 +556,15 @@ augroup lexical
   autocmd FileType html.twig setlocal spell
 augroup END
 
+" typescriptreact -> typescript.tsx
+autocmd bufnewfile,bufread *.tsx set filetype=typescript.tsx
+autocmd bufnewfile,bufread *.jsx set filetype=javascript.jsx
+
+
 " Remove trailing whitespaces and ^M chars
 autocmd BufWritePre *  :%s/\s\+$//e
 
-set background=light
+set background=dark
 if has('gui_running')
 
   map <S-Left> :set columns-=1<CR>
@@ -552,7 +580,8 @@ if has('gui_running')
   " set guioptions-=m            " remove the toolbar
 
   if has("gui_macvim")
-    set guifont=MesloLGSNerdFontCompleteM-Regular:h16
+    " set guifont=MesloLGSNerdFontCompleteM-Regular:h16
+    set guifont=JetBrainsMono-Light:h16
     cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>
   else
     set guifont=DejaVu\ Sans\ Mono\ Nerd\ Font\ 14
@@ -572,6 +601,6 @@ else
       let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
       let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
     endif
-    colorscheme gruvbox
+    colorscheme base16-snazzy
   endif
 endif

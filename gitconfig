@@ -10,10 +10,6 @@
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
 
-  #daily util methods for creating new branches and pushing to remote
-  webs = !sh -c 'git checkout -b WEBS-$1 -t origin/master' -
-  txl = !sh -c 'git checkout -b TXL-$1 -t origin/develop' -
-
   #checkout a branch that matches a string
   f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -
 
@@ -33,11 +29,9 @@
   #authors
   authors = !git log --raw | grep "^Author: " | sort | uniq | cut -d ' ' -f2- | sed 's/^/- /'
 
-  #setup forked push url and set email for trulia
-  #todo: make web a param
-  trulia = "!f() { source=$(git remote -v | grep 'origin' | grep 'fetch' | awk '{print $2}'); me=$(echo $source | sed -e 's/web/~jcantrell/'); git remote set-url --push origin $me; git remote add source $source; git remote add me $me; git config user.email 'jcantrell@trulia.com'; }; f" -
+  work = "!f() { git config user.email 'jd@arceo.ai'; }; f" -
 
-  fix-author = commit --amend --author 'JD Cantrell <jcantrell@trulia.com>'
+  fix-author = commit --amend --author 'JD Cantrell <jd@arceo.ai>'
 
   last-week = log --since="last week" --decorate --date=short --pretty="%ad (%ar) -- %s" --author="$(git config --get user.name)"
 
@@ -60,6 +54,7 @@
   delete-commit = reset --hard HEAD~1
   undo-commit = reset --soft HEAD~1
   reset-me = "!git reset me/$(git branch-name) --hard"
+  force-push = "push --force-with-lease"
 
 
 [color]
@@ -71,6 +66,7 @@
 [core]
   autocrlf = input
   excludesfile = "~/.gitignore"
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [github]
   user = jdcantrell
 [push]
@@ -92,3 +88,5 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[pull]
+	ff = only
