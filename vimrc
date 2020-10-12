@@ -21,6 +21,7 @@
 
   set ffs=unix,dos
   filetype off
+  set rtp+=/usr/local/opt/fzf
   " Setup Bundle Support {
   set rtp+=~/.vim/bundle/Vundle.vim/
   call vundle#begin()
@@ -28,14 +29,12 @@
   Plugin 'gmarik/Vundle.vim'
   Plugin 'matchit.zip'
   Plugin 'ctrlpvim/ctrlp.vim'
-  Plugin 'Shougo/neocomplete.vim'
-  Plugin 'Shougo/neosnippet'
-  Plugin 'Shougo/neosnippet-snippets'
-  Plugin 'Shougo/vimproc.vim'
-  Plugin 'Shougo/defx.nvim'
+
   Plugin 'roxma/nvim-yarp'
   Plugin 'roxma/vim-hug-neovim-rpc'
-  Plugin 'Shougo/denite.nvim'
+  Plugin 'Shougo/deoplete.nvim'
+  Plugin 'Shougo/defx.nvim'
+
   Plugin 'airblade/vim-rooter'
   Plugin 'mileszs/ack.vim'
 
@@ -54,6 +53,7 @@
   Plugin 'junegunn/goyo.vim'
   Plugin 'junegunn/vim-journal'
   Plugin 'junegunn/limelight.vim'
+  Plugin 'junegunn/fzf.vim'
 
   " " themes
   Plugin 'tango.vim'
@@ -279,12 +279,12 @@
   nmap <leader>lc :lclose<CR>
 
 
-  nmap <leader>o :CtrlP<CR>
-  nmap <leader>vs :CtrlP ./vendor/trulia/search-core<CR>
-  nmap <leader>vc :CtrlP ./vendor/trulia/web-common<CR>
-  nmap <leader>vt :CtrlP ./vendor/trulia/
+  nmap <leader>o :GFiles<CR>
   nmap <leader>t :TagbarToggle<CR>
-  nmap <leader>b :Bufferlist<CR>
+  nmap <leader>b :Buffers<CR>
+  nmap <leader>g :Rg<CR>
+  nmap <leader>i :CtrlP<CR>
+  nmap <leader>I :Files<CR>
 
   " This will temporarily set the cwd to the current file, display
   " errors, move to first error and then reset cwd to the original
@@ -309,59 +309,9 @@ set omnifunc=syntaxcomplete#Complete
 
 " Plugins {
 
-  " Neocomplete
-  " Disable AutoComplPop.
-  let g:acp_enableAtStartup = 0
-  " Use neocomplete.
-  let g:neocomplete#enable_at_startup = 1
-  " Use smartcase.
-  let g:neocomplete#enable_smart_case = 1
-  " Set minimum syntax keyword length.
-  let g:neocomplete#sources#syntax#min_keyword_length = 3
-  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-  let g:neocomplete#max_list = 10
-
-  " Define dictionary.
-  let g:neocomplete#sources#dictionary#dictionaries = {
-      \ 'default' : '',
-      \ 'vimshell' : $HOME.'/.vimshell_hist',
-      \ 'scheme' : $HOME.'/.gosh_completions'
-          \ }
-
-  " remove spell check words
-  let g:neocomplcache_disabled_sources_list = {'_' : ['dictionary_complete']}
-
-  " Define keyword.
-  if !exists('g:neocomplete#keyword_patterns')
-      let g:neocomplete#keyword_patterns = {}
-  endif
-  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-  " Plugin key-mappings.
-  inoremap <expr><C-g>     neocomplete#undo_completion()
-  " inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-  " Recommended key-mappings.
-  " <CR>: close popup and save indent.
-  function! s:my_cr_function()
-    return neocomplete#close_popup() . "\<CR>"
-    " For no inserting <CR> key.
-    "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-  endfunction
-  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-  " <TAB>: completion.
+  " Deoplete
+  let g:deoplete#enable_at_startup = 1"
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-  " Enable heavy omni completion.
-  "if !exists('g:neocomplete#sources#omni#input_patterns')
-    "let g:neocomplete#sources#omni#input_patterns = {}
-  "endif
-  "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-
-  " For conceal markers.
-  if has('conceal')
-    set conceallevel=2 concealcursor=niv
-  endif
 
 
   " Airline
@@ -395,9 +345,9 @@ set omnifunc=syntaxcomplete#Complete
      nmap <silent> <leader>n <Plug>(ale_next_wrap)
      " The space in front of the error and warning sign is a unicode em space
      " for some reason vim doesn't like a regular space when setting the sign characters
-     let g:ale_sign_error = ' ✖'
-     let g:ale_sign_warning = ' ➤'
-     let g:ale_sign_info = ' ➤'
+     let g:ale_sign_error = '-'
+     let g:ale_sign_warning = '+'
+     let g:ale_sign_info = '+'
      let g:ale_sign_column_always = 1
      let g:ale_lint_on_save = 1
      let g:ale_lint_on_text_changed = 'always'
@@ -590,7 +540,7 @@ if has('gui_running')
   "Remove all bells - this needs to be moved to .gvimrc
   set vb t_vb=
 
-  colorscheme gruvbox
+  colorscheme base16-snazzy
 else
   set mouse=a
   if v:version < 800

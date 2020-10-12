@@ -1,13 +1,29 @@
 # vim: set filetype=sh :
+#
+# OpenSSL so we can install psychpg2 somedays
+# export LDFLAGS="-L/usr/local/opt/openssl/lib"
+# export CPPFLAGS="-I/usr/local/opt/openssl/include"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh --no-use # This loads nvm
 
+export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 # brew install bash-completion
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 # add homebrew's python pass
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+
+export PATH="/usr/local/opt/openssl/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
+
+
+#Arceo stuff
+EKS_CLUSTER=blue
+EKS_NAMESPACE=test  # there's no sre-staging! use sre-test for grafana, kibana and pgbouncer (rds)
+EKS_REGION=us-west-2
 
 tab () {
   local cmd=""
@@ -83,4 +99,10 @@ convert_video_to_gif() {
   ffmpeg -y -i "$1" -vf "fps=10,scale=$SCALE:flags=lanczos,palettegen" convert_video_to_gif_palette.png
   ffmpeg -y -i "$1" -i convert_video_to_gif_palette.png -filter_complex "fps=10,scale=$SCALE:flags=lanczos[x];[x][1:v]paletteuse" "$2"
   rm convert_video_to_gif_palette.png
+}
+
+jira() {
+  local NUMBER=$1
+  local PREFIX=${2:-"ENG"}
+  open "https://arceoanalytics.atlassian.net/browse/$PREFIX-$NUMBER"
 }

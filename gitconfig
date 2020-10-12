@@ -37,6 +37,8 @@
 
   branch-name = "!git rev-parse --abbrev-ref HEAD"
 
+  eng = !sh -c 'git checkout -b jd/ENG-$1 -t origin/staging' -
+
   #quality of life aliases
   new = checkout -b
   unstage = reset -q HEAD --
