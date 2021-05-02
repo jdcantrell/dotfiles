@@ -1,9 +1,9 @@
 # vim: set filetype=sh :
 alias ls="ls --color"
 
-alias phpunit='php -dzend_extension=xdebug.xo $(which phpunit)'
 
 source /etc/profile.d/bash_completion.sh
+source ~/.poetry/env
 
 function start-search-web {
   cd ~/Work/search-web;
