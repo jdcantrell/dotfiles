@@ -57,11 +57,11 @@ endif
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-eunuch'
 
-  Plugin 'dense-analysis/ale'
-  Plugin 'sjl/gundo.vim'
-  Plugin 'sandeepcr529/Buffet.vim'
-  Plugin 'tpope/vim-fugitive'
-  Plugin 'tpope/vim-eunuch'
+  Plug 'dense-analysis/ale'
+  Plug 'sjl/gundo.vim'
+  Plug 'sandeepcr529/Buffet.vim'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-eunuch'
 
   " " zen writing
   Plug 'junegunn/goyo.vim'
