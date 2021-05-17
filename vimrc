@@ -47,11 +47,7 @@ endif
   Plug 'Shougo/defx.nvim'
 
   Plug 'airblade/vim-rooter'
-  Plug 'mileszs/ack.vim'
 
-  Plug 'jamessan/vim-gnupg'
-
-  Plug 'w0rp/ale'
   " Plug 'vim-airline/vim-airline'
   " Plug 'vim-airline/vim-airline-themes'
   Plug 'itchyny/lightline.vim'
@@ -61,6 +57,12 @@ endif
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-eunuch'
 
+  Plugin 'dense-analysis/ale'
+  Plugin 'sjl/gundo.vim'
+  Plugin 'sandeepcr529/Buffet.vim'
+  Plugin 'tpope/vim-fugitive'
+  Plugin 'tpope/vim-eunuch'
+
   " " zen writing
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/vim-journal'
@@ -69,7 +71,6 @@ endif
   Plug 'junegunn/fzf.vim'
 
   " " themes
-  " Plug 'tango.vim'
   Plug 'chriskempson/base16-vim'
   Plug 'morhetz/gruvbox'
 
@@ -289,12 +290,8 @@ endif
   nmap <leader>ll :llast<CR>
   nmap <leader>lc :lclose<CR>
 
-
-
-command! -bang -nargs=*  RgFiles
-  \ call fzf#run(fzf#wrap(fzf#vim#with_preview({'source': 'rg --files --hidden ' })))
-
-
+  command! -bang -nargs=*  RgFiles
+    \ call fzf#run(fzf#wrap(fzf#vim#with_preview({'source': 'rg --files --hidden ' })))
 
   nmap <leader>o :RgFiles<CR>
   nmap <leader>t :TagbarToggle<CR>
@@ -390,33 +387,23 @@ set omnifunc=syntaxcomplete#Complete
      let g:ale_lint_on_text_changed = 'always'
      let g:ale_lint_delay = 750
 
-     let g:ale_php_phpcs_standard = $VIMHOME.'/Work/code-quality-configs/CodeSniffer/phpcs.xml'
-     let g:ale_php_phpmd_ruleset = $VIMHOME.'/Work/code-quality-configs/MessDetector/phpmd.xml'
-
      " let g:ale_linters = { 'html': ['htmlhint'], 'typescript': ['tslint', 'tsserver', 'typecheck'], }
      let g:ale_linters = { 'python': ['pyflakes'] }
      let g:ale_maximum_file_size = 60000
 
      let g:ale_fixers = {
-           \ 'javascript': ['prettier'],
-           \ 'javascript.jsx': ['prettier'],
-           \ 'typescript': ['prettier'],
-           \ 'typescript.tsx': ['prettier'],
-           \ 'css': ['prettier'],
-           \ 'html': ['prettier'],
-           \ 'python': ['black'],
-           \}
-     " let g:ale_fixers = {
-     "       \ 'javascript': [],
-     "       \ 'javascript.jsx': [],
-     "       \ 'typescript': [],
-     "       \ 'typescript.tsx': [],
-     "       \ 'css': [],
-     "       \ 'python': ['black'],
-     "       \}
+       \ 'javascript': ['prettier'],
+       \ 'javascript.jsx': ['prettier'],
+       \ 'typescript': ['prettier'],
+       \ 'typescript.tsx': ['prettier'],
+       \ 'typescriptreact': ['prettier'],
+       \ 'css': ['prettier'],
+       \ 'python': ['black'],
+       \}
+
      let g:ale_fix_on_save = 1
      let g:ale_javascript_prettier_options = ''
-     let g:ale_exclude_highlights = []
+     " let g:ale_exclude_highlights = []
 
   " }
 
@@ -578,7 +565,7 @@ if has('gui_running')
   "Remove all bells - this needs to be moved to .gvimrc
   set vb t_vb=
 
-  colorscheme base16-snazzy
+  colorscheme base16-materia
 else
   set mouse=a
   if v:version < 800

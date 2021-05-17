@@ -38,6 +38,7 @@
   branch-name = "!git rev-parse --abbrev-ref HEAD"
 
   eng = !sh -c 'git checkout -b jd/ENG-$1 -t origin/staging' -
+  new-staging = !sh -c 'git checkout -b jd/$1 -t origin/staging' -
 
   #quality of life aliases
   new = checkout -b
