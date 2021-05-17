@@ -2,6 +2,12 @@
 "
 "   This is the personal .vimrc file of jd cantrell.
 " }
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 " Environment {
   " Basics {
@@ -22,54 +28,62 @@
   set ffs=unix,dos
   filetype off
   set rtp+=/usr/local/opt/fzf
-  " Setup Bundle Support {
-  set rtp+=~/.vim/bundle/Vundle.vim/
-  call vundle#begin()
+
+  let plug_dir = has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged'
+  call plug#begin(plug_dir)
   " vim plugins
-  Plugin 'gmarik/Vundle.vim'
-  Plugin 'matchit.zip'
-  Plugin 'ctrlpvim/ctrlp.vim'
+  Plug 'gmarik/Vundle.vim'
+  " Plug 'matchit.zip'
+  Plug 'ctrlpvim/ctrlp.vim'
 
-  Plugin 'roxma/nvim-yarp'
-  Plugin 'roxma/vim-hug-neovim-rpc'
-  Plugin 'Shougo/deoplete.nvim'
-  Plugin 'Shougo/defx.nvim'
+  if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+  endif
 
-  Plugin 'airblade/vim-rooter'
-  Plugin 'mileszs/ack.vim'
+  Plug 'Shougo/defx.nvim'
 
-  Plugin 'jamessan/vim-gnupg'
+  Plug 'airblade/vim-rooter'
+  Plug 'mileszs/ack.vim'
 
-  Plugin 'w0rp/ale'
-  Plugin 'Tagbar'
-  Plugin 'vim-airline/vim-airline'
-  Plugin 'vim-airline/vim-airline-themes'
-  Plugin 'sjl/gundo.vim'
-  Plugin 'sandeepcr529/Buffet.vim'
-  Plugin 'tpope/vim-fugitive'
-  Plugin 'tpope/vim-eunuch'
+  Plug 'jamessan/vim-gnupg'
+
+  Plug 'w0rp/ale'
+  " Plug 'vim-airline/vim-airline'
+  " Plug 'vim-airline/vim-airline-themes'
+  Plug 'itchyny/lightline.vim'
+  Plug 'maximbaz/lightline-ale'
+  Plug 'sjl/gundo.vim'
+  Plug 'sandeepcr529/Buffet.vim'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-eunuch'
 
   " " zen writing
-  Plugin 'junegunn/goyo.vim'
-  Plugin 'junegunn/vim-journal'
-  Plugin 'junegunn/limelight.vim'
-  Plugin 'junegunn/fzf.vim'
+  Plug 'junegunn/goyo.vim'
+  Plug 'junegunn/vim-journal'
+  Plug 'junegunn/limelight.vim'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
 
   " " themes
-  Plugin 'tango.vim'
-  Plugin 'chriskempson/base16-vim'
-  Plugin 'morhetz/gruvbox'
+  " Plug 'tango.vim'
+  Plug 'chriskempson/base16-vim'
+  Plug 'morhetz/gruvbox'
 
   " " language helpers/enhancements
-  Plugin 'jtriley/vim-rst-headings'
-  Plugin 'tpope/vim-markdown'
-  Plugin 'ap/vim-css-color'
+  Plug 'jtriley/vim-rst-headings'
+  Plug 'tpope/vim-markdown'
+  Plug 'ap/vim-css-color'
 
   " lisp
-  Plugin 'kovisoft/slimv'
+  Plug 'kovisoft/slimv'
 
   " python
-  Plugin 'Vimjas/vim-python-pep8-indent'
+  Plug 'Vimjas/vim-python-pep8-indent'
+
   " Plugin 'davidhalter/jedi-vim'
 
   " php
@@ -80,19 +94,16 @@
   " Plugin '2072/PHP-Indenting-for-VIm'
 
   " html/js
-  Plugin 'othree/html5.vim'
-  Plugin 'elzr/vim-json'
-  Plugin 'pangloss/vim-javascript'
-  Plugin 'leafgarland/typescript-vim'
-  Plugin 'MaxMEllon/vim-jsx-pretty'
-  Plugin 'jparise/vim-graphql'
+  Plug 'othree/html5.vim'
+  Plug 'elzr/vim-json'
+  Plug 'pangloss/vim-javascript'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'MaxMEllon/vim-jsx-pretty'
+  Plug 'jparise/vim-graphql'
 
-  Plugin 'dzeban/vim-log-syntax'
+  Plug 'mhinz/vim-startify'
 
-  " Plugin 'ryanoasis/vim-devicons'
-  Plugin 'mhinz/vim-startify'
-
-  call vundle#end()
+  call plug#end()
  " }
  "}
 
@@ -279,7 +290,13 @@
   nmap <leader>lc :lclose<CR>
 
 
-  nmap <leader>o :GFiles<CR>
+
+command! -bang -nargs=*  RgFiles
+  \ call fzf#run(fzf#wrap(fzf#vim#with_preview({'source': 'rg --files --hidden ' })))
+
+
+
+  nmap <leader>o :RgFiles<CR>
   nmap <leader>t :TagbarToggle<CR>
   nmap <leader>b :Buffers<CR>
   nmap <leader>g :Rg<CR>
@@ -310,14 +327,34 @@ set omnifunc=syntaxcomplete#Complete
 " Plugins {
 
   " Deoplete
-  let g:deoplete#enable_at_startup = 1"
+  let g:deoplete#enable_at_startup = 1
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
-  " Airline
-  " let g:airline_powerline_fonts = 1
-  let g:airline#extensions#tabline#enabled = 1
+  " lightline
   "
+  let g:lightline = {}
+  let g:lightline.component_expand = {
+        \ 'linter_checking': 'lightline#ale#checking',
+        \ 'linter_infos': 'lightline#ale#infos',
+        \ 'linter_warnings': 'lightline#ale#warnings',
+        \ 'linter_errors': 'lightline#ale#errors',
+        \ 'linter_ok': 'lightline#ale#ok',
+        \ }
+  let g:lightline.component_type = {
+        \ 'linter_checking': 'right',
+        \ 'linter_infos': 'right',
+        \ 'linter_warnings': 'warning',
+        \ 'linter_errors': 'error',
+        \ 'linter_ok': 'right',
+        \ }
+
+  let g:lightline.active = {
+        \ 'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
+        \           ['lineinfo'],
+        \           ['percent'],
+        \           ['fileformat', 'fileencoding', 'filetype'] ] }
+
 
   " ctrlp {
     let g:ctrlp_working_path_mode = 'ra'
@@ -357,6 +394,7 @@ set omnifunc=syntaxcomplete#Complete
      let g:ale_php_phpmd_ruleset = $VIMHOME.'/Work/code-quality-configs/MessDetector/phpmd.xml'
 
      " let g:ale_linters = { 'html': ['htmlhint'], 'typescript': ['tslint', 'tsserver', 'typecheck'], }
+     let g:ale_linters = { 'python': ['pyflakes'] }
      let g:ale_maximum_file_size = 60000
 
      let g:ale_fixers = {
