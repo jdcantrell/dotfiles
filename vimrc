@@ -291,7 +291,7 @@ endif
   nmap <leader>lc :lclose<CR>
 
   command! -bang -nargs=*  RgFiles
-    \ call fzf#run(fzf#wrap(fzf#vim#with_preview({'source': 'rg --files --hidden ' })))
+    \ call fzf#run(fzf#wrap(fzf#vim#with_preview({'source': 'rg --files' })))
 
   nmap <leader>o :RgFiles<CR>
   nmap <leader>t :TagbarToggle<CR>
