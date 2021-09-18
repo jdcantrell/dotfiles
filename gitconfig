@@ -22,10 +22,6 @@
   #you have a remote called `me`)
   delete-merged-remote = !git branch -r --merged | grep -v 'master$' | grep ' me' | sed -e 's/ me\\///' | xargs -n 1 git push me --delete
 
-  #stash pr checkout use:
-  #git pr origin 123
-  pr = "!f() { git fetch $1 refs/pull-requests/$2/from:PR-$2; git checkout PR-$2; }; f"
-
   #authors
   authors = !git log --raw | grep "^Author: " | sort | uniq | cut -d ' ' -f2- | sed 's/^/- /'
 
@@ -59,31 +55,37 @@
   reset-me = "!git reset me/$(git branch-name) --hard"
   force-push = "push --force-with-lease"
 
-
 [color]
   branch = auto
   diff = auto
   interactive = auto
   status = auto
 	ui = true
+
 [core]
   autocrlf = input
-  excludesfile = "~/.gitignore"
+	excludesFile = ~/.gitignore
 	pager = diff-so-fancy | less --tabs=4 -RFX
+
 [github]
   user = jdcantrell
+
 [push]
   default = current
+
 [diff]
   compactionHeuristic = true
   algorithm = patience
+
 [merge]
   ff = only
+
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+
 [color "diff"]
 	meta = yellow
 	frag = magenta bold
@@ -91,5 +93,9 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+
 [pull]
 	ff = only
+
+[includeIf "gitdir:~/Work/"]
+  path = ~/.gitconfig.work

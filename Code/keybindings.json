@@ -1,0 +1,17 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+  {
+    "key": "alt+,",
+    "command": "editor.action.marker.next",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "alt+f8",
+    "command": "-editor.action.marker.next",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+shift+v",
+    "command": "workbench.action.toggleMultiCursorModifier"
+  }
+]
