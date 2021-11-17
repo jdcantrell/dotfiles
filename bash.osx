@@ -25,6 +25,13 @@ EKS_CLUSTER=blue
 EKS_NAMESPACE=test  # there's no sre-staging! use sre-test for grafana, kibana and pgbouncer (rds)
 EKS_REGION=us-west-2
 
+KUBECONFIG="$HOME/.kube/config"
+for kcfg in "$HOME/.kube/"*.kubeconfig; do
+  KUBECONFIG="$KUBECONFIG:$kcfg"
+done
+export KUBECONFIG
+
+
 tab () {
   local cmd=""
   local cdto="$PWD"

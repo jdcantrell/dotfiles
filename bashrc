@@ -26,3 +26,5 @@ eval "$(starship init bash)"
 if [ -f ~/.bash.local ]; then
   source ~/.bash.local
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
