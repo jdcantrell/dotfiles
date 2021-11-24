@@ -1,0 +1,154 @@
+{
+  "auto-rename-tag.activationOnLanguage": [
+    [
+      "html",
+      "j2"
+    ]
+  ],
+  "editor.fontSize": 16,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "telemetry.enableTelemetry": false,
+  "workbench.iconTheme": "vs-minimal",
+  "workbench.sideBar.location": "right",
+  "workbench.fontAliasing": "auto",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    {
+      "language": "typescript",
+      "autoFix": true
+    },
+    {
+      "language": "typescriptreact",
+      "autoFix": true
+    }
+  ],
+  "explorer.confirmDelete": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.parameterHints.enabled": false,
+  "breadcrumbs.symbolPath": "off",
+  "[markdown]": {
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 80
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "statusbarerror.gutter.error.show": false,
+  "statusbarerror.gutter.info.show": false,
+  "statusbarerror.gutter.warning.show": false,
+  "statusbarerror.gutter.hint.show": false,
+  "editor.tabSize": 2,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "explorer.openEditors.visible": 0,
+  "explorer.decorations.badges": false,
+  "window.title": "${dirty} ${activeEditorMedium}${separator}${rootName}",
+  "editor.cursorBlinking": "smooth",
+  "workbench.settings.enableNaturalLanguageSearch": false,
+  "windowColors.🌈 BaseColor": "#282828",
+  "windowColors.🌈 DeleteSettingsFileUponExit": true,
+  "[jinja-html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "gitlens.advanced.messages": {
+    "suppressCommitHasNoPreviousCommitWarning": true
+  },
+  "gitlens.advanced.telemetry.enabled": false,
+  "gitlens.codeLens.enabled": false,
+  "gitlens.currentLine.enabled": false,
+  "gitlens.hovers.currentLine.over": "line",
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "gitlens.codeLens.recentChange.enabled": false,
+  "python.testing.autoTestDiscoverOnSaveEnabled": false,
+  "python.testing.promptToConfigure": false,
+  "editor.fontFamily": "'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
+  "editor.find.cursorMoveOnType": false,
+  "workbench.colorTheme": "Noctis Lux",
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "editor.formatOnSave": true,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "%"
+      ],
+      "commands": [
+        {
+          "command": "editor.emmet.action.matchTag"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "n"
+      ],
+      "commands": [
+        "editor.action.marker.next"
+      ]
+    },
+    {
+      "before": [
+        "space"
+      ],
+      "commands": [
+        "cursorPageDown"
+      ],
+      "when": "editorTextFocus"
+    }
+  ],
+  "vim.leader": ",",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.tabCompletion": "on",
+  "emmet.triggerExpansionOnTab": true,
+  "auto-close-tag.enableAutoCloseTag": false,
+  "auto-close-tag.enableAutoCloseSelfClosingTag": false,
+  "html.autoClosingTags": false,
+  "javascript.autoClosingTags": false,
+  "typescript.autoClosingTags": false,
+  "emmet.showSuggestionsAsSnippets": true,
+  "editor.snippetSuggestions": "bottom",
+  "python.poetryPath": "/Users/jd/.poetry/bin/poetry",
+  "explorer.confirmDragAndDrop": false,
+  "stylelint.configOverrides": {
+    "ignoreFiles": [
+      "**/*.cjs",
+      ".*/*.cjs",
+      "**/.*.cjs",
+    ]
+  },
+  "colorize.include": [
+    "**/*.css",
+    "**/*.tsx",
+    "**/*.ts",
+    "**/*.scss",
+    "**/*.sass",
+    "**/*.less",
+    "**/*.styl"
+  ],
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.enabled": false,
+  "[mdx]": {
+    "editor.rulers": [
+      80
+    ]
+  },
+  "rewrap.autoWrap.enabled": true
+}
