@@ -55,9 +55,28 @@ return packer.startup(function(use)
     end
   }
 
-    -- Colorschemes
-  -- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
-  use "lunarvim/darkplus.nvim"
+  -- Colorschemes
+  use "themercorp/themer.lua"
+
+  -- file nav
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    },
+    config = function() require'nvim-tree'.setup {
+      hijack_netrw = true,
+      git = {
+        enabled = true,
+        ignore = true
+      },
+
+
+    } end
+  }
+
+  -- bufferline
+  use {'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons'}
 
   -- status line
   use({
@@ -65,6 +84,7 @@ return packer.startup(function(use)
     -- your statusline
     config = function()
       require("galaxyline.themes.eviline")
+      local colors = require("galaxyline.themes.colors")["rose-pine"]
     end,
     -- some optional icons
     requires = { "kyazdani42/nvim-web-devicons", opt = true }

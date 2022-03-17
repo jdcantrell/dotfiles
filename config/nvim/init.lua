@@ -7,3 +7,12 @@ require "user.lsp"
 require "user.telescope"
 require "user.treesitter"
 require "user.autopairs"
+
+vim.opt.termguicolors = true
+require("bufferline").setup{
+  options = {
+    show_buffer_icons = false,
+    diagnostics = "nvim_lsp",
+  }
+}
+
