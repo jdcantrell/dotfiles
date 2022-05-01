@@ -7,6 +7,8 @@ require "user.lsp"
 require "user.telescope"
 require "user.treesitter"
 require "user.autopairs"
+require "user.formatters"
+require "user.linters"
 
 vim.opt.termguicolors = true
 require("bufferline").setup{

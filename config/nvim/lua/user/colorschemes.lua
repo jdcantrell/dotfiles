@@ -11,7 +11,7 @@ require("themer").setup({
 
 vim.cmd [[
 try
-  colorscheme themer_rose_pine
+  colorscheme themer_tokyonight
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
   set background=dark
