@@ -55,8 +55,44 @@ return packer.startup(function(use)
     end
   }
 
+  -- screenshot code
+  use {
+    "narutoxy/silicon.lua",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require('silicon').setup({})
+    end
+  }
+
   -- Colorschemes
   use "themercorp/themer.lua"
+  use "folke/tokyonight.nvim"
+  use({
+    "catppuccin/nvim",
+    as = "catppuccin"
+  })
+  use { 'kartikp10/noctis.nvim', requires = { 'rktjmp/lush.nvim' } }
+  use "rebelot/kanagawa.nvim"
+  use "Shatur/neovim-ayu"
+  use 'sainnhe/everforest'
+
+
+  --git 
+  -- use {
+  --   'lewis6991/gitsigns.nvim',
+  --   config = function()
+  --     require('gitsigns').setup()
+  --   end
+  -- }
+
+  use {
+    'j-hui/fidget.nvim',
+    config = function()
+      require('fidget').setup()
+    end
+  }
+
+  use "preservim/vim-markdown"
 
   -- file nav
   use {
@@ -67,7 +103,6 @@ return packer.startup(function(use)
     config = function() require'nvim-tree'.setup {
       hijack_netrw = true,
       git = {
-        enabled = true,
         ignore = true
       },
 
@@ -76,19 +111,42 @@ return packer.startup(function(use)
   }
 
   -- bufferline
-  use {'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons'}
+  use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
 
   -- status line
-  use({
-    "NTBBloodbath/galaxyline.nvim",
-    -- your statusline
-    config = function()
-      require("galaxyline.themes.eviline")
-      local colors = require("galaxyline.themes.colors")["rose-pine"]
-    end,
-    -- some optional icons
-    requires = { "kyazdani42/nvim-web-devicons", opt = true }
-  })
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function() require'lualine'.setup {
+      options = {
+        icons_enabled = true,
+        theme = 'auto',
+        component_separators = { left = '', right = ''},
+        section_separators = { left = '', right = ''},
+        disabled_filetypes = {},
+        always_divide_middle = true,
+        globalstatus = false,
+      },
+      sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'diff', 'diagnostics'},
+        lualine_c = {'filename'},
+        lualine_x = {'encoding', 'fileformat', 'filetype'},
+        lualine_y = {'progress'},
+        lualine_z = {'location'}
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {'filename'},
+        lualine_x = {'location'},
+        lualine_y = {},
+        lualine_z = {}
+      },
+      tabline = {},
+      extensions = {}
+    } end
+  }
 
   -- cmp plugins
   use "hrsh7th/nvim-cmp" -- The completion plugin
@@ -122,9 +180,39 @@ return packer.startup(function(use)
   }
   use "p00f/nvim-ts-rainbow"
   use "nvim-treesitter/playground"
+  use {'nvim-treesitter/nvim-treesitter-context',
+    config = function ()
+      require'treesitter-context'.setup{
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+            -- For all filetypes
+            -- Note that setting an entry here replaces all other patterns for this entry.
+            -- By setting the 'default' entry below, you can control which nodes you want to
+            -- appear in the context window.
+            default = {
+                'class',
+                'function',
+                'method',
+                -- 'for', -- These won't appear in the context
+                -- 'while',
+                -- 'if',
+                -- 'switch',
+                -- 'case',
+            },
+        },
+    }
+    end
+  }
+
+  
+  use "rcarriga/nvim-notify"
   
   -- autopairs
   use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
+
+  -- actually good indent?
+  use "sheerun/vim-polyglot"
 
   use {
     "ahmedkhalf/project.nvim",
@@ -133,14 +221,40 @@ return packer.startup(function(use)
         -- your configuration comes here
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
-        silent_chdir = false,
+        detection_methods = { "pattern", "lsp" },
+        silent_chdir = true,
 
       }
     end
   }
 
-  use {"akinsho/toggleterm.nvim"}
-  use "Pocco81/TrueZen.nvim"
+  use "mbbill/undotree"
+
+  use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+    require("toggleterm").setup()
+  end}
+
+
+  -- use "tpope/vim-surround"
+  use {
+    "kylechui/nvim-surround",
+    config = function()
+        require("nvim-surround").setup({
+            -- Configuration here, or leave empty to use defaults
+        })
+    end
+  }
+
+  use {
+    'phaazon/hop.nvim',
+    branch = 'v2', -- optional but strongly recommended
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+    end
+  }
+
+  use "mong8se/actually.nvim"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

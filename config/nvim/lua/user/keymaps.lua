@@ -7,8 +7,8 @@ local keymap = vim.api.nvim_set_keymap
 
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader = ","
+vim.g.maplocalleader = ","
 
 -- Modes
 --   normal_mode = "n",
@@ -69,14 +69,34 @@ keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
--- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
-keymap("n", "<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
-keymap("n", "<c-t>", "<cmd>Telescope live_grep<cr>", opts)
+
 
 -- file list toggle
 keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+keymap("n", "<leader>sv", ":luafile $MYVIMRC<CR>", opts)
+
+
+-- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
+keymap("n", "<leader>f", "<cmd>lua require'user.finders'.fd()<cr>", opts)
+keymap("n", "<leader>g", "<cmd>lua require'user.finders'.grep()<cr>", opts)
+keymap("n", "<leader>d", "<cmd>lua require'user.finders'.grep_string()<cr>", opts)
+
+keymap("n", "<leader>r", "<cmd>lua require'user.finders'.fd_in_code()<cr>", opts)
+keymap("n", "<leader>t", "<cmd>lua require'user.finders'.grep_in_code()<cr>", opts)
+-- keymap("n", "<leader>g", "<cmd>Telescope live_grep<CR>", opts)
+
+keymap("n", "<leader>b", "<cmd>%bd|e#<CR>", opts)
+keymap("n", "<leader>v", "<cmd>ToggleTerm direction=float<CR>", opts)
 
 -- 
-keymap("n", "<leader>h", ":TroubleToggle<CR>", opts)
+keymap("n", "<leader>h", ":TroubleToggle document_diagnostics<CR>", opts)
+keymap("n", "<leader>n", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 -- expansions
 vim.cmd("cabbr <expr> %% expand('%:p:h')")
+vim.cmd("command! W w")
+
+-- hop
+vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
+vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})

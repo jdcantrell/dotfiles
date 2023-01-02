@@ -1,20 +1,3 @@
-require("themer").setup({
-    colorscheme = "rose_pine",
-    styles = {
-        ["function"] = { style = 'italic' },
-        functionbuiltin = { style = 'italic' },
-        variable = { style = 'italic' },
-        variableBuiltIn = { style = 'italic' },
-        parameter  = { style = 'italic' },
-    },
-})
-
-vim.cmd [[
-try
-  colorscheme themer_tokyonight
-catch /^Vim\%((\a\+)\)\=:E185/
-  colorscheme default
-  set background=dark
-endtry
-]]
-
+vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
+vim.g.tokyonight_style = "storm" -- latte, frappe, macchiato, mocha
+vim.cmd[[colorscheme kanagawa]]

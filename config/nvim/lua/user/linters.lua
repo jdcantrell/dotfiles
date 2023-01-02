@@ -17,12 +17,12 @@ require('lint').linters.tslint = {
 
 
 require('lint').linters_by_ft = {
-  typescript = {'eslint','tslint',},
+  typescript = {'eslint',},
   javascript = {'eslint',},
-  typescriptreact = {'eslint','tslint',},
+  typescriptreact = {'eslint',},
   javascriptreact = {'eslint',},
 }
 
 vim.api.nvim_exec([[
-  au BufWritePost <buffer> lua require('lint').try_lint()
+  autocmd BufRead,BufWritePost * lua require('lint').try_lint()
 ]], true)

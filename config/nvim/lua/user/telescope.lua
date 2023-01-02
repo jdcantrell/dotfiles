@@ -12,7 +12,28 @@ telescope.setup {
 
     prompt_prefix = " ",
     selection_caret = " ",
-    path_display = { "smart" },
+    path_display = { "truncate" },
+    layout_strategy = 'flex',
+    file_ignore_patterns = ignore_these,
+    sorting_strategy = "ascending",
+    results_title = false,
+    layout_config = {
+      prompt_position = 'top',
+      horizontal = {
+        mirror = true,
+        preview_cutoff = 100,
+        preview_width = 0.5,
+      },
+      vertical = {
+        mirror = true,
+        preview_cutoff = 0.4,
+      },
+      flex = {
+        flip_columns = 110,
+      },
+      height = 0.94,
+      width = 0.86,
+    },
 
     mappings = {
       i = {
@@ -44,6 +65,7 @@ telescope.setup {
         ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
         ["<C-l>"] = actions.complete_tag,
         ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
+        ["<esc>"] = actions.close,
       },
 
       n = {
@@ -93,7 +115,7 @@ telescope.setup {
         -- filetypes whitelist
         -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
         filetypes = {"png", "webp", "jpg", "jpeg"},
-        find_cmd = "rg" -- find command (defaults to `fd`)
+        find_cmd = "fd" -- find command (defaults to `fd`)
       }
     -- Your extension configuration goes here:
     -- extension_name = {

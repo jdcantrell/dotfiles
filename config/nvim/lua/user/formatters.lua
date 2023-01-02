@@ -1,57 +1,56 @@
 local util = require "formatter.util"
 require('formatter').setup {
-    filetype = {
-      javascript = {
-        function()
-          return {
-           exe = "prettier",
-            args = {
-              "--stdin-filepath",
-              vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
-            },
-            stdin = true,
-          }
-        end
-      },
-      typescriptreact = {
-        function()
-          return {
-           exe = "prettier",
-            args = {
-              "--stdin-filepath",
-              vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
-            },
-            stdin = true,
-          }
-        end
-      },
-      typescript = {
-        function()
-          return {
-           exe = "prettier",
-            args = {
-              "--stdin-filepath",
-              vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
-            },
-            stdin = true,
-          }
-        end
-      },
-      python = {
-        function()
-          return {
-            exe = "black",
-            args = { "-q", "-" },
-            stdin = true,
-          }
-        end
-      }
+  filetype = {
+    markdown = {
+      function () 
+        return {
+          exe = "prettier",
+          args = {
+            "--stdin-filepath",
+            "--prose-wrap always",
+            util.escape_path(util.get_current_buffer_file_path()),
+          },
+          stdin = true,
+          try_node_modules = true,
+        }
+      end
+    },
+    html = {
+      require('formatter.filetypes.html').prettier,
+    },
+    javascript = {
+      require('formatter.filetypes.javascript').prettier,
+    },
+    css = {
+      require('formatter.filetypes.css').prettier,
+    },
+    scss = {
+      require('formatter.filetypes.css').prettier,
+    },
+    typescriptreact = {
+      require('formatter.filetypes.typescriptreact').prettier,
+    },
+    json = {
+      require('formatter.filetypes.json').prettier,
+    },
+    typescript = {
+      require('formatter.filetypes.typescript').prettier,
+    },
+    ts = {
+      require('formatter.filetypes.typescript').prettier,
+    },
+    go = {
+      require("formatter.filetypes.go").gofmt
+    },
+    python = {
+      require("formatter.filetypes.python").black
     }
   }
+}
 
 vim.api.nvim_exec([[
 augroup FormatAutogroup
   autocmd!
-  autocmd BufWritePost *.py,*.js,*.ts,*.jsx,*.tsx FormatWrite
+  autocmd BufWritePost *.md,*.html,*.py,*.js,*.ts,*.jsx,*.tsx,*.go,*.css,*.json,*.scss silent! FormatWrite
 augroup END
 ]], true)
