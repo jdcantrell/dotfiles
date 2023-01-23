@@ -71,7 +71,7 @@ return packer.startup(function(use)
     "catppuccin/nvim",
     as = "catppuccin"
   })
-  use { 'kartikp10/noctis.nvim', requires = { 'rktjmp/lush.nvim' } }
+ 	use { 'talha-akram/noctis.nvim' }
   use "rebelot/kanagawa.nvim"
   use "Shatur/neovim-ayu"
   use 'sainnhe/everforest'

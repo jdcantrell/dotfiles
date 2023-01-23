@@ -18,6 +18,20 @@ require('formatter').setup {
     html = {
       require('formatter.filetypes.html').prettier,
     },
+    htmldjango = {
+       function()
+        -- Full specification of configurations is down below and in Vim help
+        -- files
+        return {
+          exe = "djlint",
+          args = {
+            "-",
+            "--reformat",
+          },
+          stdin = true,
+        }
+      end   
+    },
     javascript = {
       require('formatter.filetypes.javascript').prettier,
     },

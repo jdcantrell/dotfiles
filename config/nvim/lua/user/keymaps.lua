@@ -78,22 +78,29 @@ keymap("n", "<leader>sv", ":luafile $MYVIMRC<CR>", opts)
 
 -- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
 keymap("n", "<leader>f", "<cmd>lua require'user.finders'.fd()<cr>", opts)
-keymap("n", "<leader>g", "<cmd>lua require'user.finders'.grep()<cr>", opts)
+keymap("n", "<leader>g", "<cmd>lua require'user.finders'.grep({additional_args = {'-S'}})<cr>", opts)
 keymap("n", "<leader>d", "<cmd>lua require'user.finders'.grep_string()<cr>", opts)
 
-keymap("n", "<leader>r", "<cmd>lua require'user.finders'.fd_in_code()<cr>", opts)
+keymap("n", "<leader>r", "<cmd>lua require'user.findrs'.fd_in_code()<cr>", opts)
 keymap("n", "<leader>t", "<cmd>lua require'user.finders'.grep_in_code()<cr>", opts)
 -- keymap("n", "<leader>g", "<cmd>Telescope live_grep<CR>", opts)
 
 keymap("n", "<leader>b", "<cmd>%bd|e#<CR>", opts)
 keymap("n", "<leader>v", "<cmd>ToggleTerm direction=float<CR>", opts)
 
--- 
-keymap("n", "<leader>h", ":TroubleToggle document_diagnostics<CR>", opts)
-keymap("n", "<leader>n", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 -- expansions
 vim.cmd("cabbr <expr> %% expand('%:p:h')")
 vim.cmd("command! W w")
+
+--diagnostics
+keymap("n", "<leader>h", ":TroubleToggle document_diagnostics<CR>", opts)
+keymap("n", "<leader>n", "<cmd>lua vim.diagnostic.goto_next({buffer = 0})<CR>", opts)
+keymap(
+  "n",
+  "gl",
+  '<cmd>lua vim.diagnostic.open_float()<CR>',
+  opts
+)
 
 -- hop
 vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
