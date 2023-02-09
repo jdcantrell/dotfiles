@@ -1,6 +1,8 @@
 -- some more bs to make telescope nice
 -- Dropdown list theme using a builtin theme definitions :
 
+local codeDir = "/Users/john.cantrellopendoor.com/Work/code/"
+
 -- Find in neovim config with center theme
 local finders = {
   fd_in_nvim = function()
@@ -17,7 +19,7 @@ local finders = {
       }
     }
     opts.prompt_prefix = "fd code>"
-    opts.cwd = "/Users/john.cantrellopendoor.com/Work/code/" 
+    opts.cwd =  codeDir
     require"telescope.builtin".fd(opts)
   end,
 
@@ -32,10 +34,20 @@ local finders = {
     require"telescope.builtin".fd(opts)
   end,
 
+  bfd = function()
+    local opts = {
+      preview = {
+        hide_on_startup = true
+      }
+    }
+    opts.prompt_prefix = ""
+    require"telescope.builtin".buffers(opts)
+  end,
+
   grep_in_code = function()
     local opts = {}
     opts.prompt_prefix = "rg code>"
-    opts.cwd = "/Users/john.cantrellopendoor.com/Work/code/" 
+    opts.cwd = codeDir
     require"telescope.builtin".live_grep(opts)
   end,
 

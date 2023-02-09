@@ -39,7 +39,6 @@ require('lint').linters_by_ft = {
   javascript = {'eslint',},
   typescriptreact = {'eslint',},
   javascriptreact = {'eslint',},
-  -- htmldjango = {'djlint',},
 }
 
 vim.api.nvim_exec([[

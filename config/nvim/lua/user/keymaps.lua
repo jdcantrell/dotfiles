@@ -81,12 +81,14 @@ keymap("n", "<leader>f", "<cmd>lua require'user.finders'.fd()<cr>", opts)
 keymap("n", "<leader>g", "<cmd>lua require'user.finders'.grep({additional_args = {'-S'}})<cr>", opts)
 keymap("n", "<leader>d", "<cmd>lua require'user.finders'.grep_string()<cr>", opts)
 
-keymap("n", "<leader>r", "<cmd>lua require'user.findrs'.fd_in_code()<cr>", opts)
+keymap("n", "<leader>r", "<cmd>lua require'user.finders'.fd_in_code()<cr>", opts)
 keymap("n", "<leader>t", "<cmd>lua require'user.finders'.grep_in_code()<cr>", opts)
+keymap("n", "<leader>b", "<cmd>lua require'user.finders'.bfd()<cr>", opts)
 -- keymap("n", "<leader>g", "<cmd>Telescope live_grep<CR>", opts)
 
-keymap("n", "<leader>b", "<cmd>%bd|e#<CR>", opts)
+-- keymap("n", "<leader>b", "<cmd>%bd|e#<CR>", opts)
 keymap("n", "<leader>v", "<cmd>ToggleTerm direction=float<CR>", opts)
+keymap('t', '<esc>', [[<C-\><C-n>]], opts)
 
 -- expansions
 vim.cmd("cabbr <expr> %% expand('%:p:h')")
@@ -101,9 +103,3 @@ keymap(
   '<cmd>lua vim.diagnostic.open_float()<CR>',
   opts
 )
-
--- hop
-vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
-vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
-vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
