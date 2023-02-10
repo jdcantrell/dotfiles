@@ -18,20 +18,28 @@ return {
       }
     end
   },
-  { 
+  {
     "folke/tokyonight.nvim",
   },
   {
     "catppuccin/nvim",
     name = "catppuccin"
   },
- 	{ 'talha-akram/noctis.nvim' },
-  { "rebelot/kanagawa.nvim",
+  {
+    "uloco/bluloco.nvim",
+    dependencies = {
+      'rktjmp/lush.nvim'
+    }
+  },
+  { "loctvl842/monokai-pro.nvim" },
+ 	{ 'talha-akram/noctis.nvim',
     lazy = false,
     priority = 1000,
-    config = function() 
-      vim.cmd([[colorscheme kanagawa]])
+    config = function()
+      vim.cmd([[colorscheme noctis_uva]])
     end,
+  },
+  { "rebelot/kanagawa.nvim",
   },
   { "Shatur/neovim-ayu" },
   { 'sainnhe/everforest' },
@@ -80,15 +88,15 @@ return {
         lualine_a = {{ 'mode', fmt = function(str) return str:sub(1,1) end } },
         lualine_b = {},
         lualine_c = {
-          {'branch', icon=''}, 
+          {'branch', icon=''},
           {
             'diff',
-            symbols = { 
+            symbols = {
               added = ' ',
               modified = ' ',
               removed = ' ',
             },
-          }, 
+          },
           'diagnostics'
         },
         lualine_x = {},
@@ -98,7 +106,11 @@ return {
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = {'filename'},
+        lualine_c = {
+          {
+            'filename',
+          },
+        },
         lualine_x = {'location'},
         lualine_y = {},
         lualine_z = {}
@@ -107,8 +119,33 @@ return {
       tabline = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = {{'filename', path = 3}},
+        lualine_c = {
+          {
+            'filename',
+            file_status = false,
+            newfile_status = false,
+            path = 3,
+          },
+        },
         lualine_x = {
+          {
+            'indicator',
+            color = function()
+              if (vim.bo.readonly) then
+                  return { fg = 'Red' }
+              end
+              return { fg = '#7BE6AB' }
+            end,
+            fmt = function()
+              if (vim.bo.readonly) then
+                  return ''
+              end
+              if (vim.bo.modified) then
+                  return '●'
+              end
+              return ' '
+            end,
+          },
           {
             'encoding',
             cond = function()
@@ -125,8 +162,8 @@ return {
               dos = 'dos',  -- e70f
               mac = 'mac',  -- e711
             }
-          }, 
-          'filetype'
+          },
+          'filetype',
         },
         lualine_y = {},
         lualine_z = {}
@@ -147,11 +184,10 @@ return {
   -- snippets
   {"L3MON4D3/LuaSnip"}, --snippet engine
   {"rafamadriz/friendly-snippets"}, -- a bunch of snippets to use
-  
+
   -- LSP
   {"neovim/nvim-lspconfig"}, -- enable LSP
   {"williamboman/nvim-lsp-installer"}, -- simple to use language server installer
-
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -202,9 +238,9 @@ return {
 
   { "mbbill/undotree" },
 
-  { 
-    "akinsho/toggleterm.nvim", 
-    version = '*', 
+  {
+    "akinsho/toggleterm.nvim",
+    version = '*',
     config = function()
       require("toggleterm").setup()
     end
@@ -221,6 +257,5 @@ return {
   },
 
   { "mong8se/actually.nvim" },
-  
 }
 
