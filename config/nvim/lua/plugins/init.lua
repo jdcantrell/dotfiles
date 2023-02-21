@@ -21,6 +21,7 @@ return {
   {
     "folke/tokyonight.nvim",
   },
+  { "marko-cerovac/material.nvim" },
   {
     "catppuccin/nvim",
     name = "catppuccin"
