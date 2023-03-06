@@ -18,6 +18,7 @@ return {
       }
     end
   },
+
   {
     "folke/tokyonight.nvim",
   },
@@ -30,16 +31,15 @@ return {
     "uloco/bluloco.nvim",
     dependencies = {
       'rktjmp/lush.nvim'
-    }
-  },
-  { "loctvl842/monokai-pro.nvim" },
- 	{ 'talha-akram/noctis.nvim',
+    },
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd([[colorscheme noctis_uva]])
+      vim.cmd([[colorscheme bluloco]])
     end,
   },
+  { "loctvl842/monokai-pro.nvim" },
+ 	{ 'talha-akram/noctis.nvim' },
   { "rebelot/kanagawa.nvim",
   },
   { "Shatur/neovim-ayu" },
@@ -59,19 +59,6 @@ return {
     } end
   },
 
-  -- {
-  --   'akinsho/bufferline.nvim',
-  --   version = "v2.*",
-  --   dependencies = { 'kyazdani42/nvim-web-devicons' },
-  --   config = function ()
-  --     require("bufferline").setup{
-  --       options = {
-  --         show_buffer_icons = false,
-  --         diagnostics = "nvim_lsp",
-  --       }
-  --     }
-  --   end
-  -- },
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -246,17 +233,6 @@ return {
       require("toggleterm").setup()
     end
   },
-
-
-  {
-    "kylechui/nvim-surround",
-    config = function()
-        require("nvim-surround").setup({
-            -- Configuration here, or leave empty to use defaults
-        })
-    end
-  },
-
   { "mong8se/actually.nvim" },
 }
 

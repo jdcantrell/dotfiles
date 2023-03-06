@@ -67,48 +67,19 @@ cmp.setup {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     },
-    -- Accept currently selected item. If none selected, `select` first item.
-    -- Set `select` to `false` to only confirm explicitly selected items.
-    ['<CR>'] = cmp.mapping.confirm({select = true}),
-    -- ['<Tab>'] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     --if more than one option, match longest
-    --     return cmp.complete_common_string()
-    --     --if more than one option, and already on longest select next
-    --     --if only one option confirm
-    --   end
-    --   fallback()
-    -- end, { 'i', 'c'}),
-    -- ["<Tab>"] = cmp.mapping.confirm { select = true },
-    -- ["<Tab>"] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_next_item()
-    --   elseif luasnip.expandable() then
-    --     luasnip.expand()
-    --   elseif luasnip.expand_or_jumpable() then
-    --     luasnip.expand_or_jump()
-    --   elseif check_backspace() then
-    --     fallback()
-    --   else
-    --     fallback()
-    --   end
-    -- end, {
-    --   "i",
-    --   "s",
-    -- }),
-
-   ["<Tab>"] = cmp.mapping(function(fallback)
+    -- use ' instead of enter to reduce unwanted confirmations
+    ["'"] = cmp.mapping.confirm({select = true}),
+    ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
       elseif has_words_before() then
-        cmp.complete_common_string()
+          cmp.complete()
       else
         fallback()
       end
-    end, { "i", "s" }),
-
+    end, { "i", "s", }),
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
@@ -117,10 +88,7 @@ cmp.setup {
       else
         fallback()
       end
-    end, {
-      "i",
-      "s",
-    }),
+    end, { "i", "s", }),
   },
   formatting = {
     fields = { "kind", "abbr", "menu" },
