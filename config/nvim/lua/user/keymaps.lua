@@ -84,9 +84,10 @@ keymap("n", "<leader>d", "<cmd>lua require'user.finders'.grep_string()<cr>", opt
 keymap("n", "<leader>r", "<cmd>lua require'user.finders'.fd_in_code()<cr>", opts)
 keymap("n", "<leader>t", "<cmd>lua require'user.finders'.grep_in_code()<cr>", opts)
 keymap("n", "<leader>b", "<cmd>lua require'user.finders'.bfd()<cr>", opts)
+keymap("n", "<leader>c", "<cmd>bd<CR>", opts)
+ keymap("n", "<leader>C", "<cmd>%bd|e#<CR>", opts)
 -- keymap("n", "<leader>g", "<cmd>Telescope live_grep<CR>", opts)
 
--- keymap("n", "<leader>b", "<cmd>%bd|e#<CR>", opts)
 keymap("n", "<leader>v", "<cmd>ToggleTerm direction=float<CR>", opts)
 keymap('t', '<esc>', [[<C-\><C-n>]], opts)
 

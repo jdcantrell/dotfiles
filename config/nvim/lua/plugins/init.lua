@@ -21,22 +21,27 @@ return {
 
   {
     "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[colorscheme tokyonight-night]])
+    end,
   },
+  { "EdenEast/nightfox.nvim" },
   { "marko-cerovac/material.nvim" },
   {
     "catppuccin/nvim",
     name = "catppuccin"
   },
   {
+    "mcchrish/zenbones.nvim",
+    dependencies= "rktjmp/lush.nvim"
+  },
+  {
     "uloco/bluloco.nvim",
     dependencies = {
       'rktjmp/lush.nvim'
     },
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme bluloco]])
-    end,
   },
   { "loctvl842/monokai-pro.nvim" },
  	{ 'talha-akram/noctis.nvim' },
@@ -161,7 +166,10 @@ return {
   },
 
 
-  {"hrsh7th/nvim-cmp"}, -- The completion plugin
+  {"hrsh7th/nvim-cmp",
+
+    dependencies="onsails/lspkind.nvim" 
+  }, -- The completion plugin
   {"hrsh7th/cmp-buffer"}, -- buffer completions
   {"hrsh7th/cmp-path"}, -- path completions
   {"hrsh7th/cmp-cmdline"}, -- cmdline completions
