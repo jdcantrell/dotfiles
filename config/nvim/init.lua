@@ -4,10 +4,13 @@ require "user.options"
 require "user.keymaps"
 require "user.colorschemes"
 
-require("lazy").setup("plugins")
+require("lazy").setup("plugins", {
+    ui = {
+      border = "rounded"
+    }
+  })
 
 -- to be moved to lazy plugins
 require "user.completions"
-require "user.lsp"
 require "user.finders"
 require "user.treesitter"

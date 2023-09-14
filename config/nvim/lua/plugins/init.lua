@@ -3,6 +3,7 @@ return {
   {"rcarriga/nvim-notify"},
   {
     'j-hui/fidget.nvim',
+    branch = 'legacy',
     config = function()
       require('fidget').setup()
     end
@@ -18,7 +19,7 @@ return {
       }
     end
   },
-
+  {'Verf/deepwhite.nvim'},
   {
     "folke/tokyonight.nvim",
     lazy = false,
@@ -33,6 +34,7 @@ return {
     "catppuccin/nvim",
     name = "catppuccin"
   },
+  { "ribru17/bamboo.nvim" },
   {
     "mcchrish/zenbones.nvim",
     dependencies= "rktjmp/lush.nvim"
@@ -166,24 +168,76 @@ return {
   },
 
 
-  {"hrsh7th/nvim-cmp",
+  -- {"hrsh7th/nvim-cmp",
+  --   dependencies="onsails/lspkind.nvim" 
+  -- }, -- The completion plugin
 
-    dependencies="onsails/lspkind.nvim" 
-  }, -- The completion plugin
+  -- lsp
+  { "onsails/lspkind.nvim"},
+  {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
+    dependencies = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},             -- Required
+      {'williamboman/mason.nvim'},           -- Optional
+      {'williamboman/mason-lspconfig.nvim'}, -- Optional
+
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},     -- Required
+      {'hrsh7th/cmp-nvim-lsp'}, -- Required
+      {'L3MON4D3/LuaSnip'},     -- Required
+    },
+    config = function ()
+      local lsp = require('lsp-zero').preset({})
+
+      lsp.on_attach(function(client, bufnr)
+        -- see :help lsp-zero-keybindings
+        -- to learn the available actions
+        lsp.default_keymaps({buffer = bufnr})
+      end)
+
+      -- (Optional) Configure lua language server for neovim
+      require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+
+      lsp.setup()
+    end
+  },
+  {"rafamadriz/friendly-snippets"}, -- a bunch of snippets to use
   {"hrsh7th/cmp-buffer"}, -- buffer completions
   {"hrsh7th/cmp-path"}, -- path completions
   {"hrsh7th/cmp-cmdline"}, -- cmdline completions
   {"saadparwaiz1/cmp_luasnip"}, -- snippet completions
-  {"hrsh7th/cmp-nvim-lsp"},
   {"hrsh7th/cmp-nvim-lua"},
 
-  -- snippets
-  {"L3MON4D3/LuaSnip"}, --snippet engine
-  {"rafamadriz/friendly-snippets"}, -- a bunch of snippets to use
-
   -- LSP
-  {"neovim/nvim-lspconfig"}, -- enable LSP
-  {"williamboman/nvim-lsp-installer"}, -- simple to use language server installer
+  -- {
+  --   "williamboman/mason.nvim", config = function () 
+  --     require('mason').setup({
+  --         border = 'rounded'
+  --       })
+  --     end
+  -- },
+  -- {
+  --   "williamboman/mason-lspconfig.nvim", config = function ()
+  --     require('mason-lspconfig').setup({
+  --         ensure_installed = {
+  --           "tsserver",
+  --         },
+  --         automatic_installation = true,
+  --       })
+
+  --       require("mason-lspconfig").setup_handlers {
+  --           -- The first entry (without a key) will be the default handler
+  --           -- and will be called for each installed server that doesn't have
+  --           -- a dedicated handler.
+  --           function (server_name) -- default handler (optional)
+  --               require("lspconfig")[server_name].setup {}
+  --           end,
+  --       }
+  --     end
+  -- },
+  -- {"neovim/nvim-lspconfig"}, -- enable LSP
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -242,5 +296,6 @@ return {
     end
   },
   { "mong8se/actually.nvim" },
+  { "vim-scripts/LargeFile" },
 }
 

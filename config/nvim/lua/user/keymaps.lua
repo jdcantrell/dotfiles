@@ -104,3 +104,12 @@ keymap(
   '<cmd>lua vim.diagnostic.open_float()<CR>',
   opts
 )
+
+-- quickfix - open file and close with `o`
+vim.api.nvim_create_autocmd(
+  "FileType", 
+  {
+    pattern={"qf"},
+    command=[[nnoremap <buffer> o <CR>:cclose<CR>]]
+  }
+)

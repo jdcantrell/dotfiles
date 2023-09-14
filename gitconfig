@@ -1,6 +1,6 @@
-[user]
-  name = JD Cantrell
-  email = jd@goodrobot.net
+[url "git@github.com:opendoor-labs"]
+	insteadOf = https://github.com/opendoor-labs
+
 [alias]
   co = checkout
   st = status -sb
@@ -10,34 +10,8 @@
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
 
-  #checkout a branch that matches a string
-  f = !sh -c 'git checkout "$(git branch | grep $1 -m 1)"' -
-
-  done = !sh -c 'git push origin $(git symbolic-ref HEAD --short)' -
-
-  #find any branch that has been merged into master and delete it
-  delete-merged = !git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d
-
-  #find remote branches that have been merged and delete those (assume
-  #you have a remote called `me`)
-  delete-merged-remote = !git branch -r --merged | grep -v 'master$' | grep ' me' | sed -e 's/ me\\///' | xargs -n 1 git push me --delete
-
-  #authors
-  authors = !git log --raw | grep "^Author: " | sort | uniq | cut -d ' ' -f2- | sed 's/^/- /'
-
-  work = "!f() { git config user.email 'jd@arceo.ai'; }; f" -
-
-  fix-author = commit --amend --author 'JD Cantrell <jd@arceo.ai>'
-
-  last-week = log --since="last week" --decorate --date=short --pretty="%ad (%ar) -- %s" --author="$(git config --get user.name)"
-
-  branch-name = "!git rev-parse --abbrev-ref HEAD"
-
-  eng = !sh -c 'git checkout -b jd/ENG-$1 -t origin/staging' -
-  new-staging = !sh -c 'git checkout -b jd/$1 -t origin/staging' -
-
   #quality of life aliases
-  new = checkout -b
+  new = checkout -t origin/master -b
   unstage = reset -q HEAD --
   discard = checkout --
   forget = checkout HEAD~1 --
@@ -55,49 +29,41 @@
   reset-me = "!git reset me/$(git branch-name) --hard"
   force-push = "push --force-with-lease"
 
+  # wwwwwwork
+  ng = "!f() { git checkout -t origin/master -b \"jd/GROWTH-$1-$2\"; }; f"
+  ne = "!f() { git checkout -t origin/master -b \"jd/ENGBUGS-$1-$2\"; }; f"
+  ci-kick = "commit -m 'Kick-off CI (empty commit)' --allow-empty"
+
 [color]
   branch = auto
   diff = auto
   interactive = auto
   status = auto
-	ui = true
+  ui = true
 
 [core]
   autocrlf = input
 	excludesFile = ~/.gitignore
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = delta
+	editor = nvim
 
-[github]
-  user = jdcantrell
+[interative]
+  diffFilter = delta --color-only
 
-[push]
-  default = current
+[delta]
+  navigate = true
+  line-numbers = true
+  syntax-theme = gruvbox-dark
 
-[diff]
-  compactionHeuristic = true
-  algorithm = patience
 
 [merge]
-  ff = only
+  conflictstyle = diff3
 
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+[diff]
+  colorMoved = default
 
-[color "diff"]
-	meta = yellow
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
-
-[pull]
-	ff = only
-
-[includeIf "gitdir:~/Work/"]
-  path = ~/.gitconfig.work
-[init]
-	defaultBranch = main
+[user]
+	email = john.cantrell@opendoor.com
+	name = JD Cantrell
+[push]
+	default = current
