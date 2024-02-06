@@ -2,12 +2,6 @@ return {
   { "nvim-lua/popup.nvim" }, -- An implementation of the Popup API from vim in Neovim
   {"rcarriga/nvim-notify"},
   --  { 'stevearc/dressing.nvim', opts = {}, },
-  {
-    'j-hui/fidget.nvim',
-    config = function()
-      require('fidget').setup()
-    end
-  },
   -- {
   --   "folke/noice.nvim",
   --   event = "VeryLazy",
@@ -114,12 +108,13 @@ return {
   },
   {'Verf/deepwhite.nvim'},
   {'shaunsingh/moonlight.nvim'},
+  { "folke/tokyonight.nvim" },
   {
-    "folke/tokyonight.nvim",
+    "ribru17/bamboo.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd([[colorscheme tokyonight-night]])
+      vim.cmd([[colorscheme bamboo]])
     end,
   },
   { "EdenEast/nightfox.nvim" },
@@ -128,7 +123,6 @@ return {
     "catppuccin/nvim",
     name = "catppuccin"
   },
-  { "ribru17/bamboo.nvim" },
   {
     "mcchrish/zenbones.nvim",
     dependencies= "rktjmp/lush.nvim"
@@ -285,6 +279,8 @@ return {
 
       lsp_zero.on_attach(function(client, bufnr)
         lsp_zero.default_keymaps({buffer = bufnr, preserve_mappings = false })
+        -- add <leader>x to apply quickfix
+        vim.api.nvim_set_keymap("n", "<leader>x", '<cmd>lua vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})<CR>', { silent = true })
       end)
 
     end
@@ -481,7 +477,7 @@ return {
             menu = ({
               --buffer = "[Buffer]",
               --nvim_lsp = "[LSP]",
-              luasnip = "[Snip]",
+              -- luasnip = "[Snip]",
               --nvim_lua = "[Lua]",
               --latex_symbols = "[Latex]",
             })

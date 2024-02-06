@@ -20,5 +20,6 @@ function M.config()
     diagnostic = { suffix = 'd', options = {severity = vim.diagnostic.severity.ERROR} },
     })
   require('mini.starter').setup()
+  require('mini.notify').setup()
 end
 return M

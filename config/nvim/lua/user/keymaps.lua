@@ -107,9 +107,27 @@ keymap(
 
 -- quickfix - open file and close with `o`
 vim.api.nvim_create_autocmd(
-  "FileType", 
+  "FileType",
   {
     pattern={"qf"},
     command=[[nnoremap <buffer> o <CR>:cclose<CR>]]
   }
 )
+
+local function open_on_github()
+  local filepath = vim.fn.expand('%:p')
+  local _,sEnd = string.find(filepath, '/code/')
+  local r,_ = unpack(vim.api.nvim_win_get_cursor(0))
+
+  if (sEnd ~= nil) then
+    local trimmed_path = string.sub(filepath, sEnd)
+    local line_number = "#L" .. r
+    local github_url = "https://github.com/opendoor-labs/code/blob/master" .. trimmed_path .. line_number
+    os.execute('open ' .. github_url)
+  end
+
+  print("idk how to open that in gh")
+
+end
+
+vim.keymap.set("n", "<leader>gh", open_on_github, {noremap=true})
