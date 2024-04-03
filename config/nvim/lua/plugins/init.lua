@@ -1,6 +1,7 @@
 return {
   { "nvim-lua/popup.nvim" }, -- An implementation of the Popup API from vim in Neovim
-  {"rcarriga/nvim-notify"},
+  { "tpope/vim-abolish" },
+  { "rcarriga/nvim-notify" },
   --  { 'stevearc/dressing.nvim', opts = {}, },
   -- {
   --   "folke/noice.nvim",
@@ -84,8 +85,9 @@ return {
   --   },
   -- },
   { "nvim-lua/plenary.nvim" }, -- Useful lua functions used ny lots of plugins
-  {"folke/which-key.nvim",
-   event = "VeryLazy",
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
     init = function()
       vim.o.timeout = true
       vim.o.timeoutlen = 300
@@ -106,16 +108,11 @@ return {
       }
     end
   },
-  {'Verf/deepwhite.nvim'},
-  {'shaunsingh/moonlight.nvim'},
+  { 'Verf/deepwhite.nvim' },
+  { 'shaunsingh/moonlight.nvim' },
   { "folke/tokyonight.nvim" },
   {
     "ribru17/bamboo.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme bamboo]])
-    end,
   },
   { "EdenEast/nightfox.nvim" },
   { "marko-cerovac/material.nvim" },
@@ -125,148 +122,157 @@ return {
   },
   {
     "mcchrish/zenbones.nvim",
-    dependencies= "rktjmp/lush.nvim"
+    dependencies = "rktjmp/lush.nvim"
   },
   {
     "uloco/bluloco.nvim",
     dependencies = {
       'rktjmp/lush.nvim'
     },
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[colorscheme bluloco]])
+    end,
   },
   { "loctvl842/monokai-pro.nvim" },
- 	{ 'talha-akram/noctis.nvim' },
+  { 'talha-akram/noctis.nvim' },
   { "rebelot/kanagawa.nvim",
   },
   { "Shatur/neovim-ayu" },
   { 'sainnhe/everforest' },
 
-  {"preservim/vim-markdown"},
+  { "preservim/vim-markdown" },
   {
     'nvim-tree/nvim-tree.lua',
     dependencies = {
       'nvim-tree/nvim-web-devicons', -- optional, for file icon
     },
-    config = function() require'nvim-tree'.setup {
-      hijack_netrw = true,
-      git = {
-        ignore = true
-      },
-    } end
+    config = function()
+      require 'nvim-tree'.setup {
+        hijack_netrw = true,
+        git = {
+          ignore = true
+        },
+      }
+    end
   },
 
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function() require'lualine'.setup {
-      options = {
-        icons_enabled = true,
-        theme = 'auto',
-        component_separators = { left = '', right = ''},
-        section_separators = { left = '', right = ''},
-        disabled_filetypes = {},
-        always_divide_middle = true,
-        globalstatus = true,
-      },
-      sections = {
-        lualine_a = {{ 'mode', fmt = function(str) return str:sub(1,1) end } },
-        lualine_b = {},
-        lualine_c = {
-          {'branch', icon=''},
-          {
-            'diff',
-            symbols = {
-              added = ' ',
-              modified = ' ',
-              removed = ' ',
+    config = function()
+      require 'lualine'.setup {
+        options = {
+          icons_enabled = true,
+          theme = 'auto',
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
+          disabled_filetypes = {},
+          always_divide_middle = true,
+          globalstatus = true,
+        },
+        sections = {
+          lualine_a = { { 'mode', fmt = function(str) return str:sub(1, 1) end } },
+          lualine_b = {},
+          lualine_c = {
+            { 'branch', icon = '' },
+            {
+              'diff',
+              symbols = {
+                added = ' ',
+                modified = ' ',
+                removed = ' ',
+              },
+            },
+            'diagnostics'
+          },
+          lualine_x = {
+            {
+              function() return require("noice").api.status.command.get() end,
+              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+              -- color = Util.ui.fg("Statement"),
+            },
+            -- stylua: ignore
+            {
+              function() return require("noice").api.status.mode.get() end,
+              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+              -- color = Util.ui.fg("Constant"),
+            },
+
+          },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' }
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {
+            {
+              'filename',
             },
           },
-          'diagnostics'
+          lualine_x = { 'location' },
+          lualine_y = {},
+          lualine_z = {}
         },
-        lualine_x = {
-        {
-          function() return require("noice").api.status.command.get() end,
-          cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-          -- color = Util.ui.fg("Statement"),
+        winbar = {
         },
-        -- stylua: ignore
-        {
-          function() return require("noice").api.status.mode.get() end,
-          cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-          -- color = Util.ui.fg("Constant"),
-        },
-
-        },
-        lualine_y = {'progress'},
-        lualine_z = {'location'}
-      },
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = {
-          {
-            'filename',
+        tabline = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {
+            {
+              'filename',
+              file_status = false,
+              newfile_status = false,
+              path = 3,
+            },
           },
-        },
-        lualine_x = {'location'},
-        lualine_y = {},
-        lualine_z = {}
-      },
-      winbar = {
-      },
-      tabline = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = {
-          {
-            'filename',
-            file_status = false,
-            newfile_status = false,
-            path = 3,
-          },
-        },
-        lualine_x = {
-          {
-            'indicator',
-            color = function()
-              if (vim.bo.readonly) then
+          lualine_x = {
+            {
+              'indicator',
+              color = function()
+                if (vim.bo.readonly) then
                   return { fg = 'Red' }
-              end
-              return { fg = '#7BE6AB' }
-            end,
-            fmt = function()
-              if (vim.bo.readonly) then
+                end
+                return { fg = '#7BE6AB' }
+              end,
+              fmt = function()
+                if (vim.bo.readonly) then
                   return ''
-              end
-              if (vim.bo.modified) then
+                end
+                if (vim.bo.modified) then
                   return '●'
-              end
-              return ' '
-            end,
+                end
+                return ' '
+              end,
+            },
+            {
+              'encoding',
+              cond = function()
+                return vim.bo.fileencoding ~= 'utf-8'
+              end,
+            },
+            {
+              'fileformat',
+              cond = function()
+                return vim.bo.fileformat ~= 'unix'
+              end,
+              symbols = {
+                unix = 'unix', -- e712
+                dos = 'dos',   -- e70f
+                mac = 'mac',   -- e711
+              }
+            },
+            'filetype',
           },
-          {
-            'encoding',
-            cond = function()
-              return vim.bo.fileencoding ~= 'utf-8'
-            end,
-          },
-          {
-            'fileformat',
-            cond = function()
-              return vim.bo.fileformat ~= 'unix'
-            end,
-            symbols = {
-              unix = 'unix', -- e712
-              dos = 'dos',  -- e70f
-              mac = 'mac',  -- e711
-            }
-          },
-          'filetype',
+          lualine_y = {},
+          lualine_z = {}
         },
-        lualine_y = {},
-        lualine_z = {}
-      },
-      extensions = {}
-    } end
+        extensions = {}
+      }
+    end
   },
 
 
@@ -274,19 +280,20 @@ return {
   {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
-    config = function ()
+    config = function()
       local lsp_zero = require('lsp-zero')
 
       lsp_zero.on_attach(function(client, bufnr)
-        lsp_zero.default_keymaps({buffer = bufnr, preserve_mappings = false })
+        lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
         -- add <leader>x to apply quickfix
-        vim.api.nvim_set_keymap("n", "<leader>x", '<cmd>lua vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})<CR>', { silent = true })
+        vim.api.nvim_set_keymap("n", "<leader>x",
+          '<cmd>lua vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})<CR>', { silent = true })
       end)
-
     end
   },
-  {"williamboman/mason.nvim"},
-  {"williamboman/mason-lspconfig.nvim",
+  { "williamboman/mason.nvim" },
+  {
+    "williamboman/mason-lspconfig.nvim",
     config = function()
       local lsp_zero = require('lsp-zero')
       lsp_zero.extend_lspconfig()
@@ -372,19 +379,20 @@ return {
       require("mason-lspconfig").setup()
     end,
   },
-  { 'L3MON4D3/LuaSnip',
+  {
+    'L3MON4D3/LuaSnip',
     dependencies = { "rafamadriz/friendly-snippets" },
-    config = function ()
+    config = function()
       local ls = require('luasnip')
       require("luasnip.loaders.from_vscode").lazy_load()
-      vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = true})
-      vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
+      vim.keymap.set({ "i", "s" }, "<C-L>", function() ls.jump(1) end, { silent = true })
+      vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
 
-      vim.keymap.set({"i", "s"}, "<C-E>", function()
+      vim.keymap.set({ "i", "s" }, "<C-E>", function()
         if ls.choice_active() then
           ls.change_choice(1)
         end
-      end, {silent = true})
+      end, { silent = true })
     end
   },
   {
@@ -444,8 +452,8 @@ return {
             if cmp.visible() then
               -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
               cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-            -- this way you will only jump inside the snippet region
+              -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+              -- this way you will only jump inside the snippet region
             elseif luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
             elseif has_words_before() then
@@ -489,9 +497,9 @@ return {
           },
         },
         window = {
-           completion = cmp.config.window.bordered(),
-           documentation = cmp.config.window.bordered(),
-         },
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
         sorting = defaults.sorting,
       }
     end,
@@ -523,29 +531,30 @@ return {
   },
   { "p00f/nvim-ts-rainbow" },
   { "nvim-treesitter/playground" },
-  {'nvim-treesitter/nvim-treesitter-context',
-    config = function ()
-      require'treesitter-context'.setup{
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require 'treesitter-context'.setup {
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
         max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
         multiline_threshold = 1,
-        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-            -- For all filetypes
-            -- Note that setting an entry here replaces all other patterns for this entry.
-            -- By setting the 'default' entry below, you can control which nodes you want to
-            -- appear in the context window.
-            default = {
-                'class',
-                'function',
-                'method',
-                -- 'for', -- These won't appear in the context
-                -- 'while',
-                -- 'if',
-                -- 'switch',
-                -- 'case',
-            },
+        patterns = {   -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+          -- For all filetypes
+          -- Note that setting an entry here replaces all other patterns for this entry.
+          -- By setting the 'default' entry below, you can control which nodes you want to
+          -- appear in the context window.
+          default = {
+            'class',
+            'function',
+            'method',
+            -- 'for', -- These won't appear in the context
+            -- 'while',
+            -- 'if',
+            -- 'switch',
+            -- 'case',
+          },
         },
-    }
+      }
     end
   },
 
@@ -577,6 +586,15 @@ return {
   },
   { "mong8se/actually.nvim" },
   { "vim-scripts/LargeFile" },
-  { "github/copilot.vim" },
-}
+  {
+    "github/copilot.vim",
 
+    config = function()
+      vim.api.nvim_set_keymap("i", "<Left>", 'copilot#Accept("\\<CR>\")',
+        { expr = true, replace_keycodes = false, silent = true })
+      vim.api.nvim_set_keymap("n", "<leader>p",
+        '<cmd>Copilot disabled', { silent = true })
+      vim.g.copilot_no_tab_map = true
+    end
+  },
+}
