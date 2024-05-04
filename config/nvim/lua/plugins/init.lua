@@ -1,102 +1,33 @@
 return {
-  { "nvim-lua/popup.nvim" }, -- An implementation of the Popup API from vim in Neovim
+  --quality of life
   { "tpope/vim-abolish" },
-  { "rcarriga/nvim-notify" },
-  --  { 'stevearc/dressing.nvim', opts = {}, },
-  -- {
-  --   "folke/noice.nvim",
-  --   event = "VeryLazy",
-  --   opts = {
-  --     messages = {
-  --       view = "mini",
-  --       view_search = "mini",
-  --     },
-  --   	routes = {
-  --       {
-  --         view = "mini",
-  --         filter = {
-  --           event = "msg_show",
-  --           find = "substitutions",
-  --         },
-  --       },
-  --       { filter = { find = "fewer lines;" }, opts = { skip = true } },
-  --       { filter = { find = "more line;" }, opts = { skip = true } },
-  --       { filter = { find = "more lines;" }, opts = { skip = true } },
-  --       { filter = { find = "less;" }, opts = { skip = true } },
-  --       { filter = { find = "change;" }, opts = { skip = true } },
-  --       { filter = { find = "changes;" }, opts = { skip = true } },
-  --       { filter = { find = "indent" }, opts = { skip = true } },
-  --       { filter = { find = "move" }, opts = { skip = true } },
-  --     },
-  --     cmdline = {
-  --       view = "cmdline"
-  --     },
-  --     popupmenu = {
-  --       backend = "cmp"
-  --     },
-  --     lsp = {
-  --       override = {
-  --         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-  --         ["vim.lsp.util.stylize_markdown"] = true,
-  --         ["cmp.entry.get_documentation"] = true,
-  --       },
-  --       documentation = {
-  --         view = "hover",
-  --         ---@type NoiceViewOptions
-  --         opts = {
-  --           lang = "markdown",
-  --           replace = true,
-  --           render = "plain",
-  --           format = { "{message}" },
-  --           win_options = { concealcursor = "n", conceallevel = 3 },
-  --         },
-  --       },
-  --       signature = {
-  --         auto_open = {
-  --           enabled = false
-  --         }
-  --       },
-  --     },
-  --     presets = {
-  --       bottom_search = true,
-  --       command_palette = true,
-  --       long_message_to_split = true,
-  --       inc_rename = true,
-  --       lsp_doc_border = true,
-  --     },
-  --   },
-  --   dependencies = {
-  --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-  --     "MunifTanjim/nui.nvim",
-  --     -- OPTIONAL:
-  --     --   `nvim-notify` is only needed, if you want to use the notification view.
-  --     --   If not available, we use `mini` as the fallback
-  --     "rcarriga/nvim-notify",
-  --   },
-  --   -- stylua: ignore
-  --   keys = {
-  --     { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
-  --     { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
-  --     { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
-  --     { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
-  --     { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
-  --     { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
-  --     { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
-  --   },
-  -- },
-  { "nvim-lua/plenary.nvim" }, -- Useful lua functions used ny lots of plugins
+  { "AndrewRadev/tagalong.vim" },
+
+  -- ui improvements
+  { "vim-scripts/LargeFile" },
+  { "mbbill/undotree" },
+  { "mong8se/actually.nvim" },
   {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
+    "ahmedkhalf/project.nvim",
+    config = function()
+      require("project_nvim").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+        detection_methods = { "pattern", "lsp" },
+        silent_chdir = true,
+
+      }
+    end
+  },
+
+  {
+    "akinsho/toggleterm.nvim",
+    version = '*',
+    config = function()
+      require("toggleterm").setup()
     end,
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    }
+    cmd = { "ToggleTerm" }
   },
   {
     "folke/trouble.nvim",
@@ -106,43 +37,9 @@ return {
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
       }
-    end
-  },
-  { 'Verf/deepwhite.nvim' },
-  { 'shaunsingh/moonlight.nvim' },
-  { "folke/tokyonight.nvim" },
-  {
-    "ribru17/bamboo.nvim",
-  },
-  { "EdenEast/nightfox.nvim" },
-  { "marko-cerovac/material.nvim" },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin"
-  },
-  {
-    "mcchrish/zenbones.nvim",
-    dependencies = "rktjmp/lush.nvim"
-  },
-  {
-    "uloco/bluloco.nvim",
-    dependencies = {
-      'rktjmp/lush.nvim'
-    },
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme bluloco]])
     end,
+    cmd = { "Trouble" }, -- lazy loads on these commands
   },
-  { "loctvl842/monokai-pro.nvim" },
-  { 'talha-akram/noctis.nvim' },
-  { "rebelot/kanagawa.nvim",
-  },
-  { "Shatur/neovim-ayu" },
-  { 'sainnhe/everforest' },
-
-  { "preservim/vim-markdown" },
   {
     'nvim-tree/nvim-tree.lua',
     dependencies = {
@@ -155,9 +52,9 @@ return {
           ignore = true
         },
       }
-    end
+    end,
+    keys = { "<leader>e" }, -- lazy loads on this pattern
   },
-
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -275,13 +172,56 @@ return {
     end
   },
 
+  -- themes
+  { 'Verf/deepwhite.nvim' },
+  { 'shaunsingh/moonlight.nvim' },
+  { "folke/tokyonight.nvim" },
+  {
+    "ribru17/bamboo.nvim",
+  },
+  { "marko-cerovac/material.nvim" },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin"
+  },
+  {
+    "uloco/bluloco.nvim",
+    dependencies = {
+      'rktjmp/lush.nvim'
+    },
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[colorscheme bluloco]])
+    end,
+  },
+  { "loctvl842/monokai-pro.nvim" },
+  { 'talha-akram/noctis.nvim' },
+  { "rebelot/kanagawa.nvim",
+  },
+  { "Shatur/neovim-ayu" },
+  { 'sainnhe/everforest' },
+
+  -- language improvements
+  { "preservim/vim-markdown" },
+
+  --- racket
+  { "benknoble/vim-racket" },
+  {
+    "Olical/conjure",
+    cmd = "ConjureEval"
+  },
+
 
   -- lsp
+  { "williamboman/mason.nvim" },
+  { "williamboman/mason-lspconfig.nvim" },
   {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
     config = function()
       local lsp_zero = require('lsp-zero')
+      lsp_zero.extend_lspconfig()
 
       lsp_zero.on_attach(function(client, bufnr)
         lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
@@ -289,19 +229,14 @@ return {
         vim.api.nvim_set_keymap("n", "<leader>x",
           '<cmd>lua vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})<CR>', { silent = true })
       end)
-    end
-  },
-  { "williamboman/mason.nvim" },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    config = function()
-      local lsp_zero = require('lsp-zero')
-      lsp_zero.extend_lspconfig()
+
       require('mason').setup({})
       require('mason-lspconfig').setup({
         ensure_installed = {},
         handlers = {
-          lsp_zero.default_setup,
+          function(server_name)
+            require('lspconfig')[server_name].setup({})
+          end,
         },
       })
     end
@@ -309,6 +244,8 @@ return {
   {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts
+    config = function()
+    end,
     opts = {
       -- options for vim.diagnostic.config()
       diagnostics = {
@@ -363,37 +300,23 @@ return {
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
       ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      setup = {
-        -- example to setup with typescript.nvim
-        -- tsserver = function(_, opts)
-        --   require("typescript").setup({ server = opts })
-        --   return true
-        -- end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
+      -- setup = {
+      -- example to setup with typescript.nvim
+      -- tsserver = function(_, opts)
+      --   require("typescript").setup({ server = opts })
+      --   return true
+      -- end,
+      -- Specify * to use this function as a fallback for any server
+      -- ["*"] = function(server, opts) end,
+      -- },
     },
-    config = function()
-      -- get all the servers that are available through mason-lspconfig
-      require("mason").setup()
-      require("mason-lspconfig").setup()
-    end,
   },
   {
-    'L3MON4D3/LuaSnip',
-    dependencies = { "rafamadriz/friendly-snippets" },
-    config = function()
-      local ls = require('luasnip')
-      require("luasnip.loaders.from_vscode").lazy_load()
-      vim.keymap.set({ "i", "s" }, "<C-L>", function() ls.jump(1) end, { silent = true })
-      vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
-
-      vim.keymap.set({ "i", "s" }, "<C-E>", function()
-        if ls.choice_active() then
-          ls.change_choice(1)
-        end
-      end, { silent = true })
-    end
+    "L3MON4D3/LuaSnip",
+    -- follow latest release.
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp"
   },
   {
     "hrsh7th/nvim-cmp",
@@ -439,7 +362,7 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
           ["<S-CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
@@ -525,12 +448,12 @@ return {
       })
     end,
   },
+
+  -- treesitter
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
   },
-  { "p00f/nvim-ts-rainbow" },
-  { "nvim-treesitter/playground" },
   {
     'nvim-treesitter/nvim-treesitter-context',
     config = function()
@@ -558,34 +481,7 @@ return {
     end
   },
 
-  -- actually good indent?
-  -- { "sheerun/vim-polyglot" },
-
-  {
-    "ahmedkhalf/project.nvim",
-    config = function()
-      require("project_nvim").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-        detection_methods = { "pattern", "lsp" },
-        silent_chdir = true,
-
-      }
-    end
-  },
-
-  { "mbbill/undotree" },
-
-  {
-    "akinsho/toggleterm.nvim",
-    version = '*',
-    config = function()
-      require("toggleterm").setup()
-    end
-  },
-  { "mong8se/actually.nvim" },
-  { "vim-scripts/LargeFile" },
+  -- ai assistance
   {
     "github/copilot.vim",
 
@@ -593,8 +489,12 @@ return {
       vim.api.nvim_set_keymap("i", "<Left>", 'copilot#Accept("\\<CR>\")',
         { expr = true, replace_keycodes = false, silent = true })
       vim.api.nvim_set_keymap("n", "<leader>p",
-        '<cmd>Copilot disabled', { silent = true })
+        '<cmd>Copilot disable<CR> <bar> <cmd>lua print("Copilot off")<CR>', { silent = true })
+      vim.api.nvim_set_keymap("n", "<leader>P",
+        '<cmd>Copilot enable<CR> <bar> <cmd>lua print("Copilot on")<CR>', { silent = true })
       vim.g.copilot_no_tab_map = true
-    end
+    end,
+    cmd = { "Copilot" },    -- lazy loads on these commands
+    keys = { "<leader>P" }, -- lazy loads on this pattern
   },
 }
