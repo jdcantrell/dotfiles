@@ -20,7 +20,7 @@ local M = {
     -- Define your formatters
     formatters_by_ft = {
       lua = { "stylua" },
-      python = { "isort", "black" },
+      python = { "isort", "black", "ruff" },
       javascript = { "prettier" },
       typescript = { "prettier" },
       typescriptreact = { "prettier" },
@@ -52,7 +52,7 @@ local M = {
         return
       end
       vim.b.format_in_progress = true
-      return { lsp_fallback = true, callback = function () vim.b.format_in_progress = false end }
+      return { lsp_fallback = true, callback = function() vim.b.format_in_progress = false end }
     end,
 
     -- Customize formatters
@@ -81,10 +81,10 @@ local M = {
 --           slow_format_filetypes[vim.bo[bufnr].filetype] = true
 --         end
 --       end
--- 
+--
 --       return { timeout_ms = 200, lsp_fallback = false }, on_format
 --     end,
--- 
+--
 --     format_after_save = function(bufnr)
 --       if not slow_format_filetypes[vim.bo[bufnr].filetype] then
 --         return
@@ -92,7 +92,7 @@ local M = {
 --       return { lsp_fallback = false }
 --     end,
 --   })
--- 
+--
 --   -- setup Format command
 --   vim.api.nvim_create_user_command("Format", function(args)
 --     local range = nil
