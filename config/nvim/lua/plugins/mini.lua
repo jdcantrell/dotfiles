@@ -10,7 +10,13 @@ function M.config()
     diagnostic = { suffix = 'd', options = { severity = vim.diagnostic.severity.ERROR } },
   })
   require('mini.jump').setup()
-  require('mini.notify').setup()
+  require('mini.notify').setup({
+    window = {
+      config = {
+        border = 'rounded'
+      }
+    }
+  })
   require('mini.pairs').setup()
   require('mini.starter').setup()
   require('mini.surround').setup()
