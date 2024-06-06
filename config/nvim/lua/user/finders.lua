@@ -1,7 +1,7 @@
 -- some more bs to make telescope nice
 -- Dropdown list theme using a builtin theme definitions :
 
-local codeDir = "/Users/john.cantrellopendoor.com/Work/code/"
+local codeDir = "/Users/john.cantrell@opendoor.com/Work/code/"
 
 -- Find in neovim config with center theme
 local finders = {

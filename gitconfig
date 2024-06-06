@@ -18,7 +18,7 @@
   continue = rebase --continue
   delete-last-commit = reset --hard HEAD~1
   uncommit = reset HEAD~
-  amend = commit --amend
+  amend = commit --amend --no-edit
   nevermind = !git reset --hard HEAD && git clean -d -f
   branches = branch -a
   remotes =  remote -v
@@ -53,7 +53,6 @@
 [delta]
   navigate = true
   line-numbers = true
-  syntax-theme = gruvbox-dark
 
 
 [merge]

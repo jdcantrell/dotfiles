@@ -4,14 +4,20 @@ local M = {
 }
 
 function M.config()
+
+  local eslint = require('lint').linters.eslint
+  eslint.cmd = 'npx'
+  eslint.args = {'eslint',
+    '--format',
+    'json',
+    '--stdin',
+    '--stdin-filename',
+    function() return vim.api.nvim_buf_get_name(0) end,
+  }
+
   require('lint').linters.tslint = {
     cmd = function()
-      local local_eslint = vim.fn.fnamemodify('./node_modules/.bin/tslint', ':p')
-      local stat = vim.loop.fs_stat(local_eslint)
-      if stat then
-        return local_eslint
-      end
-      return 'tslint'
+      return 'npx tslint'
     end,
     stdin = false, -- or false if it doesn't support content input via stdin. In that case the filename is automatically added to the arguments.
     args = {'--format','prose'}, -- list of arguments. Can contain functions with zero arguments that will be evaluated once the linter is used.

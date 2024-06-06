@@ -41,21 +41,6 @@ return {
     cmd = { "Trouble" }, -- lazy loads on these commands
   },
   {
-    'nvim-tree/nvim-tree.lua',
-    dependencies = {
-      'nvim-tree/nvim-web-devicons', -- optional, for file icon
-    },
-    config = function()
-      require 'nvim-tree'.setup {
-        hijack_netrw = true,
-        git = {
-          ignore = true
-        },
-      }
-    end,
-    keys = { "<leader>e" }, -- lazy loads on this pattern
-  },
-  {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
