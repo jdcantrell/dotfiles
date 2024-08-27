@@ -18,7 +18,6 @@ function M.config()
       }
     }
   })
-  require('mini.pairs').setup()
   require('mini.pairs').setup({
     mappings = {
      -- Prevents the action if the cursor is just before any character or next to a "\".
@@ -50,6 +49,11 @@ function M.config()
       go_out_plus = 'h'
     }
   })
+
+  require('mini.misc').setup()
+
+  -- MiniMisc.setup_auto_root()
+  MiniMisc.setup_termbg_sync()
 
   vim.api.nvim_set_keymap("n", "<leader>e",
     '<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', { silent = true })

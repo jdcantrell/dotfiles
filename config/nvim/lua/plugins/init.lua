@@ -1,8 +1,6 @@
 return {
   --quality of life
   { "tpope/vim-abolish" },
-  { "AndrewRadev/tagalong.vim" },
-
   -- ui improvements
   { "vim-scripts/LargeFile" },
   { "mbbill/undotree" },
@@ -174,18 +172,21 @@ return {
     dependencies = {
       'rktjmp/lush.nvim'
     },
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme bluloco]])
-    end,
   },
   { "loctvl842/monokai-pro.nvim" },
   { 'talha-akram/noctis.nvim' },
   { "rebelot/kanagawa.nvim",
   },
   { "Shatur/neovim-ayu" },
-  { 'sainnhe/everforest' },
+  { 'sainnhe/everforest',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[set background=light]])
+      vim.cmd([[colorscheme everforest]])
+    end,
+},
+  { "EdenEast/nightfox.nvim" },
 
   -- language improvements
   { "preservim/vim-markdown" },
@@ -332,6 +333,7 @@ return {
       local cmp_action = require('lsp-zero').cmp_action()
       local defaults = require("cmp.config.default")()
       return {
+        preselect = cmp.PreselectMode.None,
         completion = {
           completeopt = "menu,menuone,noinsert,noselect",
         },
@@ -465,6 +467,20 @@ return {
       }
     end
   },
+  {
+    "windwp/nvim-ts-autotag", 
+    config = function()
+      require('nvim-ts-autotag').setup({
+        opts = {
+          -- Defaults
+          enable_close = false, -- Auto close tags
+          enable_rename = true, -- Auto rename pairs of tags
+          enable_close_on_slash = true -- Auto close on trailing </
+        },
+      })
+    end
+  },
+
 
   -- ai assistance
   {

@@ -130,4 +130,4 @@ local function open_on_github()
 
 end
 
-vim.keymap.set("n", "<leader>gh", open_on_github, {noremap=true})
+vim.keymap.set("n", "zg", open_on_github, {noremap=true})
