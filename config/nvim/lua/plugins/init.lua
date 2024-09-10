@@ -201,7 +201,8 @@ return {
 
   -- lsp
   { "williamboman/mason.nvim" },
-  { "williamboman/mason-lspconfig.nvim" },
+  { "williamboman/mason-lspconfig.nvim",
+  },
   {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
@@ -221,6 +222,9 @@ return {
         ensure_installed = {},
         handlers = {
           function(server_name)
+            if server_name == 'tsserver' then
+              server_name = 'ts_ls'
+            end
             require('lspconfig')[server_name].setup({})
           end,
         },
