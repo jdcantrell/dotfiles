@@ -157,7 +157,14 @@ return {
 
   -- themes
   { 'Verf/deepwhite.nvim' },
-  { 'shaunsingh/moonlight.nvim' },
+  { 'shaunsingh/moonlight.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[set background=dark]])
+      vim.cmd([[colorscheme moonlight]])
+    end,
+  },
   { "folke/tokyonight.nvim" },
   {
     "ribru17/bamboo.nvim",
@@ -178,14 +185,7 @@ return {
   { "rebelot/kanagawa.nvim",
   },
   { "Shatur/neovim-ayu" },
-  { 'sainnhe/everforest',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd([[set background=light]])
-      vim.cmd([[colorscheme everforest]])
-    end,
-},
+  { 'sainnhe/everforest' },
   { "EdenEast/nightfox.nvim" },
 
   -- language improvements

@@ -66,3 +66,7 @@
 	name = JD Cantrell
 [push]
 	default = current
+
+[rerere]
+  enabled = true
+  autoupdate = true
