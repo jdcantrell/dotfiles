@@ -6,9 +6,15 @@
   st = status -sb
 
   #log aliases
-  lol = log --decorate --pretty=oneline --abbrev-commit
+  lol = log --decorate --pretty=oneline --abbrev-commit -n 25
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   lol-merge = log --graph --decorate --pretty=oneline --abbrev-commit --all --simplify-merges --merges
+
+
+  sw = !git checkout $(git branch -a --format '%(refname:short)' | sed 's~origin/~~' | sort | uniq | fzf)
+  # rb = !git for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short) %(objectname:short) %(committerdate:format:%F)' | column -t
+  fza = "!git ls-files -m -o --exclude-standard | fzf -m --print0 | xargs -0 git add"
+  gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
 
   #quality of life aliases
   new = checkout -t origin/master -b
