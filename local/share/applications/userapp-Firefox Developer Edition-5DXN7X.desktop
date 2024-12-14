@@ -7,4 +7,4 @@ Exec=/opt/firefox/firefox --class "Firefox Developer Edition" %u
 Name=Firefox Developer Edition
 Comment=The web browser.
 Keywords=ff
-Icon=/opt/firefox/browser/icons/mozicon128.png
+Icon=/opt/firefox/browser/chrome/icons/default/default128.png
