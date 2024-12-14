@@ -1,6 +1,3 @@
-[url "git@github.com:opendoor-labs"]
-	insteadOf = https://github.com/opendoor-labs
-
 [alias]
   co = checkout
   st = status -sb
@@ -36,8 +33,6 @@
   force-push = "push --force-with-lease"
 
   # wwwwwwork
-  ng = "!f() { git checkout -t origin/master -b \"jd/GROWTH-$1-$2\"; }; f"
-  ne = "!f() { git checkout -t origin/master -b \"jd/ENGBUGS-$1-$2\"; }; f"
   ci-kick = "commit -m 'Kick-off CI (empty commit)' --allow-empty"
 
 [color]
@@ -68,7 +63,7 @@
   colorMoved = default
 
 [user]
-	email = john.cantrell@opendoor.com
+	email = jd@goodrobot.net
 	name = JD Cantrell
 [push]
 	default = current
@@ -76,3 +71,6 @@
 [rerere]
   enabled = true
   autoupdate = true
+
+[init]
+	defaultBranch = main

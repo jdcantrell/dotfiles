@@ -114,20 +114,4 @@ vim.api.nvim_create_autocmd(
   }
 )
 
-local function open_on_github()
-  local filepath = vim.fn.expand('%:p')
-  local _,sEnd = string.find(filepath, '/code/')
-  local r,_ = unpack(vim.api.nvim_win_get_cursor(0))
-
-  if (sEnd ~= nil) then
-    local trimmed_path = string.sub(filepath, sEnd)
-    local line_number = "#L" .. r
-    local github_url = "https://github.com/opendoor-labs/code/blob/master" .. trimmed_path .. line_number
-    os.execute('open ' .. github_url)
-  end
-
-  print("idk how to open that in gh")
-
-end
-
-vim.keymap.set("n", "zg", open_on_github, {noremap=true})
+vim.keymap.set("n", "zg", "<cmd>lua Snacks.gitbrowse()", {noremap=true})

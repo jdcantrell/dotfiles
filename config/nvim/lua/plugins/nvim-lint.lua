@@ -15,18 +15,6 @@ function M.config()
     function() return vim.api.nvim_buf_get_name(0) end,
   }
 
-  require('lint').linters.tslint = {
-    cmd = function()
-      return 'npx tslint'
-    end,
-    stdin = false, -- or false if it doesn't support content input via stdin. In that case the filename is automatically added to the arguments.
-    args = {'--format','prose'}, -- list of arguments. Can contain functions with zero arguments that will be evaluated once the linter is used.
-    stream = 'both', -- ('stdout' | 'stderr' | 'both') configure the stream to which the linter outputs the linting result.
-    ignore_exitcode = true, -- set this to true if the linter exits with a code != 0 and that's considered normal.
-    env = nil, -- custom environment table to use with the external process. Note that this replaces the *entire* environment, it is not additive.
-    parser = require('lint.parser').from_errorformat('ERROR: %f:%l:%c - %m', { source='tslint', severity=vim.diagnostic.severity.WARN}) 
-  }
-
   -- This occasionally useful linter can be ran adhoc using :Lint (when filetype=htmldjango)
   require('lint').linters.htmldjango = {
     cmd = function()
@@ -47,10 +35,10 @@ function M.config()
   }
 
   require('lint').linters_by_ft = {
-    typescript = {'eslint',},
-    javascript = {'eslint',},
-    typescriptreact = {'eslint',},
-    javascriptreact = {'eslint',},
+    typescript = {'biomejs', 'eslint',},
+    javascript = {'biomejs', 'eslint',},
+    typescriptreact = {'biomejs', 'eslint',},
+    javascriptreact = {'biomejs', 'eslint',},
   }
 
   vim.api.nvim_exec([[

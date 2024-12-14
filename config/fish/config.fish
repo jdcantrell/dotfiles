@@ -1,13 +1,9 @@
-export VAULT_ADDR=https://vault.services.opendoor.com:8200
-export GOPATH="$HOME/go"
-
 if status is-interactive
-    # Commands to run in interactive sessions can go here
-    export PATH="/Users/john.cantrellopendoor.com/Library/Python/3.9/bin:$PATH"
-    source ~/.asdf/asdf.fish
-    export PATH="$PATH:$(yarn global bin)"
-    eval "$(direnv hook fish)"
+    /opt/homebrew/bin/brew shellenv | source
+    # export PATH="$PATH:$(yarn global bin)"
+    fish_add_path ~/.local/bin
     starship init fish | source
+    zoxide init fish | source
 
     alias vim="nvim"
     alias vi="nvim"
@@ -35,15 +31,7 @@ if status is-interactive
     end
 
 
-######### od shell tooling #########
-# these lines added by `code/scripts/development/maybe_install_od_shell_tooling.sh`
-set OD_CODE_ROOT "/Users/john.cantrellopendoor.com/go/src/github.com/opendoor-labs/code"
-set OD_TOOL_SOURCE_SCRIPT "$OD_CODE_ROOT/scripts/infra/sourced_on_shell_load.fish"
-[ -f "$OD_TOOL_SOURCE_SCRIPT" ] && source "$OD_TOOL_SOURCE_SCRIPT"
-######### end of od shell tooling #########
-
-
-direnv hook fish | source
-zoxide init fish | source
-
 end
+
+# Created by `pipx` on 2024-11-19 22:04:59
+set PATH $PATH /Users/jd/.local/bin

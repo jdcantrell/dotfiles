@@ -21,15 +21,16 @@ local M = {
     formatters_by_ft = {
       lua = { "stylua" },
       python = { "isort", "black", "ruff" },
-      javascript = { "prettier" },
-      typescript = { "prettier" },
-      typescriptreact = { "prettier" },
+      javascript = { "biome", "prettier" },
+      typescript = { "biome", "prettier" },
+      typescriptreact = { "biome", "prettier" },
       html = { "prettier" },
       css = { "prettier" },
       scss = { "prettier" },
       json = { "prettier" },
       markdown = { "prettier" },
       go = { "goimports" },
+      racket = { "raco_fmt" },
     },
     -- Set the log level. Use `:ConformInfo` to see the location of the log file.
     log_level = vim.log.levels.INFO,
@@ -40,9 +41,14 @@ local M = {
     -- Customize formatters
     formatters = {
       prettier = {
-        command = "/usr/local/bin/prettier",
+        -- command = "/usr/local/bin/prettier",
         exit_codes = { 0, 1 }, -- ignore errors for files with syntax issues
       },
+      raco_fmt = {
+          command = "raco",
+          args = { "fmt", "-i", "$FILENAME" },
+          stdin = false,
+      }
     },
   },
   init = function()

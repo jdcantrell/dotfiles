@@ -1,3 +1,4 @@
+
 return {
   --quality of life
   { "tpope/vim-abolish" },
@@ -67,20 +68,7 @@ return {
             },
             'diagnostics'
           },
-          lualine_x = {
-            {
-              function() return require("noice").api.status.command.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-              -- color = Util.ui.fg("Statement"),
-            },
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.mode.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-              -- color = Util.ui.fg("Constant"),
-            },
-
-          },
+          lualine_x = {},
           lualine_y = { 'progress' },
           lualine_z = { 'location' }
         },
@@ -155,16 +143,63 @@ return {
     end
   },
 
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      styles = {},
+      bigfile = { enabled = true },
+      notifier = { enabled = true },
+      quickfile = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = false },
+    },
+  },
+
   -- themes
   { 'Verf/deepwhite.nvim' },
-  { 'shaunsingh/moonlight.nvim',
+  {
+    url = "https://codeberg.org/jthvai/lavender.nvim",
+    branch = "stable", -- versioned tags + docs updates from main
     lazy = false,
     priority = 1000,
     config = function()
+
+    vim.g.lavender = {
+        transparent = {
+          background = false, -- do not render the main background
+          float      = false, -- do not render the background in floating windows
+          popup      = false, -- do not render the background in popup menus
+          sidebar    = false, -- do not render the background in sidebars
+        },
+        contrast = true, -- colour the sidebar and floating windows differently to the main background
+
+        italic = {
+          comments  = false, -- italic comments
+          functions = false, -- italic function names
+          keywords  = false, -- italic keywords
+          variables = false, -- italic variables
+        },
+
+        signs = true, -- use icon (patched font) diagnostic sign text
+        overrides = {
+          theme = {
+            String = { fg = "green", italic = false },
+            CursorLine = { bold = false, italic = false, bg="#2e2d4a" },
+          }
+        },
+      }
+
+
       vim.cmd([[set background=dark]])
-      vim.cmd([[colorscheme moonlight]])
+      vim.cmd([[colorscheme lavender]])
     end,
   },
+  {"nuvic/flexoki-nvim", },
   { "folke/tokyonight.nvim" },
   {
     "ribru17/bamboo.nvim",
@@ -193,11 +228,9 @@ return {
 
   --- racket
   { "benknoble/vim-racket" },
-  {
-    "Olical/conjure",
-    cmd = "ConjureEval"
+  { "Olical/conjure",
+    ft = "racket",
   },
-
 
   -- lsp
   { "williamboman/mason.nvim" },
@@ -229,6 +262,7 @@ return {
           end,
         },
       })
+      require('lspconfig').racket_langserver.setup({})
     end
   },
   {
@@ -406,9 +440,7 @@ return {
           })
         },
         experimental = {
-          ghost_text = {
-            hl_group = "CmpGhostText",
-          },
+          ghost_text = false
         },
         window = {
           completion = cmp.config.window.bordered(),
@@ -471,8 +503,17 @@ return {
       }
     end
   },
+  { "aaronik/treewalker.nvim",
+    config = function()
+      local tw = require('treewalker')
+      vim.keymap.set('n', '<S-Down>', tw.move_down, { noremap = true })
+      vim.keymap.set('n', '<S-Up>', tw.move_up, { noremap = true })
+      vim.keymap.set('n', '<S-Left>', tw.move_out, { noremap = true })
+      vim.keymap.set('n', '<S-Right>', tw.move_in, { noremap = true })
+    end
+  },
   {
-    "windwp/nvim-ts-autotag", 
+    "windwp/nvim-ts-autotag",
     config = function()
       require('nvim-ts-autotag').setup({
         opts = {
@@ -484,22 +525,11 @@ return {
       })
     end
   },
-
-
-  -- ai assistance
   {
-    "github/copilot.vim",
+    "danymat/neogen",
+    config = true,
+    -- Uncomment next line if you want to follow only stable versions
+    -- version = "*"
+  }
 
-    config = function()
-      vim.api.nvim_set_keymap("i", "<Left>", 'copilot#Accept("\\<CR>\")',
-        { expr = true, replace_keycodes = false, silent = true })
-      vim.api.nvim_set_keymap("n", "<leader>p",
-        '<cmd>Copilot disable<CR> <bar> <cmd>lua print("Copilot off")<CR>', { silent = true })
-      vim.api.nvim_set_keymap("n", "<leader>P",
-        '<cmd>Copilot enable<CR> <bar> <cmd>lua print("Copilot on")<CR>', { silent = true })
-      vim.g.copilot_no_tab_map = true
-    end,
-    cmd = { "Copilot" },    -- lazy loads on these commands
-    keys = { "<leader>P" }, -- lazy loads on this pattern
-  },
 }
