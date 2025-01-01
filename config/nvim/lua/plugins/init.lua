@@ -229,7 +229,7 @@ return {
   --- racket
   { "benknoble/vim-racket" },
   { "Olical/conjure",
-    ft = "racket",
+    cmd = { "ConjureEvalBuf" }
   },
 
   -- lsp
@@ -346,7 +346,7 @@ return {
     'saghen/blink.cmp',
     lazy = false,
     dependencies = 'rafamadriz/friendly-snippets',
-    version = 'v0.*',
+    version = '*',
     opts = {
       -- 'default' for mappings similar to built-in completion
       -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
@@ -354,12 +354,39 @@ return {
       -- see the "default configuration" section below for full documentation on how to define
       -- your own keymap.
       keymap = {
-        preset = 'super-tab',
-        --["<Tab>"] = { "select_next", "accept", "fallback"},
-        --["<Enter>"] = { "accept", "fallback"},
-        --["<S-Tab>"] = { "select_prev"},
+        preset = 'default',
+        ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+        ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+        ["<CR>"] = { "accept", "fallback" },
       },
-
+      completion = {
+        list = { selection = "manual" },
+        documentation = { window = { border = 'rounded' } },
+        menu = {
+          border = 'rounded',
+          draw = {
+            columns = {
+              { "label", "label_description", gap = 1 },
+              { "kind_icon", "kind" }
+            },
+            components = {
+              kind_icon = {
+                ellipsis = false,
+                text = function(ctx)
+                  local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return kind_icon
+                end,
+                -- Optionally, you may also use the highlights from mini.icons
+                highlight = function(ctx)
+                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return hl
+                end,
+              }
+            },
+          },
+        },
+      },
+      signature = { window = { border = 'rounded' } },
       appearance = {
         -- Sets the fallback highlight groups to nvim-cmp's highlight groups
         -- Useful for when your theme doesn't support blink.cmp
