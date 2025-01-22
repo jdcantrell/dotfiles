@@ -11,6 +11,7 @@ function M.config()
   })
   require('mini.diff').setup()
   require('mini.jump').setup()
+  require('mini.icons').setup()
   require('mini.notify').setup({
     window = {
       config = {

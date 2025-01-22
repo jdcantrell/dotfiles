@@ -199,7 +199,7 @@ return {
       vim.cmd([[colorscheme lavender]])
     end,
   },
-  {"nuvic/flexoki-nvim", },
+  {"kepano/flexoki-neovim"},
   { "folke/tokyonight.nvim" },
   {
     "ribru17/bamboo.nvim",
@@ -360,28 +360,23 @@ return {
         ["<CR>"] = { "accept", "fallback" },
       },
       completion = {
-        list = { selection = "manual" },
+        list = {
+         selection = {
+            preselect = function(ctx) return false end,
+            auto_insert = function(ctx) return ctx.mode == 'cmdline' end
+          }
+        },
         documentation = { window = { border = 'rounded' } },
         menu = {
+          auto_show = function(ctx)
+            return ctx.mode ~= "cmdline" or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
+          end,
           border = 'rounded',
           draw = {
+            treesitter = { "lsp" },
             columns = {
               { "label", "label_description", gap = 1 },
-              { "kind_icon", "kind" }
-            },
-            components = {
-              kind_icon = {
-                ellipsis = false,
-                text = function(ctx)
-                  local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
-                  return kind_icon
-                end,
-                -- Optionally, you may also use the highlights from mini.icons
-                highlight = function(ctx)
-                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-                  return hl
-                end,
-              }
+              { "kind" }
             },
           },
         },
