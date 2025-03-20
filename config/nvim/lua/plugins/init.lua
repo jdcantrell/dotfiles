@@ -155,7 +155,6 @@ return {
       bigfile = { enabled = true },
       notifier = { enabled = true },
       quickfile = { enabled = true },
-      statuscolumn = { enabled = true },
       words = { enabled = false },
     },
   },
@@ -165,8 +164,6 @@ return {
   {
     url = "https://codeberg.org/jthvai/lavender.nvim",
     branch = "stable", -- versioned tags + docs updates from main
-    lazy = false,
-    priority = 1000,
     config = function()
 
     vim.g.lavender = {
@@ -193,10 +190,6 @@ return {
           }
         },
       }
-
-
-      vim.cmd([[set background=dark]])
-      vim.cmd([[colorscheme lavender]])
     end,
   },
   {"kepano/flexoki-neovim"},
@@ -221,7 +214,67 @@ return {
   },
   { "Shatur/neovim-ayu" },
   { 'sainnhe/everforest' },
-  { "EdenEast/nightfox.nvim" },
+  { "EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+
+      -- make dawnfox be noctis lux
+      local palettes = {
+        dawnfox = {
+          --black, red, green, yellow, blue, magenta, cyan, white, orange, pink
+          black = "#005661",
+          red = "#e66533",
+          green = "#16b673",
+          yellow = "#d5971a",
+          blue = "#49ace9", -- struct props
+          magenta = "#7060eb", -- cornflower blue
+          cyan = {base= "#49d6e9", dim="#d5971a", bright="#00ff00"}, -- Keyword autocomplete dropdown
+          white = "#e66533",
+          orange = "#d67e5c",
+          pink = "#df769b",
+
+          --bg0, bg1, bg2, bg3, bg4, fg0, fg1, fg2, fg3, sel0, sel1, comment
+          fg0 = "#005661",
+          -- autocomplete background
+          sel0 = "#f9f1e1",
+          -- search highlight background
+          sel1 = "#daeeee",
+          comment = "#5b858b",
+          -- cmd background
+          bg0 = "#f9f1e1",
+          -- editor background
+          bg1 = "#fef8ec",
+          -- current line background
+          bg3 = "#daeeee",
+
+          bg2 = "#8a8679",
+          bg4 = "#8a8679",
+
+
+          -- line numbers
+          fg3 = "#005661",
+          -- top status bar - operators - braces
+          fg2 = "#005661",
+          -- bottom status bar + float windows - search text
+          --fg1 = "#8a8679",
+          fg1 = "#8a8679",
+        }
+      }
+
+      require("nightfox").setup({ palettes = palettes })
+
+      vim.cmd([[set background=light]])
+      vim.cmd([[colorscheme dawnfox]])
+    end
+  },
+
+  { "scottmckendry/cyberdream.nvim" },
+  { "olimorris/onedarkpro.nvim" },
+  {
+    'b0o/lavi.nvim',
+    dependencies = { 'rktjmp/lush.nvim' },
+  },
 
   -- language improvements
   { "preservim/vim-markdown" },
@@ -233,37 +286,29 @@ return {
   },
 
   -- lsp
-  { "williamboman/mason.nvim" },
-  { "williamboman/mason-lspconfig.nvim",
-  },
   {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v3.x',
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      'williamboman/mason.nvim'
+    },
     config = function()
-      local lsp_zero = require('lsp-zero')
-      lsp_zero.extend_lspconfig()
-
-      lsp_zero.on_attach(function(client, bufnr)
-        lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
-        -- add <leader>x to apply quickfix
-        vim.api.nvim_set_keymap("n", "<leader>x",
-          '<cmd>lua vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})<CR>', { silent = true })
-      end)
-
-      require('mason').setup({})
-      require('mason-lspconfig').setup({
-        ensure_installed = {},
+      require("mason").setup()
+      require("mason-lspconfig").setup({
         handlers = {
           function(server_name)
-            if server_name == 'tsserver' then
-              server_name = 'ts_ls'
-            end
-            require('lspconfig')[server_name].setup({})
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            require('lspconfig')[server_name].setup({capabilities = capabilities})
           end,
+          ["glint"] = function ()
+            local lspconfig = require("lspconfig")
+            lspconfig.glint.setup({
+              capabilities = capabilities,
+              filetypes= { 'html.handlebars', 'handlebars', 'typescript.glimmer', 'javascript.glimmer' }
+            })
+          end
         },
       })
-      require('lspconfig').racket_langserver.setup({})
-    end
+    end,
   },
   {
     "neovim/nvim-lspconfig",
@@ -300,39 +345,8 @@ return {
         formatting_options = nil,
         timeout_ms = nil,
       },
-      -- LSP Server Settings
-      ---@type lspconfig.options
-      servers = {
-        lua_ls = {
-          -- mason = false, -- set to false if you don't want this server to be installed with mason
-          -- Use this to add any additional keymaps
-          -- for specific lsp servers
-          ---@type LazyKeysSpec[]
-          -- keys = {},
-          settings = {
-            Lua = {
-              workspace = {
-                checkThirdParty = false,
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
-            },
-          },
-        },
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      -- setup = {
-      -- example to setup with typescript.nvim
-      -- tsserver = function(_, opts)
-      --   require("typescript").setup({ server = opts })
-      --   return true
-      -- end,
-      -- Specify * to use this function as a fallback for any server
-      -- ["*"] = function(server, opts) end,
-      -- },
+      -- probably need to do this above in mason-lspconfig
+      servers = {},
     },
   },
   {
@@ -353,30 +367,61 @@ return {
       -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
       -- see the "default configuration" section below for full documentation on how to define
       -- your own keymap.
+      cmdline = {
+        keymap = {
+        ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+          ['<Tab>'] = { 'show', 'select_next', 'fallback' },
+          ['<CR>'] = { 'hide', 'fallback' },
+        },
+        completion = {
+          list = {
+            selection = {
+              preselect = false
+            }
+          }
+        }
+      },
       keymap = {
         preset = 'default',
         ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
         ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
         ["<CR>"] = { "accept", "fallback" },
+        ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
       },
       completion = {
         list = {
          selection = {
-            preselect = function(ctx) return false end,
-            auto_insert = function(ctx) return ctx.mode == 'cmdline' end
+            preselect = false,
+            auto_insert = false,
           }
         },
-        documentation = { window = { border = 'rounded' } },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 500,
+          window = { border = 'rounded' },
+        },
         menu = {
-          auto_show = function(ctx)
-            return ctx.mode ~= "cmdline" or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
-          end,
+          auto_show = true,
           border = 'rounded',
           draw = {
             treesitter = { "lsp" },
             columns = {
               { "label", "label_description", gap = 1 },
-              { "kind" }
+              { "kind_icon", "kind", gap = 1 }
+            },
+            components = {
+              kind_icon = {
+                ellipsis = false,
+                text = function(ctx)
+                  local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return kind_icon
+                end,
+                -- Optionally, you may also use the highlights from mini.icons
+                highlight = function(ctx)
+                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return hl
+                end,
+              }
             },
           },
         },
@@ -569,24 +614,13 @@ return {
       vim.keymap.set('n', '<S-Right>', tw.move_in, { noremap = true })
     end
   },
+
+  -- fun
   {
-    "windwp/nvim-ts-autotag",
-    config = function()
-      require('nvim-ts-autotag').setup({
-        opts = {
-          -- Defaults
-          enable_close = false, -- Auto close tags
-          enable_rename = true, -- Auto rename pairs of tags
-          enable_close_on_slash = true -- Auto close on trailing </
-        },
-      })
-    end
-  },
-  {
-    "danymat/neogen",
-    config = true,
-    -- Uncomment next line if you want to follow only stable versions
-    -- version = "*"
-  }
+    "nvzone/typr",
+    dependencies = "nvzone/volt",
+    opts = {},
+    cmd = { "Typr", "TyprStats" },
+}
 
 }

@@ -1,4 +1,7 @@
 if status is-interactive
+    # allow vim on escape
+    fish_vi_key_bindings
+
     /opt/homebrew/bin/brew shellenv | source
     # export PATH="$PATH:$(yarn global bin)"
     fish_add_path ~/.local/bin
@@ -25,7 +28,7 @@ if status is-interactive
     function lspr
         gh pr list --json number,headRefName,url --template \
 "{{range .}}
-{{(.headRefName | autocolor \"white+b\")}} 
+{{(.headRefName | autocolor \"white+b\")}}
   {{.url}}{{end}}" \
       --author "@me"  $argv
     end

@@ -20,10 +20,11 @@ local M = {
     -- Define your formatters
     formatters_by_ft = {
       lua = { "stylua" },
-      python = { "isort", "black", "ruff" },
+      python = { "isort", "black", "ruff_format" },
       javascript = { "biome", "prettier" },
       typescript = { "biome", "prettier" },
       typescriptreact = { "biome", "prettier" },
+      handlebars = { "prettier" },
       html = { "prettier" },
       css = { "prettier" },
       scss = { "prettier" },
@@ -33,7 +34,7 @@ local M = {
       racket = { "raco_fmt" },
     },
     -- Set the log level. Use `:ConformInfo` to see the location of the log file.
-    log_level = vim.log.levels.INFO,
+    -- log_level = vim.log.levels.INFO,
     -- Set up format-on-save
     format_after_save = {
       lsp_form= "fallback"
