@@ -75,15 +75,6 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 keymap("n", "<leader>sv", ":luafile $MYVIMRC<CR>", opts)
 
-
--- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
-keymap("n", "<leader>f", "<cmd>lua require'user.finders'.fd()<cr>", opts)
-keymap("n", "<leader>g", "<cmd>lua require'user.finders'.grep({additional_args = {'-S'}})<cr>", opts)
-keymap("n", "<leader>d", "<cmd>lua require'user.finders'.grep_string()<cr>", opts)
-
-keymap("n", "<leader>r", "<cmd>lua require'user.finders'.fd_in_code()<cr>", opts)
-keymap("n", "<leader>t", "<cmd>lua require'user.finders'.grep_in_code()<cr>", opts)
-keymap("n", "<leader>b", "<cmd>lua require'user.finders'.bfd()<cr>", opts)
 keymap("n", "<leader>c", "<cmd>bd<CR>", opts)
  keymap("n", "<leader>C", "<cmd>%bd|e#<CR>", opts)
 -- keymap("n", "<leader>g", "<cmd>Telescope live_grep<CR>", opts)

@@ -152,11 +152,40 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
       styles = {},
+      picker = {
+        marks = {
+          transform = function(item)
+            if item.label and item.label:match("^[A-I]$") and item then
+              item.label = "" .. string.byte(item.label) - string.byte("A") + 1 .. ""
+              return item
+            end
+            return false
+          end,
+        }
+      },
       bigfile = { enabled = true },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       words = { enabled = false },
     },
+    keys = {
+      { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+      { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
+      { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
+      { "<leader>gg", function() Snacks.picker.grep() end, desc = "Grep" },
+      { "<leader>gw", function() Snacks.picker.grep_word() end, desc = "Grep Word" },
+
+      { "<leader>fc", function() Snacks.picker.files({ cwd = "~/code" }) end, desc = "Find in Code" },
+      { "<leader>gc", function() Snacks.picker.grep({ cwd = "~/code" }) end, desc = "Grep in Code" },
+
+--keymap("n", "<leader>f", "<cmd>lua require'user.finders'.fd()<cr>", opts)
+--keymap("n", "<leader>g", "<cmd>lua require'user.finders'.grep({additional_args = {'-S'}})<cr>", opts)
+--keymap("n", "<leader>d", "<cmd>lua require'user.finders'.grep_string()<cr>", opts)
+
+--keymap("n", "<leader>r", "<cmd>lua require'user.finders'.fd_in_code()<cr>", opts)
+--keymap("n", "<leader>t", "<cmd>lua require'user.finders'.grep_in_code()<cr>", opts)
+--keymap("n", "<leader>b", "<cmd>lua require'user.finders'.bfd()<cr>", opts)
+    }
   },
 
   -- themes
@@ -212,11 +241,25 @@ return {
   { 'talha-akram/noctis.nvim' },
   { "rebelot/kanagawa.nvim",
   },
-  { "Shatur/neovim-ayu" },
-  { 'sainnhe/everforest' },
-  { "EdenEast/nightfox.nvim",
+  { "Shatur/neovim-ayu",
     lazy = false,
     priority = 1000,
+    config = function()
+      local colors = require('ayu.colors')
+      colors.generate() -- Pass `true` to enable mirage
+
+      vim.cmd([[set background=dark]])
+      require('ayu').setup({
+        overrides = {
+          LineNr = { fg = colors.comment },
+          NonText = { fg = colors.comment },
+        }
+      })
+      vim.cmd([[colorscheme ayu]])
+    end,
+  },
+  { 'sainnhe/everforest' },
+  { "EdenEast/nightfox.nvim",
     config = function()
 
       -- make dawnfox be noctis lux
@@ -264,8 +307,6 @@ return {
 
       require("nightfox").setup({ palettes = palettes })
 
-      vim.cmd([[set background=light]])
-      vim.cmd([[colorscheme dawnfox]])
     end
   },
 

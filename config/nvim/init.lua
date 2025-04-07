@@ -12,5 +12,5 @@ require("lazy").setup("plugins", {
 
 -- to be moved to lazy plugins
 -- require "user.completions"
-require "user.finders"
 require "user.treesitter"
+require "user.harpoon"
