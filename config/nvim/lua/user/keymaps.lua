@@ -74,6 +74,21 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -- file list toggle
 keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 keymap("n", "<leader>sv", ":luafile $MYVIMRC<CR>", opts)
+
+
+-- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
+--keymap("n", "<leader>f", "<cmd>lua require'user.finders'.fd()<cr>", opts)
+keymap("n", "<leader>f", "<cmd>lua Snacks.picker.files()<cr>", opts)
+--keymap("n", "<leader>g", "<cmd>lua require'user.finders'.grep({additional_args = {'-S'}})<cr>", opts)
+keymap("n", "<leader>g", "<cmd>lua Snacks.picker.grep()<cr>", opts)
+--keymap("n", "<leader>d", "<cmd>lua require'user.finders'.grep_string()<cr>", opts)
+keymap("n", "<leader>d", "<cmd>lua Snacks.picker.grep_word()<cr>", opts)
+
+keymap("n", "<leader>r", "<cmd>lua require'user.finders'.fd_in_code()<cr>", opts)
+keymap("n", "<leader>t", "<cmd>lua require'user.finders'.grep_in_code()<cr>", opts)
+--keymap("n", "<leader>b", "<cmd>lua require'user.finders'.bfd()<cr>", opts)
+keymap("n", "<leader>b", "<cmd>lua Snacks.picker.buffers()<cr>", opts)
+
 keymap("n", "<leader>c", "<cmd>bd<CR>", opts)
  keymap("n", "<leader>C", "<cmd>%bd|e#<CR>", opts)
 -- keymap("n", "<leader>g", "<cmd>Telescope live_grep<CR>", opts)
@@ -122,11 +137,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
     vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
 
-    vim.keymap.set({"n"}, "<leader>xx", function()
-      vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})
-    end, { noremap = true, silent = true })
-    vim.keymap.set({ "n", "x" }, "<leader>xc", function()
-      require("tiny-code-action").code_action()
-    end, { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "<leader>x",
+      '<cmd>lua vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})<CR>', { silent = true })
   end,
 })
