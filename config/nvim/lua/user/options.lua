@@ -41,7 +41,10 @@ vim.opt.foldlevel = 20
 vim.opt.shortmess:append "c"
 
 vim.opt.termguicolors = true
+vim.opt.winborder = "rounded"
 
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 vim.cmd [[set iskeyword+=-]]
 vim.cmd [[set formatoptions-=cro]] -- TODO: this doesn't seem to work
+
+vim.lsp.enable('glint')

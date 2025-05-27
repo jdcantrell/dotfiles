@@ -74,7 +74,6 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -- file list toggle
 keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 keymap("n", "<leader>sv", ":luafile $MYVIMRC<CR>", opts)
-
 keymap("n", "<leader>c", "<cmd>bd<CR>", opts)
  keymap("n", "<leader>C", "<cmd>%bd|e#<CR>", opts)
 -- keymap("n", "<leader>g", "<cmd>Telescope live_grep<CR>", opts)
@@ -105,10 +104,8 @@ vim.api.nvim_create_autocmd(
   }
 )
 
-vim.keymap.set("n", "zg", "<cmd>lua Snacks.gitbrowse({branch='main'})<CR>", {noremap=true})
+vim.keymap.set("n", "zg", "<cmd>lua Snacks.gitbrowse({ branch = 'main' })<CR>", {noremap=true})
 
--- This is where you enable features that only work
--- if there is a language server active in the file
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
   callback = function(event)

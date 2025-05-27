@@ -27,3 +27,10 @@ vim.keymap.set("n", "<leader>bd", function()
     end
   end
 end, { desc = "Delete mark" })
+
+-- List bookmarks
+local function list_bookmarks()
+  local snacks = require("snacks")
+  return snacks.picker.marks({ filter_marks = "A-I" })
+end
+vim.keymap.set("n", "<leader>fh", list_bookmarks, { desc = "List bookmarks" })
