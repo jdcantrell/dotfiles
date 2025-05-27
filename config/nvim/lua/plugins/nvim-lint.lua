@@ -31,14 +31,15 @@ function M.config()
       [[(%w+) (%d+):(%d+) (.*).]],
       { "code", "lnum", "col", "message" },
       { source='djlint', severity=vim.diagnostic.severity.WARN}
-    ) 
+    )
   }
 
   require('lint').linters_by_ft = {
-    typescript = {'biomejs', 'eslint',},
-    javascript = {'biomejs', 'eslint',},
-    typescriptreact = {'biomejs', 'eslint',},
-    javascriptreact = {'biomejs', 'eslint',},
+    typescript = { 'eslint',},
+    javascript = { 'eslint',},
+    typescriptreact = { 'eslint',},
+    javascriptreact = { 'eslint',},
+    go = { 'golangcilint' },
   }
 
   vim.api.nvim_exec([[
@@ -47,13 +48,13 @@ function M.config()
 
   vim.api.nvim_create_user_command(
     'Lint',
-    function(input) 
+    function(input)
       local type = input.args
       if type == nil or type == '' then
         type = vim.bo.filetype
       end
       require('lint').try_lint(type)
-    end, 
+    end,
     { nargs='?' }
   )
 end

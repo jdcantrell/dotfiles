@@ -29,7 +29,7 @@ local M = {
       scss = { "prettier" },
       json = { "prettier" },
       markdown = { "prettier" },
-      go = { "goimports" },
+      go = { "goimports", "gofmt" },
       racket = { "raco_fmt" },
     },
     -- Set the log level. Use `:ConformInfo` to see the location of the log file.
@@ -48,7 +48,10 @@ local M = {
           command = "raco",
           args = { "fmt", "-i", "$FILENAME" },
           stdin = false,
-      }
+      },
+      gofmt = {
+        args = { "-r", "interface{} -> any" }
+      },
     },
   },
   init = function()

@@ -77,13 +77,18 @@ keymap("n", "<leader>sv", ":luafile $MYVIMRC<CR>", opts)
 
 
 -- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
-keymap("n", "<leader>f", "<cmd>lua require'user.finders'.fd()<cr>", opts)
-keymap("n", "<leader>g", "<cmd>lua require'user.finders'.grep({additional_args = {'-S'}})<cr>", opts)
-keymap("n", "<leader>d", "<cmd>lua require'user.finders'.grep_string()<cr>", opts)
+--keymap("n", "<leader>f", "<cmd>lua require'user.finders'.fd()<cr>", opts)
+keymap("n", "<leader>f", "<cmd>lua Snacks.picker.files()<cr>", opts)
+--keymap("n", "<leader>g", "<cmd>lua require'user.finders'.grep({additional_args = {'-S'}})<cr>", opts)
+keymap("n", "<leader>g", "<cmd>lua Snacks.picker.grep()<cr>", opts)
+--keymap("n", "<leader>d", "<cmd>lua require'user.finders'.grep_string()<cr>", opts)
+keymap("n", "<leader>d", "<cmd>lua Snacks.picker.grep_word()<cr>", opts)
 
 keymap("n", "<leader>r", "<cmd>lua require'user.finders'.fd_in_code()<cr>", opts)
 keymap("n", "<leader>t", "<cmd>lua require'user.finders'.grep_in_code()<cr>", opts)
-keymap("n", "<leader>b", "<cmd>lua require'user.finders'.bfd()<cr>", opts)
+--keymap("n", "<leader>b", "<cmd>lua require'user.finders'.bfd()<cr>", opts)
+keymap("n", "<leader>b", "<cmd>lua Snacks.picker.buffers()<cr>", opts)
+
 keymap("n", "<leader>c", "<cmd>bd<CR>", opts)
  keymap("n", "<leader>C", "<cmd>%bd|e#<CR>", opts)
 -- keymap("n", "<leader>g", "<cmd>Telescope live_grep<CR>", opts)
@@ -114,4 +119,25 @@ vim.api.nvim_create_autocmd(
   }
 )
 
-vim.keymap.set("n", "zg", "<cmd>lua Snacks.gitbrowse()", {noremap=true})
+vim.keymap.set("n", "zg", "<cmd>lua Snacks.gitbrowse({ branch = 'main' })<CR>", {noremap=true})
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function(event)
+    local opts = {buffer = event.buf}
+
+    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+    vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+    vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+    vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+    vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+    vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+    vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+    vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+
+    vim.api.nvim_set_keymap("n", "<leader>x",
+      '<cmd>lua vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})<CR>', { silent = true })
+  end,
+})

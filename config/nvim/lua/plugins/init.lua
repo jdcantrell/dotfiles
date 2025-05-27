@@ -1,4 +1,3 @@
-
 return {
   --quality of life
   { "tpope/vim-abolish" },
@@ -14,9 +13,26 @@ return {
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
         detection_methods = { "pattern", "lsp" },
+        patterns = { "!code/parcel/app", "!code/parcel/packages"},
         silent_chdir = true,
 
       }
+    end
+  },
+
+  {
+    "fnune/recall.nvim",
+    version = "*",
+    config = function()
+      local recall = require("recall")
+
+      recall.setup({})
+
+      vim.keymap.set("n", "mm", recall.toggle, { noremap = true, silent = true })
+      vim.keymap.set("n", "mn", recall.goto_next, { noremap = true, silent = true })
+      vim.keymap.set("n", "mp", recall.goto_prev, { noremap = true, silent = true })
+      vim.keymap.set("n", "mc", recall.clear, { noremap = true, silent = true })
+      vim.keymap.set("n", "ml", require("recall.snacks").pick, { noremap = true, silent = true })
     end
   },
 
@@ -152,12 +168,42 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
       styles = {},
+       picker = {
+        marks = {
+          transform = function(item)
+            if item.label and item.label:match("^[A-I]$") and item then
+              item.label = "" .. string.byte(item.label) - string.byte("A") + 1 .. ""
+              return item
+            end
+            return false
+          end,
+        },
+        win = {
+          input = {
+            keys = {
+              ["<Esc>"] = { "close", mode = { "n", "i" } },
+            }
+          },
+        },
+      },
       bigfile = { enabled = true },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
       words = { enabled = false },
     },
+     keys = {
+      { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+      { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
+      { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
+      { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
+      { "<leader>gg", function() Snacks.picker.grep() end, desc = "Grep" },
+      { "<leader>gw", function() Snacks.picker.grep_word() end, desc = "Grep Word" },
+
+      { "<leader>fc", function() Snacks.picker.files({ cwd = "~/code" }) end, desc = "Find in Code" },
+      { "<leader>gc", function() Snacks.picker.grep({ cwd = "~/code" }) end, desc = "Grep in Code" },
+    },
+
   },
 
   -- themes
@@ -165,11 +211,8 @@ return {
   {
     url = "https://codeberg.org/jthvai/lavender.nvim",
     branch = "stable", -- versioned tags + docs updates from main
-    lazy = false,
-    priority = 1000,
     config = function()
-
-    vim.g.lavender = {
+      vim.g.lavender = {
         transparent = {
           background = false, -- do not render the main background
           float      = false, -- do not render the background in floating windows
@@ -195,8 +238,6 @@ return {
       }
 
 
-      vim.cmd([[set background=dark]])
-      vim.cmd([[colorscheme lavender]])
     end,
   },
   {"kepano/flexoki-neovim"},
@@ -217,11 +258,48 @@ return {
   },
   { "loctvl842/monokai-pro.nvim" },
   { 'talha-akram/noctis.nvim' },
-  { "rebelot/kanagawa.nvim",
-  },
-  { "Shatur/neovim-ayu" },
+  { "eldritch-theme/eldritch.nvim", },
+  { "rebelot/kanagawa.nvim", },
+  {{ "Shatur/neovim-ayu",
+    --config = function()
+    --  local colors = require('ayu.colors')
+    --  colors.generate() -- Pass `true` to enable mirage
+    --  vim.cmd([[set background=dark]])
+    --  require('ayu').setup({
+    --    overrides = {
+    --      LineNr = { fg = colors.comment },
+    --      NonText = { fg = colors.comment },
+    --    }
+    --  })
+    --end,
+  }, "Shatur/neovim-ayu" },
+
   { 'sainnhe/everforest' },
-  { "EdenEast/nightfox.nvim" },
+  { "webhooked/kanso.nvim"},
+  { "EdenEast/nightfox.nvim" ,
+    lazy = false,
+    priority = 1000,
+    config = function ()
+      vim.cmd([[colorscheme dayfox]])
+    end
+  },
+  { "bluz71/vim-nightfly-colors", name = "nightfly", },
+  {
+    'olivercederborg/poimandres.nvim',
+    config = function()
+      require('poimandres').setup {
+        -- leave this setup function empty for default config
+        -- or refer to the configuration section
+        -- for configuration options
+      }
+    end,
+  },
+  { "tiagovla/tokyodark.nvim", },
+  { "olimorris/onedarkpro.nvim", },
+
+
+
+
 
   -- language improvements
   { "preservim/vim-markdown" },
@@ -233,37 +311,40 @@ return {
   },
 
   -- lsp
-  { "williamboman/mason.nvim" },
-  { "williamboman/mason-lspconfig.nvim",
-  },
   {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v3.x',
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      'williamboman/mason.nvim'
+    },
     config = function()
-      local lsp_zero = require('lsp-zero')
-      lsp_zero.extend_lspconfig()
-
-      lsp_zero.on_attach(function(client, bufnr)
-        lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
-        -- add <leader>x to apply quickfix
-        vim.api.nvim_set_keymap("n", "<leader>x",
-          '<cmd>lua vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})<CR>', { silent = true })
-      end)
-
-      require('mason').setup({})
-      require('mason-lspconfig').setup({
-        ensure_installed = {},
+      require("mason").setup()
+      require("mason-lspconfig").setup({
         handlers = {
           function(server_name)
-            if server_name == 'tsserver' then
-              server_name = 'ts_ls'
-            end
-            require('lspconfig')[server_name].setup({})
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            require('lspconfig')[server_name].setup({capabilities = capabilities})
           end,
+          ["glint"] = function ()
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            vim.lsp.config('glint') {
+              cmd = {'~/.local/share/nvim/mason/bin/glint-language-serve'},
+              filetypes= { 'html.handlebars', 'handlebars', 'typescript.glimmer', 'javascript.glimmer' },
+              root_markers = {
+                '.glintrc.yml',
+                '.glintrc',
+                '.glintrc.json',
+                '.glintrc.js',
+                'glint.config.js',
+                'package.json'
+              },
+              capabilities = capabilities,
+            };
+            vim.lsp.enable('glint');
+
+          end
         },
       })
-      require('lspconfig').racket_langserver.setup({})
-    end
+    end,
   },
   {
     "neovim/nvim-lspconfig",
@@ -302,24 +383,7 @@ return {
       },
       -- LSP Server Settings
       ---@type lspconfig.options
-      servers = {
-        lua_ls = {
-          -- mason = false, -- set to false if you don't want this server to be installed with mason
-          -- Use this to add any additional keymaps
-          -- for specific lsp servers
-          ---@type LazyKeysSpec[]
-          -- keys = {},
-          settings = {
-            Lua = {
-              workspace = {
-                checkThirdParty = false,
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
-            },
-          },
-        },
+      servers = {},
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
@@ -333,7 +397,6 @@ return {
       -- Specify * to use this function as a fallback for any server
       -- ["*"] = function(server, opts) end,
       -- },
-    },
   },
   {
     "L3MON4D3/LuaSnip",
@@ -358,37 +421,57 @@ return {
         ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
         ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
         ["<CR>"] = { "accept", "fallback" },
+        ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation'},
+      },
+      cmdline = {
+        completion = {
+          list = {
+            selection = {
+              preselect = false
+            }
+          }
+        }
       },
       completion = {
         list = {
          selection = {
-            preselect = function(ctx) return false end,
-            auto_insert = function(ctx) return ctx.mode == 'cmdline' end
+            preselect = false,
+            auto_insert = false,
           }
         },
-        documentation = { window = { border = 'rounded' } },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 1000,
+          window = { border = 'rounded' } ,
+        },
         menu = {
-          auto_show = function(ctx)
-            return ctx.mode ~= "cmdline" or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
-          end,
+          auto_show = true,
           border = 'rounded',
           draw = {
             treesitter = { "lsp" },
             columns = {
               { "label", "label_description", gap = 1 },
-              { "kind" }
+              { "kind_icon", "kind", gap = 1 }
+            },
+            components = {
+              kind_icon = {
+                ellipsis = false,
+                text = function(ctx)
+                  local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return kind_icon
+                end,
+                -- Optionally, you may also use the highlights from mini.icons
+                highlight = function(ctx)
+                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return hl
+                end,
+              }
             },
           },
         },
       },
       signature = { window = { border = 'rounded' } },
       appearance = {
-        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-        -- Useful for when your theme doesn't support blink.cmp
-        -- will be removed in a future release
-        use_nvim_cmp_as_default = true,
-        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = 'mono'
       },
       sources = {
@@ -399,135 +482,6 @@ return {
     -- without having to redefine it
     opts_extend = { "sources.default" }
   },
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   version = false, -- last release is way too old
-  --   event = "InsertEnter",
-  --   dependencies = {
-  --     "hrsh7th/cmp-nvim-lsp",
-  --     "hrsh7th/cmp-buffer",
-  --     "hrsh7th/cmp-path",
-  --     "hrsh7th/cmp-cmdline",
-  --     "saadparwaiz1/cmp_luasnip",
-  --     "onsails/lspkind.nvim"
-  --   },
-  --   opts = function()
-  --     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
-  --     local cmp = require("cmp")
-  --     local has_words_before = function()
-  --       unpack = unpack or table.unpack
-  --       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  --       return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-  --     end
-
-  --     local lspkind = require('lspkind')
-
-  --     local luasnip = require("luasnip")
-
-
-  --     local cmp_action = require('lsp-zero').cmp_action()
-  --     local defaults = require("cmp.config.default")()
-  --     return {
-  --       preselect = cmp.PreselectMode.None,
-  --       completion = {
-  --         completeopt = "menu,menuone,noinsert,noselect",
-  --       },
-  --       snippet = {
-  --         expand = function(args)
-  --           require("luasnip").lsp_expand(args.body)
-  --         end,
-  --       },
-  --       mapping = cmp.mapping.preset.insert({
-  --         ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-  --         ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-  --         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-  --         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-  --         ["<C-Space>"] = cmp.mapping.complete(),
-  --         ["<C-e>"] = cmp.mapping.abort(),
-  --         ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  --         ["<S-CR>"] = cmp.mapping.confirm({
-  --           behavior = cmp.ConfirmBehavior.Replace,
-  --           select = true,
-  --         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  --         ["<C-CR>"] = function(fallback)
-  --           cmp.abort()
-  --           fallback()
-  --         end,
-  --         ["<Tab>"] = cmp.mapping(function(fallback)
-  --           if cmp.visible() then
-  --             -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
-  --             cmp.select_next_item()
-  --             -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-  --             -- this way you will only jump inside the snippet region
-  --           elseif luasnip.expand_or_jumpable() then
-  --             luasnip.expand_or_jump()
-  --           elseif has_words_before() then
-  --             cmp.complete()
-  --           else
-  --             fallback()
-  --           end
-  --         end, { "i", "s" }),
-  --         ["<S-Tab>"] = cmp.mapping(function(fallback)
-  --           if cmp.visible() then
-  --             cmp.select_prev_item()
-  --           elseif luasnip.jumpable(-1) then
-  --             luasnip.jump(-1)
-  --           else
-  --             fallback()
-  --           end
-  --         end, { "i", "s" }),
-  --       }),
-  --       sources = cmp.config.sources({
-  --         { name = "nvim_lsp" },
-  --         { name = "luasnip" },
-  --         { name = "path" },
-  --       }, {
-  --         { name = "buffer" },
-  --       }),
-  --       formatting = {
-  --         format = lspkind.cmp_format({
-  --           mode = "symbol_text",
-  --           menu = ({
-  --             --buffer = "[Buffer]",
-  --             --nvim_lsp = "[LSP]",
-  --             -- luasnip = "[Snip]",
-  --             --nvim_lua = "[Lua]",
-  --             --latex_symbols = "[Latex]",
-  --           })
-  --         })
-  --       },
-  --       experimental = {
-  --         ghost_text = false
-  --       },
-  --       window = {
-  --         completion = cmp.config.window.bordered(),
-  --         documentation = cmp.config.window.bordered(),
-  --       },
-  --       sorting = defaults.sorting,
-  --     }
-  --   end,
-  --   ---@param opts cmp.ConfigSchema
-  --   config = function(_, opts)
-  --     for _, source in ipairs(opts.sources) do
-  --       source.group_index = source.group_index or 1
-  --     end
-  --     local cmp = require("cmp")
-  --     cmp.setup(opts)
-  --     cmp.setup.cmdline(':', {
-  --       mapping = cmp.mapping.preset.cmdline(),
-  --       sources = cmp.config.sources({
-  --         { name = 'path' }
-  --       }, {
-  --         {
-  --           name = 'cmdline',
-  --           option = {
-  --             ignore_cmds = { 'Man', '!' }
-  --           }
-  --         }
-  --       })
-  --     })
-  --   end,
-  -- },
 
   -- treesitter
   {
@@ -587,6 +541,24 @@ return {
     config = true,
     -- Uncomment next line if you want to follow only stable versions
     -- version = "*"
+  },
+  {
+    'bloznelis/before.nvim',
+    config = function()
+      local before = require('before')
+      before.setup()
+
+      -- Jump to previous entry in the edit history
+      vim.keymap.set('n', '[;', before.jump_to_last_edit, {})
+
+      -- Jump to next entry in the edit history
+      vim.keymap.set('n', '];', before.jump_to_next_edit, {})
+
+      -- Look for previous edits in quickfix list
+      -- vim.keymap.set('n', '<leader>', before.show_edits_in_quickfix, {})
+
+      vim.keymap.set('n', '<leader>;', before.show_edits_in_quickfix, {})
+    end
   }
 
 }
