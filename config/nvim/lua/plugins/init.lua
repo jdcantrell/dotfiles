@@ -20,7 +20,6 @@ return {
     end
   },
 
-
   -- doesn't work yet, some bug with ver
   {
     "rachartier/tiny-code-action.nvim",
@@ -38,22 +37,6 @@ return {
       backend = "delta",
       picker = "snacks",
     },
-  },
-
-  {
-    "fnune/recall.nvim",
-    version = "*",
-    config = function()
-      local recall = require("recall")
-
-      recall.setup({})
-
-      vim.keymap.set("n", "mm", recall.toggle, { noremap = true, silent = true })
-      vim.keymap.set("n", "mn", recall.goto_next, { noremap = true, silent = true })
-      vim.keymap.set("n", "mp", recall.goto_prev, { noremap = true, silent = true })
-      vim.keymap.set("n", "mc", recall.clear, { noremap = true, silent = true })
-      -- vim.keymap.set("n", "ml", require("recall.snacks").pick, { noremap = true, silent = true })
-    end
   },
 
   {
@@ -238,19 +221,6 @@ return {
       quickfile = { enabled = true },
       words = { enabled = false },
     },
-    keys = {
-      { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
-      { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
-      { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
-      { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
-      { "<leader>fs", function() Snacks.picker.git_status() end, desc = "Find Git Status Files" },
-      { "<leader>gg", function() Snacks.picker.grep() end, desc = "Grep" },
-      { "<leader>gw", function() Snacks.picker.grep_word() end, desc = "Grep Word" },
-
-      { "<leader>fc", function() Snacks.picker.files({ cwd = "~/code" }) end, desc = "Find in Code" },
-      { "<leader>gc", function() Snacks.picker.grep({ cwd = "~/code" }) end, desc = "Grep in Code" },
-    },
-
   },
   { 'Verf/deepwhite.nvim' },
   {
@@ -308,39 +278,82 @@ return {
   { 'talha-akram/noctis.nvim' },
   { "eldritch-theme/eldritch.nvim", },
   { "rebelot/kanagawa.nvim", },
+  { "Shatur/neovim-ayu",
+  --config = function()
+    --  local colors = require('ayu.colors')
+    --  colors.generate() -- Pass `true` to enable mirage
+    --  require('ayu').setup({
+      --    overrides = {
+        --      LineNr = { fg = colors.comment },
+        --      NonText = { fg = colors.comment },
+        --    }
+        --  })
+        --end,
+  },
 
   { 'sainnhe/everforest' },
-  { "EdenEast/nightfox.nvim" },
-  { "webhooked/kanso.nvim"},
-  { "EdenEast/nightfox.nvim" ,
-    lazy = false,
-    priority = 1000,
-    config = function ()
-      vim.cmd([[colorscheme dayfox]])
+  { "EdenEast/nightfox.nvim",
+    config = function()
+
+      -- make dawnfox be noctis lux
+      local palettes = {
+        dawnfox = {
+          --black, red, green, yellow, blue, magenta, cyan, white, orange, pink
+          black = "#005661",
+          red = "#e66533",
+          green = "#16b673",
+          yellow = "#d5971a",
+          blue = "#49ace9", -- struct props
+          magenta = "#7060eb", -- cornflower blue
+          cyan = {base= "#49d6e9", dim="#d5971a", bright="#00ff00"}, -- Keyword autocomplete dropdown
+          white = "#e66533",
+          orange = "#d67e5c",
+          pink = "#df769b",
+
+          --bg0, bg1, bg2, bg3, bg4, fg0, fg1, fg2, fg3, sel0, sel1, comment
+          fg0 = "#005661",
+          -- autocomplete background
+          sel0 = "#f9f1e1",
+          -- search highlight background
+          sel1 = "#daeeee",
+          comment = "#5b858b",
+          -- cmd background
+          bg0 = "#f9f1e1",
+          -- editor background
+          bg1 = "#fef8ec",
+          -- current line background
+          bg3 = "#daeeee",
+
+          bg2 = "#8a8679",
+          bg4 = "#8a8679",
+
+
+          -- line numbers
+          fg3 = "#005661",
+          -- top status bar - operators - braces
+          fg2 = "#005661",
+          -- bottom status bar + float windows - search text
+          --fg1 = "#8a8679",
+          fg1 = "#8a8679",
+        }
+      }
+
+      require("nightfox").setup({ palettes = palettes })
     end
   },
+
+  { "scottmckendry/cyberdream.nvim" },
+  { "webhooked/kanso.nvim"},
   {
-    'kyza0d/xeno.nvim',
-    -- lazy = false,
-    -- priority = 1000, -- Load colorscheme early
-    -- config = function()
-    --   -- Create your custom theme here
-    --   require('xeno').new_theme('my-theme', {
-    --     base = '#1E1E1E',
-    --     accent = '#8CBE8C',
-    --   })
-    --   vim.cmd('colorscheme my-theme')
-    -- end,
+    'olivercederborg/poimandres.nvim',
+    config = function()
+      require('poimandres').setup {
+        -- leave this setup function empty for default config
+        -- or refer to the configuration section
+        -- for configuration options
+      }
+    end,
   },
-  {
-      "github-main-user/lytmode.nvim",
-      -- lazy = false,
-      -- priority = 1000,
-      config = function()
-          require('lytmode').setup()
-      end
-  },
-  { "bluz71/vim-nightfly-colors", name = "nightfly", },
   { "tiagovla/tokyodark.nvim", },
   { "olimorris/onedarkpro.nvim", },
 
