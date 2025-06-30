@@ -37,6 +37,7 @@ vim.opt.guifont = "monospace:h17"               -- the font used in graphical ne
 vim.opt.title = true
 vim.opt.wildmode = {'longest', 'list'}
 vim.opt.foldlevel = 20
+vim.opt.syntax = "on"
 
 vim.opt.shortmess:append "c"
 

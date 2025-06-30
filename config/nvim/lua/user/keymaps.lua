@@ -122,7 +122,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
     vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
 
-    vim.api.nvim_set_keymap("n", "<leader>x",
-      '<cmd>lua vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})<CR>', { silent = true })
+    vim.keymap.set({"n"}, "<leader>xx", function()
+      vim.lsp.buf.code_action({apply = true, context = { only = { "quickfix" }}})
+    end, { noremap = true, silent = true })
+    vim.keymap.set({ "n", "x" }, "<leader>xc", function()
+      require("tiny-code-action").code_action()
+    end, { noremap = true, silent = true })
   end,
 })

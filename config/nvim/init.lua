@@ -2,7 +2,6 @@ require("user/lazy_bootstrap")
 
 require "user.options"
 require "user.keymaps"
-require "user.colorschemes"
 
 require("lazy").setup("plugins", {
     ui = {
@@ -10,7 +9,6 @@ require("lazy").setup("plugins", {
     }
   })
 
-require "user.treesitter"
 require "user.harpoon"
 
 

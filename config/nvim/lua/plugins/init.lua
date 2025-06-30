@@ -20,20 +20,24 @@ return {
     end
   },
 
+
+  -- doesn't work yet, some bug with ver
   {
-    "fnune/recall.nvim",
-    version = "*",
-    config = function()
-      local recall = require("recall")
-
-      recall.setup({})
-
-      vim.keymap.set("n", "mm", recall.toggle, { noremap = true, silent = true })
-      vim.keymap.set("n", "mn", recall.goto_next, { noremap = true, silent = true })
-      vim.keymap.set("n", "mp", recall.goto_prev, { noremap = true, silent = true })
-      vim.keymap.set("n", "mc", recall.clear, { noremap = true, silent = true })
-      vim.keymap.set("n", "ml", require("recall.snacks").pick, { noremap = true, silent = true })
-    end
+    "rachartier/tiny-code-action.nvim",
+    dependencies = {
+      {"nvim-lua/plenary.nvim"},
+      {
+        "folke/snacks.nvim",
+        opts = {
+          terminal = {},
+        }
+      }
+    },
+    event = "LspAttach",
+    opts = {
+      backend = "delta",
+      picker = "snacks",
+    },
   },
 
   {
@@ -191,20 +195,7 @@ return {
       quickfile = { enabled = true },
       words = { enabled = false },
     },
-    keys = {
-      { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
-      { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
-      { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
-      { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
-      { "<leader>gg", function() Snacks.picker.grep() end, desc = "Grep" },
-      { "<leader>gw", function() Snacks.picker.grep_word() end, desc = "Grep Word" },
-
-      { "<leader>fc", function() Snacks.picker.files({ cwd = "~/code" }) end, desc = "Find in Code" },
-      { "<leader>gc", function() Snacks.picker.grep({ cwd = "~/code" }) end, desc = "Grep in Code" },
-    }
   },
-
-  -- themes
   { 'Verf/deepwhite.nvim' },
   {
     url = "https://codeberg.org/jthvai/lavender.nvim",
@@ -236,39 +227,43 @@ return {
       }
     end,
   },
-  {"kepano/flexoki-neovim"},
-  { "folke/tokyonight.nvim" },
-  {
-    "ribru17/bamboo.nvim",
+  { "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function ()
+      vim.cmd([[set background=dark]])
+      vim.cmd([[colorscheme tokyonight]])
+    end
   },
-  { "marko-cerovac/material.nvim" },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin"
-  },
+   {
+     "ribru17/bamboo.nvim",
+   },
+   { "marko-cerovac/material.nvim" },
+   {
+     "catppuccin/nvim",
+     name = "catppuccin"
+   },
   {
     "uloco/bluloco.nvim",
     dependencies = {
       'rktjmp/lush.nvim'
     },
   },
-  { "loctvl842/monokai-pro.nvim" },
   { 'talha-akram/noctis.nvim' },
   { "eldritch-theme/eldritch.nvim", },
   { "rebelot/kanagawa.nvim", },
-  {{ "Shatur/neovim-ayu",
-    --config = function()
+  { "Shatur/neovim-ayu",
+  --config = function()
     --  local colors = require('ayu.colors')
     --  colors.generate() -- Pass `true` to enable mirage
-    --  vim.cmd([[set background=dark]])
     --  require('ayu').setup({
-    --    overrides = {
-    --      LineNr = { fg = colors.comment },
-    --      NonText = { fg = colors.comment },
-    --    }
-    --  })
-    --end,
-  }, "Shatur/neovim-ayu" },
+      --    overrides = {
+        --      LineNr = { fg = colors.comment },
+        --      NonText = { fg = colors.comment },
+        --    }
+        --  })
+        --end,
+  },
 
   { 'sainnhe/everforest' },
   { "EdenEast/nightfox.nvim",
@@ -318,31 +313,12 @@ return {
       }
 
       require("nightfox").setup({ palettes = palettes })
-      vim.cmd([[colorscheme dawnfox]])
-
     end
   },
 
-  { "scottmckendry/cyberdream.nvim" },
   { "olimorris/onedarkpro.nvim" },
-  {
-    'b0o/lavi.nvim',
-    dependencies = { 'rktjmp/lush.nvim' },
-  },
-  { "webhooked/kanso.nvim"},
-  { "bluz71/vim-nightfly-colors", name = "nightfly", },
-  {
-    'olivercederborg/poimandres.nvim',
-    config = function()
-      require('poimandres').setup {
-        -- leave this setup function empty for default config
-        -- or refer to the configuration section
-        -- for configuration options
-      }
-    end,
-  },
-  { "tiagovla/tokyodark.nvim", },
-  { "olimorris/onedarkpro.nvim", },
+   { "webhooked/kanso.nvim"},
+   { "bluz71/vim-nightfly-colors", name = "nightfly", },
 
 
   -- language improvements
@@ -532,6 +508,23 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    config = function ()
+
+      require("nvim-treesitter.configs").setup {
+        ensure_installed = {'go', 'typescript', 'javascript', 'css', 'markdown', 'python', 'html', 'json' },
+        sync_install = false,
+        ignore_install = { "" }, -- List of parsers to ignore installing
+        autopairs = {
+          enable = true,
+        },
+        highlight = {
+          enable = true, -- false will disable the whole extension
+          additional_vim_regex_highlighting = true,
+
+        },
+        indent = { enable = false },
+      }
+    end,
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
