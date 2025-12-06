@@ -32,7 +32,7 @@ return {
       vim.keymap.set("n", "mn", recall.goto_next, { noremap = true, silent = true })
       vim.keymap.set("n", "mp", recall.goto_prev, { noremap = true, silent = true })
       vim.keymap.set("n", "mc", recall.clear, { noremap = true, silent = true })
-      vim.keymap.set("n", "ml", require("recall.snacks").pick, { noremap = true, silent = true })
+      -- vim.keymap.set("n", "ml", require("recall.snacks").pick, { noremap = true, silent = true })
     end
   },
 
@@ -168,7 +168,24 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
       styles = {},
-       picker = {
+      picker = {
+        enabled = true,
+        layout = {
+            layout = {
+              backdrop = false,
+              width = 0.9,
+              min_width = 80,
+              height = 0.8,
+              min_height = 30,
+              box = "vertical",
+              border = "rounded",
+              title = "{title} {live} {flags}",
+              title_pos = "center",
+              { win = "input", height = 1, border = "bottom" },
+              { win = "list", height = 0.1, min_height=12, border = "none" },
+              { win = "preview", title = "{preview}", height = 0.6, border = "top" },
+            },
+          },
         marks = {
           transform = function(item)
             if item.label and item.label:match("^[A-I]$") and item then
@@ -181,8 +198,18 @@ return {
         win = {
           input = {
             keys = {
+              ["<C-c>"] = "cancel",
               ["<Esc>"] = { "close", mode = { "n", "i" } },
             }
+          },
+        },
+        formatters = {
+          file = {
+            filename_first = false, -- display filename before the file path
+            truncate = 80, -- truncate the file path to (roughly) this length
+            filename_only = false, -- only show the filename
+            icon_width = 2, -- width of the icon (in characters)
+            git_status_hl = true, -- use the git status highlight group for the filename
           },
         },
       },
@@ -192,11 +219,12 @@ return {
       statuscolumn = { enabled = true },
       words = { enabled = false },
     },
-     keys = {
+    keys = {
       { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
       { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
       { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
       { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
+      { "<leader>fs", function() Snacks.picker.git_status() end, desc = "Find Git Status Files" },
       { "<leader>gg", function() Snacks.picker.grep() end, desc = "Grep" },
       { "<leader>gw", function() Snacks.picker.grep_word() end, desc = "Grep Word" },
 
@@ -260,19 +288,6 @@ return {
   { 'talha-akram/noctis.nvim' },
   { "eldritch-theme/eldritch.nvim", },
   { "rebelot/kanagawa.nvim", },
-  {{ "Shatur/neovim-ayu",
-    --config = function()
-    --  local colors = require('ayu.colors')
-    --  colors.generate() -- Pass `true` to enable mirage
-    --  vim.cmd([[set background=dark]])
-    --  require('ayu').setup({
-    --    overrides = {
-    --      LineNr = { fg = colors.comment },
-    --      NonText = { fg = colors.comment },
-    --    }
-    --  })
-    --end,
-  }, "Shatur/neovim-ayu" },
 
   { 'sainnhe/everforest' },
   { "webhooked/kanso.nvim"},
@@ -283,17 +298,28 @@ return {
       vim.cmd([[colorscheme dayfox]])
     end
   },
-  { "bluz71/vim-nightfly-colors", name = "nightfly", },
   {
-    'olivercederborg/poimandres.nvim',
-    config = function()
-      require('poimandres').setup {
-        -- leave this setup function empty for default config
-        -- or refer to the configuration section
-        -- for configuration options
-      }
-    end,
+    'kyza0d/xeno.nvim',
+    -- lazy = false,
+    -- priority = 1000, -- Load colorscheme early
+    -- config = function()
+    --   -- Create your custom theme here
+    --   require('xeno').new_theme('my-theme', {
+    --     base = '#1E1E1E',
+    --     accent = '#8CBE8C',
+    --   })
+    --   vim.cmd('colorscheme my-theme')
+    -- end,
   },
+  {
+      "github-main-user/lytmode.nvim",
+      -- lazy = false,
+      -- priority = 1000,
+      config = function()
+          require('lytmode').setup()
+      end
+  },
+  { "bluz71/vim-nightfly-colors", name = "nightfly", },
   { "tiagovla/tokyodark.nvim", },
   { "olimorris/onedarkpro.nvim", },
 
@@ -311,48 +337,21 @@ return {
   },
 
   -- lsp
-  {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = {
-      'williamboman/mason.nvim'
-    },
-    config = function()
-      require("mason").setup()
-      require("mason-lspconfig").setup({
-        handlers = {
-          function(server_name)
-            local capabilities = require("blink.cmp").get_lsp_capabilities()
-            require('lspconfig')[server_name].setup({capabilities = capabilities})
-          end,
-          ["glint"] = function ()
-            local capabilities = require("blink.cmp").get_lsp_capabilities()
-            vim.lsp.config('glint') {
-              cmd = {'~/.local/share/nvim/mason/bin/glint-language-serve'},
-              filetypes= { 'html.handlebars', 'handlebars', 'typescript.glimmer', 'javascript.glimmer' },
-              root_markers = {
-                '.glintrc.yml',
-                '.glintrc',
-                '.glintrc.json',
-                '.glintrc.js',
-                'glint.config.js',
-                'package.json'
-              },
-              capabilities = capabilities,
-            };
-            vim.lsp.enable('glint');
+  { "mason-org/mason.nvim", opts = {} },
 
-          end
-        },
-      })
-    end,
-  },
+  -- lsp
   {
     "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
-    config = function()
-    end,
-    opts = {
-      -- options for vim.diagnostic.config()
+  config = function(_, opts)
+    local lspconfig = require('lspconfig')
+    for server, config in pairs(opts.servers) do
+      -- passing config.capabilities to blink.cmp merges with the capabilities in your
+      -- `opts[server].capabilities, if you've defined it
+      config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+      lspconfig[server].setup(config)
+    end
+  end,
+  opts = {
       diagnostics = {
         underline = true,
         update_in_insert = false,
@@ -360,51 +359,24 @@ return {
           spacing = 4,
           source = "if_many",
           prefix = "●",
-          -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-          -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-          -- prefix = "icons",
         },
         severity_sort = true,
       },
-      -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-      -- Be aware that you also will need to properly configure your LSP server to
-      -- provide the inlay hints.
       inlay_hints = {
         enabled = false,
       },
-      -- add any global capabilities here
-      capabilities = {},
-      -- options for vim.lsp.buf.format
-      -- `bufnr` and `filter` is handled by the LazyVim formatter,
-      -- but can be also overridden when specified
+      capabilities = {}, -- This is fine, we add blink's caps inside `config`
       format = {
         formatting_options = nil,
         timeout_ms = nil,
       },
-      -- LSP Server Settings
-      ---@type lspconfig.options
+      -- This `servers` table is not actually used by this config function,
+      -- but it's harmless to leave it.
       servers = {},
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      -- setup = {
-      -- example to setup with typescript.nvim
-      -- tsserver = function(_, opts)
-      --   require("typescript").setup({ server = opts })
-      --   return true
-      -- end,
-      -- Specify * to use this function as a fallback for any server
-      -- ["*"] = function(server, opts) end,
-      -- },
-  },
-  {
-    "L3MON4D3/LuaSnip",
-    -- follow latest release.
-    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-    -- install jsregexp (optional!).
-    build = "make install_jsregexp"
-  },
+    },
+  },
+
+  -- okay
   {
     'saghen/blink.cmp',
     lazy = false,
@@ -434,7 +406,7 @@ return {
       },
       completion = {
         list = {
-         selection = {
+          selection = {
             preselect = false,
             auto_insert = false,
           }
@@ -487,6 +459,24 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    config = function()
+
+    require("nvim-treesitter.configs").setup {
+      ensure_installed = {'go', 'typescript', 'javascript', 'css', 'markdown', 'python', 'html', 'json' },
+      sync_install = false,
+      ignore_install = { "" }, -- List of parsers to ignore installing
+      autopairs = {
+        enable = true,
+      },
+      highlight = {
+        enable = true, -- false will disable the whole extension
+        disable = { "" }, -- list of language that will be disabled
+        additional_vim_regex_highlighting = true,
+
+      },
+      indent = { enable = false, disable = { "yaml" } },
+    }
+    end
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
@@ -559,6 +549,88 @@ return {
 
       vim.keymap.set('n', '<leader>;', before.show_edits_in_quickfix, {})
     end
-  }
+  },
 
+  --ai things?
+  {
+  "azorng/goose.nvim",
+  config = function()
+    require("goose").setup({
+      prefered_picker = 'snacks',                     -- 'telescope', 'fzf', 'mini.pick', 'snacks', if nil, it will use the best available picker
+      default_global_keymaps = true,             -- If false, disables all default global keymaps
+      keymap = {
+        global = {
+          toggle = '<leader>ag',                 -- Open goose. Close if opened
+          open_input = '<leader>ai',             -- Opens and focuses on input window on insert mode
+          open_input_new_session = '<leader>aI', -- Opens and focuses on input window on insert mode. Creates a new session
+          open_output = '<leader>ao',            -- Opens and focuses on output window
+          toggle_focus = '<leader>at',           -- Toggle focus between goose and last window
+          close = '<leader>aq',                  -- Close UI windows
+          toggle_fullscreen = '<leader>af',      -- Toggle between normal and fullscreen mode
+          select_session = '<leader>as',         -- Select and load a goose session
+          goose_mode_chat = '<leader>amc',       -- Set goose mode to `chat`. (Tool calling disabled. No editor context besides selections)
+          goose_mode_auto = '<leader>ama',       -- Set goose mode to `auto`. (Default mode with full agent capabilities)
+          configure_provider = '<leader>ap',     -- Quick provider and model switch from predefined list
+          diff_open = '<leader>ad',              -- Opens a diff tab of a modified file since the last goose prompt
+          diff_next = '<leader>a]',              -- Navigate to next file diff
+          diff_prev = '<leader>a[',              -- Navigate to previous file diff
+          diff_close = '<leader>ac',             -- Close diff view tab and return to normal editing
+          diff_revert_all = '<leader>ara',       -- Revert all file changes since the last goose prompt
+          diff_revert_this = '<leader>art',      -- Revert current file changes since the last goose prompt
+        },
+        window = {
+          submit = '<cr>',                     -- Submit prompt
+          close = '<esc>',                     -- Close UI windows
+          stop = '<C-c>',                      -- Stop goose while it is running
+          next_message = ']]',                 -- Navigate to next message in the conversation
+          prev_message = '[[',                 -- Navigate to previous message in the conversation
+          mention_file = '@',                  -- Pick a file and add to context. See File Mentions section
+          toggle_pane = '<tab>',               -- Toggle between input and output panes
+          prev_prompt_history = '<up>',        -- Navigate to previous prompt in history
+          next_prompt_history = '<down>'       -- Navigate to next prompt in history
+        }
+      },
+      ui = {
+        window_width = 0.35,                   -- Width as percentage of editor width
+        input_height = 0.15,                   -- Input height as percentage of window height
+        fullscreen = false,                    -- Start in fullscreen mode (default: false)
+        layout = "right",                      -- Options: "center" or "right"
+        floating_height = 0.8,                 -- Height as percentage of editor height for "center" layout
+        display_model = true,                  -- Display model name on top winbar
+        display_goose_mode = true              -- Display mode on top winbar: auto|chat
+      },
+      providers = {
+        --[[
+        Define available providers and their models for quick model switching
+        anthropic|azure|bedrock|databricks|google|groq|ollama|openai|openrouter
+        Example:
+        openrouter = {
+          "anthropic/claude-3.5-sonnet",
+          "openai/gpt-4.1",
+        },
+        ollama = {
+          "cogito:14b"
+          }
+          --]]
+      }
+    })
+    end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      {
+        "MeanderingProgrammer/render-markdown.nvim",
+        opts = {
+          anti_conceal = { enabled = false },
+        },
+      }
+    },
+  },
+
+  -- fun
+  {
+    "nvzone/typr",
+    dependencies = "nvzone/volt",
+    opts = {},
+    cmd = { "Typr", "TyprStats" },
+  }
 }
