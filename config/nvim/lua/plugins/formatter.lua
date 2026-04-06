@@ -50,7 +50,7 @@ local M = {
           stdin = false,
       },
       gofmt = {
-        args = { "-r", "interface{} -> any" }
+        args = {"-s", "-r", "interface{} -> any" }
       },
     },
   },

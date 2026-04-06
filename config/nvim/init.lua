@@ -35,20 +35,8 @@ vim.lsp.config('*', {
 --   },
 -- })
 --
-local glint_plugin = {
-  name = "@glint/tsserver-plugin",
-  location = "/Users/jdcantrell/.local/share/mise/installs/node/22.16.0/lib/node_modules/",
-}
-vim.lsp.config("vtsls", {
-  settings = {
-    vtsls = {
-      tsserver = {
-        globalPlugins = {
-          glint_plugin,
-        },
-      },
-    },
-  },
-  filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-})
-vim.lsp.enable({ "vtsls", "glintv2", "gopls", "ruff"})
+
+-- setup typescript and glint lsp
+require "user.typescript"
+
+vim.lsp.enable({ "gopls", "ruff"})

@@ -225,6 +225,7 @@ return {
       { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
       { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
       { "<leader>fs", function() Snacks.picker.git_status() end, desc = "Find Git Status Files" },
+      { "<leader>fe", function() Snacks.picker.files({ cwd = os.getenv("PWD") }) end, desc = "Find Files from CWD" },
       { "<leader>gg", function() Snacks.picker.grep() end, desc = "Grep" },
       { "<leader>gw", function() Snacks.picker.grep_word() end, desc = "Grep Word" },
 
@@ -292,11 +293,15 @@ return {
   { 'sainnhe/everforest' },
   { "webhooked/kanso.nvim"},
   { "EdenEast/nightfox.nvim" ,
-    lazy = false,
-    priority = 1000,
-    config = function ()
-      vim.cmd([[colorscheme dayfox]])
-    end
+  },
+  {
+    "oskarnurm/koda.nvim",
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      -- require("koda").setup({ transparent = true })
+      vim.cmd("colorscheme koda")
+    end,
   },
   {
     'kyza0d/xeno.nvim',
@@ -322,13 +327,6 @@ return {
   { "bluz71/vim-nightfly-colors", name = "nightfly", },
   { "tiagovla/tokyodark.nvim", },
   { "olimorris/onedarkpro.nvim", },
-
-
-
-
-
-  -- language improvements
-  { "preservim/vim-markdown" },
 
   --- racket
   { "benknoble/vim-racket" },
@@ -459,23 +457,29 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    branch = "main",
     config = function()
 
-    require("nvim-treesitter.configs").setup {
-      ensure_installed = {'go', 'typescript', 'javascript', 'css', 'markdown', 'python', 'html', 'json' },
-      sync_install = false,
-      ignore_install = { "" }, -- List of parsers to ignore installing
-      autopairs = {
-        enable = true,
-      },
-      highlight = {
-        enable = true, -- false will disable the whole extension
-        disable = { "" }, -- list of language that will be disabled
-        additional_vim_regex_highlighting = true,
+      require('nvim-treesitter').install { 'go', 'typescript', 'javascript', 'css', 'markdown', 'python', 'glimmer', 'glimmer_typescript', 'html', 'json' }
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'go', 'typescript', 'javascript', 'css', 'markdown', 'python', 'html', 'json', 'typescript.glimmer' },
+        callback = function() vim.treesitter.start() end,
+      })
 
-      },
-      indent = { enable = false, disable = { "yaml" } },
-    }
+    -- require("nvim-treesitter.configs").setup {
+    --   ensure_installed = {'go', 'typescript', 'javascript', 'css', 'markdown', 'python', 'html', 'json' },
+    --   sync_install = false,
+    --   ignore_install = { "" }, -- List of parsers to ignore installing
+    --   autopairs = {
+    --     enable = true,
+    --   },
+    --   highlight = {
+    --     enable = true, -- false will disable the whole extension
+    --     disable = { "" }, -- list of language that will be disabled
+    --     additional_vim_regex_highlighting = true,
+    --   },
+    --   indent = { enable = false, disable = { "yaml" } },
+    -- }
     end
   },
   {
@@ -513,19 +517,19 @@ return {
       vim.keymap.set('n', '<S-Right>', tw.move_in, { noremap = true })
     end
   },
-  {
-    "windwp/nvim-ts-autotag",
-    config = function()
-      require('nvim-ts-autotag').setup({
-        opts = {
-          -- Defaults
-          enable_close = false, -- Auto close tags
-          enable_rename = true, -- Auto rename pairs of tags
-          enable_close_on_slash = true -- Auto close on trailing </
-        },
-      })
-    end
-  },
+  -- {
+  --   "windwp/nvim-ts-autotag",
+  --   config = function()
+  --     require('nvim-ts-autotag').setup({
+  --       opts = {
+  --         -- Defaults
+  --         enable_close = false, -- Auto close tags
+  --         enable_rename = true, -- Auto rename pairs of tags
+  --         enable_close_on_slash = true -- Auto close on trailing </
+  --       },
+  --     })
+  --   end
+  -- },
   {
     "danymat/neogen",
     config = true,
@@ -551,80 +555,6 @@ return {
     end
   },
 
-  --ai things?
-  {
-  "azorng/goose.nvim",
-  config = function()
-    require("goose").setup({
-      prefered_picker = 'snacks',                     -- 'telescope', 'fzf', 'mini.pick', 'snacks', if nil, it will use the best available picker
-      default_global_keymaps = true,             -- If false, disables all default global keymaps
-      keymap = {
-        global = {
-          toggle = '<leader>ag',                 -- Open goose. Close if opened
-          open_input = '<leader>ai',             -- Opens and focuses on input window on insert mode
-          open_input_new_session = '<leader>aI', -- Opens and focuses on input window on insert mode. Creates a new session
-          open_output = '<leader>ao',            -- Opens and focuses on output window
-          toggle_focus = '<leader>at',           -- Toggle focus between goose and last window
-          close = '<leader>aq',                  -- Close UI windows
-          toggle_fullscreen = '<leader>af',      -- Toggle between normal and fullscreen mode
-          select_session = '<leader>as',         -- Select and load a goose session
-          goose_mode_chat = '<leader>amc',       -- Set goose mode to `chat`. (Tool calling disabled. No editor context besides selections)
-          goose_mode_auto = '<leader>ama',       -- Set goose mode to `auto`. (Default mode with full agent capabilities)
-          configure_provider = '<leader>ap',     -- Quick provider and model switch from predefined list
-          diff_open = '<leader>ad',              -- Opens a diff tab of a modified file since the last goose prompt
-          diff_next = '<leader>a]',              -- Navigate to next file diff
-          diff_prev = '<leader>a[',              -- Navigate to previous file diff
-          diff_close = '<leader>ac',             -- Close diff view tab and return to normal editing
-          diff_revert_all = '<leader>ara',       -- Revert all file changes since the last goose prompt
-          diff_revert_this = '<leader>art',      -- Revert current file changes since the last goose prompt
-        },
-        window = {
-          submit = '<cr>',                     -- Submit prompt
-          close = '<esc>',                     -- Close UI windows
-          stop = '<C-c>',                      -- Stop goose while it is running
-          next_message = ']]',                 -- Navigate to next message in the conversation
-          prev_message = '[[',                 -- Navigate to previous message in the conversation
-          mention_file = '@',                  -- Pick a file and add to context. See File Mentions section
-          toggle_pane = '<tab>',               -- Toggle between input and output panes
-          prev_prompt_history = '<up>',        -- Navigate to previous prompt in history
-          next_prompt_history = '<down>'       -- Navigate to next prompt in history
-        }
-      },
-      ui = {
-        window_width = 0.35,                   -- Width as percentage of editor width
-        input_height = 0.15,                   -- Input height as percentage of window height
-        fullscreen = false,                    -- Start in fullscreen mode (default: false)
-        layout = "right",                      -- Options: "center" or "right"
-        floating_height = 0.8,                 -- Height as percentage of editor height for "center" layout
-        display_model = true,                  -- Display model name on top winbar
-        display_goose_mode = true              -- Display mode on top winbar: auto|chat
-      },
-      providers = {
-        --[[
-        Define available providers and their models for quick model switching
-        anthropic|azure|bedrock|databricks|google|groq|ollama|openai|openrouter
-        Example:
-        openrouter = {
-          "anthropic/claude-3.5-sonnet",
-          "openai/gpt-4.1",
-        },
-        ollama = {
-          "cogito:14b"
-          }
-          --]]
-      }
-    })
-    end,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      {
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          anti_conceal = { enabled = false },
-        },
-      }
-    },
-  },
 
   -- fun
   {
