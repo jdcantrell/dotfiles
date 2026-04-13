@@ -12,18 +12,20 @@ require("lazy").setup("plugins", {
 require "user.harpoon"
 
 
--- at some point figure out a good home for this, glint isn't in lspconfig atm
-vim.lsp.config["glint"] = {
-  cmd = {'glint-language-server'},
-  filetypes= { 'html.handlebars', 'handlebars', 'typescript.glimmer', 'javascript.glimmer' },
-  root_markers = {
-    '.glintrc.yml',
-    '.glintrc',
-    '.glintrc.json',
-    '.glintrc.js',
-    'glint.config.js',
-    'package.json'
-  },
-};
-vim.lsp.enable('glint');
+local default_capabilities = vim.lsp.protocol.make_client_capabilities()
+local blink_capabilities = require('blink.cmp').get_lsp_capabilities()
 
+local capabilities = vim.tbl_deep_extend(
+  'force', -- This makes the second table (blink) overwrite keys if they conflict
+  default_capabilities,
+  blink_capabilities
+)
+
+vim.lsp.config('*', {
+  capabilities = capabilities,
+})
+
+-- setup typescript and glint lsp
+-- require "user.typescript"
+
+vim.lsp.enable({ "gopls", "ruff"})

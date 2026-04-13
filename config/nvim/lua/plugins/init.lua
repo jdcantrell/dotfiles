@@ -503,24 +503,21 @@ return {
   -- treesitter
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     build = ":TSUpdate",
     config = function ()
-
-      require("nvim-treesitter.configs").setup {
-        ensure_installed = {'go', 'typescript', 'javascript', 'css', 'markdown', 'python', 'html', 'json' },
-        sync_install = false,
-        ignore_install = { "" }, -- List of parsers to ignore installing
-        autopairs = {
-          enable = true,
-        },
-        highlight = {
-          enable = true, -- false will disable the whole extension
-          additional_vim_regex_highlighting = true,
-
-        },
-        indent = { enable = false },
-      }
+        -- {'go', 'typescript', 'javascript', 'css', 'markdown', 'python', 'html', 'json' },
     end,
+    init = function ()
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          -- Enable treesitter highlighting and disable regex syntax
+          pcall(vim.treesitter.start)
+          -- Enable treesitter-based indentation
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
+      })
+    end
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
